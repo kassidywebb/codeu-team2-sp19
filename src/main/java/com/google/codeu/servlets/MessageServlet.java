@@ -80,8 +80,19 @@ public class MessageServlet extends HttpServlet {
     String text = Jsoup.clean(request.getParameter("text"), Whitelist.none());
     String sendto = request.getParameter("sendto");
     String recipient = request.getParameter("recipient");
-    if (!sendto.isEmpty()) {
+    String privatemessage = request.getParameter("private");
+    if (privatemessage != null) {
+      if (recipient.compareTo(sendto) < 0) {
+        recipient = recipient + sendto;
+      } else {
+        recipient = sendto + recipient;
+      }
+    }
+    else if (!sendto.isEmpty()) {
         recipient = sendto;
+    }
+    else {
+      recipient = recipient;
     }
 
     Message message = new Message(user, text, recipient);
