@@ -30,38 +30,69 @@ import java.util.UUID;
 /** Provides access to the data stored in Datastore. */
 public class Datastore {
 
-  private DatastoreService datastore;
+	private DatastoreService datastore;
 
-  public Datastore() {
-    datastore = DatastoreServiceFactory.getDatastoreService();
-  }
+	public Datastore() {
+		datastore = DatastoreServiceFactory.getDatastoreService();
+	}
 
-  /** Stores the Message in Datastore. */
-  public void storeMessage(Message message) {
-    Entity messageEntity = new Entity("Message", message.getId().toString());
-    messageEntity.setProperty("user", message.getUser());
-    messageEntity.setProperty("text", message.getText());
-    messageEntity.setProperty("timestamp", message.getTimestamp());
+	/** Stores the Message in Datastore. */
+	public void storeMessage(Message message) {
+		Entity messageEntity = new Entity("Message", message.getId().toString());
+		messageEntity.setProperty("user", message.getUser());
+		messageEntity.setProperty("text", message.getText());
+		messageEntity.setProperty("timestamp", message.getTimestamp());
 
-    datastore.put(messageEntity);
-  }
+		datastore.put(messageEntity);
+	}
+	
+	/**
+	 * This method takes in an arraylist and query of all messages.
+	 * It then loops through the results query and saves the information
+	 * to a message variable to inserted into the message arraylist.
+	 * 
+	 * @param messages message arraylist 
+	 * @param results the individual messages to be parsed
+	 * @param the user of the message
+	 */
+	public void saveMessageInformation(List<Message> messages, PreparedQuery results) {
 
-  /**
-   * Gets messages posted by a specific user.
-   *
-   * @return a list of messages posted by the user, or empty list if user has never posted a
-   *     message. List is sorted by time descending.
-   */
-  public List<Message> getMessages(String user) {
-    List<Message> messages = new ArrayList<>();
+		for (Entity entity : results.asIterable()) {
+			try {
+				String idString = entity.getKey().getName();
+				UUID id = UUID.fromString(idString);
+				String user_at = (String) entity.getProperty("user");
+				String text = (String) entity.getProperty("text");
+				long timestamp = (long) entity.getProperty("timestamp");
+				Message message = new Message(id, user_at, text, timestamp);
+				messages.add(message);
+			} catch (Exception e) {
+				System.err.println("Error reading message.");
+				System.err.println(entity.toString());
+				e.printStackTrace();
+			}
+		}
 
-    Query query =
-        new Query("Message")
-            .setFilter(new Query.FilterPredicate("user", FilterOperator.EQUAL, user))
-            .addSort("timestamp", SortDirection.DESCENDING);
-    PreparedQuery results = datastore.prepare(query);
+	}
+	/**
+	 * Gets messages posted by a specific user.
+	 *
+	 * @return a list of messages posted by the user, or empty list if user has never posted a
+	 *     message. List is sorted by time descending.
+	 */
 
-    for (Entity entity : results.asIterable()) {
+	public List<Message> getMessages(String user) {
+		List<Message> messages = new ArrayList<>();
+
+		Query query =
+				new Query("Message")
+				.setFilter(new Query.FilterPredicate("user", FilterOperator.EQUAL, user))
+				.addSort("timestamp", SortDirection.DESCENDING);
+		PreparedQuery results = datastore.prepare(query);
+
+		saveMessageInformation(messages, results);
+
+	/*	 for (Entity entity : results.asIterable()) {
       try {
         String idString = entity.getKey().getName();
         UUID id = UUID.fromString(idString);
@@ -75,8 +106,41 @@ public class Datastore {
         System.err.println(entity.toString());
         e.printStackTrace();
       }
-    }
+    } */
 
-    return messages;
-  }
+		return messages;
+	}
+/**
+ * Similar to the getMessages function, fetches all the messages regardless
+ * of user.
+ * @return
+ */
+	public List<Message> getAllMessages(){
+		  List<Message> messages = new ArrayList<>();
+
+		  Query query = new Query("Message")
+		    .addSort("timestamp", SortDirection.DESCENDING);
+		  PreparedQuery results = datastore.prepare(query);
+		  
+		  saveMessageInformation(messages, results);
+
+		 /* for (Entity entity : results.asIterable()) {
+		   try {
+		    String idString = entity.getKey().getName();
+		    UUID id = UUID.fromString(idString);
+		    String user = (String) entity.getProperty("user");
+		    String text = (String) entity.getProperty("text");
+		    long timestamp = (long) entity.getProperty("timestamp");
+
+		    Message message = new Message(id, user, text, timestamp);
+		    messages.add(message);
+		   } catch (Exception e) {
+		    System.err.println("Error reading message.");
+		    System.err.println(entity.toString());
+		    e.printStackTrace();
+		   }
+		  }*/
+
+		  return messages;
+		 }
 }
