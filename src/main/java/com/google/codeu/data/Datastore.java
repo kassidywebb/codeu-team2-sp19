@@ -33,9 +33,9 @@ public class Datastore {
 
 	private DatastoreService datastore;
 
-	public Datastore() {
-		datastore = DatastoreServiceFactory.getDatastoreService();
-	}
+  public Datastore() {
+    datastore = DatastoreServiceFactory.getDatastoreService();
+  }
 
 	/** Stores the Message in Datastore. */
 	public void storeMessage(Message message) {
@@ -150,11 +150,13 @@ public class Datastore {
     return messages;
   }
 
+
   /** Returns the total number of messages for all users. */
 public int getTotalMessageCount(){
   Query query = new Query("Message");
   PreparedQuery results = datastore.prepare(query);
   return results.countEntities(FetchOptions.Builder.withLimit(1000));
 }
+
 
 }
