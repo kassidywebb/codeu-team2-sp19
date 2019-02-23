@@ -45,7 +45,7 @@ public class Datastore {
 
 		datastore.put(messageEntity);
 	}
-	
+
 	/**
 	 * This method takes in an arraylist and query of all messages.
 	 * It then loops through the results query and saves the information
@@ -92,7 +92,7 @@ public class Datastore {
 
 		saveMessageInformation(messages, results);
 
-	/*	 for (Entity entity : results.asIterable()) {
+		/*	 for (Entity entity : results.asIterable()) {
       try {
         String idString = entity.getKey().getName();
         UUID id = UUID.fromString(idString);
@@ -110,21 +110,21 @@ public class Datastore {
 
 		return messages;
 	}
-/**
- * Similar to the getMessages function, fetches all the messages regardless
- * of user.
- * @return
- */
+	/**
+	 * Similar to the getMessages function, fetches all the messages regardless
+	 * of user.
+	 * @return
+	 */
 	public List<Message> getAllMessages(){
-		  List<Message> messages = new ArrayList<>();
+		List<Message> messages = new ArrayList<>();
 
-		  Query query = new Query("Message")
-		    .addSort("timestamp", SortDirection.DESCENDING);
-		  PreparedQuery results = datastore.prepare(query);
-		  
-		  saveMessageInformation(messages, results);
+		Query query = new Query("Message")
+				.addSort("timestamp", SortDirection.DESCENDING);
+		PreparedQuery results = datastore.prepare(query);
 
-		 /* for (Entity entity : results.asIterable()) {
+		saveMessageInformation(messages, results);
+
+		/* for (Entity entity : results.asIterable()) {
 		   try {
 		    String idString = entity.getKey().getName();
 		    UUID id = UUID.fromString(idString);
@@ -141,6 +141,6 @@ public class Datastore {
 		   }
 		  }*/
 
-		  return messages;
-		 }
+		return messages;
+	}
 }
