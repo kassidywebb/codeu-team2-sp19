@@ -19,6 +19,7 @@ package com.google.codeu.data;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.FilterOperator;
@@ -66,6 +67,7 @@ public class Datastore {
 				String user = (String) entity.getProperty("user");
 				String text = (String) entity.getProperty("text");
 				long timestamp = (long) entity.getProperty("timestamp");
+				String recipient = (String) entity.getProperty("recipient");
 				Message message = new Message(id, user, text, timestamp, recipient);
 				messages.add(message);
 			} catch (Exception e) {
@@ -80,7 +82,7 @@ public class Datastore {
 	 * Gets messages posted by a specific user.
 	 *
 	 * @return a list of messages posted by the user, or empty list if user has never posted a
-	 *     message. List is sorted by time descending.
+	 *     message. List is sorted by time descending. This is now dealt in saveMessageInformation()
 	 */
 
 	public List<Message> getMessages(String recipient) {
@@ -88,7 +90,7 @@ public class Datastore {
 
 		Query query =
 				new Query("Message")
-				.setFilter(new Query.FilterPredicate("recipient", FilterOperator.EQUAL, user))
+				.setFilter(new Query.FilterPredicate("recipient", FilterOperator.EQUAL, recipient))
 				.addSort("timestamp", SortDirection.DESCENDING);
 		PreparedQuery results = datastore.prepare(query);
 
@@ -118,7 +120,7 @@ public class Datastore {
     
 	/**
 	 * Similar to the getMessages function, fetches all the messages regardless
-	 * of user.
+	 * of user. Uses helper function saveMessageInformation
 	 * @return
 	 */
 	public List<Message> getAllMessages(){

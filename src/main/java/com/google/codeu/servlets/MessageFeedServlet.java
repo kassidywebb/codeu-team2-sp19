@@ -30,6 +30,7 @@ public class MessageFeedServlet extends HttpServlet {
 	 */
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
+	
 			throws IOException {
 
 		response.setContentType("application/json");
