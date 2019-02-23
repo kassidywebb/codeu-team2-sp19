@@ -36,9 +36,10 @@ public class Datastore {
 
 	private DatastoreService datastore;
 
-  public Datastore() {
-    datastore = DatastoreServiceFactory.getDatastoreService();
-  }
+	public Datastore() {
+		datastore = DatastoreServiceFactory.getDatastoreService();
+	}
+
 
 	/** Stores the Message in Datastore. */
 	public void storeMessage(Message message) {
@@ -123,6 +124,7 @@ public class Datastore {
 	/**
 	 * Similar to the getMessages function, fetches all the messages regardless
 	 * of user. Uses helper function saveMessageInformation
+	 * of user.
 	 * @return
 	 */
 	public List<Message> getAllMessages(){
