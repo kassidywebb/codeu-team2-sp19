@@ -23,6 +23,8 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.FetchOptions.Builder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -31,11 +33,18 @@ import java.util.UUID;
 public class Datastore {
 
 
+<<<<<<< HEAD
 	private DatastoreService datastore;
 
 	public Datastore() {
 		datastore = DatastoreServiceFactory.getDatastoreService();
 	}
+=======
+
+  public Datastore() {
+    datastore = DatastoreServiceFactory.getDatastoreService();
+  }
+>>>>>>> 12cc24fd7c9f24d9c5c58380c25341e3beb9ba2b
 
 	/** Stores the Message in Datastore. */
 	public void storeMessage(Message message) {
@@ -151,10 +160,18 @@ public class Datastore {
   }
 
   /** Returns the total number of messages for all users. */
+<<<<<<< HEAD
 public int getTotalMessageCount(){
   Query query = new Query("Message");
   PreparedQuery results = datastore.prepare(query);
   return results.countEntities(FetchOptions.Builder.withLimit(1000));
 }
 
+=======
+  public int getTotalMessageCount(){
+    Query query = new Query("Message");
+    PreparedQuery results = datastore.prepare(query);
+    return results.countEntities(FetchOptions.Builder.withLimit(1000));
+  }
+>>>>>>> 12cc24fd7c9f24d9c5c58380c25341e3beb9ba2b
 }
