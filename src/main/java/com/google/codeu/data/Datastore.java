@@ -19,6 +19,7 @@ package com.google.codeu.data;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.FilterOperator;
@@ -33,18 +34,12 @@ import java.util.UUID;
 public class Datastore {
 
 
-<<<<<<< HEAD
 	private DatastoreService datastore;
 
 	public Datastore() {
 		datastore = DatastoreServiceFactory.getDatastoreService();
 	}
-=======
 
-  public Datastore() {
-    datastore = DatastoreServiceFactory.getDatastoreService();
-  }
->>>>>>> 12cc24fd7c9f24d9c5c58380c25341e3beb9ba2b
 
 	/** Stores the Message in Datastore. */
 	public void storeMessage(Message message) {
@@ -75,6 +70,7 @@ public class Datastore {
 				String user = (String) entity.getProperty("user");
 				String text = (String) entity.getProperty("text");
 				long timestamp = (long) entity.getProperty("timestamp");
+				String recipient = (String) entity.getProperty("recipient");
 				Message message = new Message(id, user, text, timestamp, recipient);
 				messages.add(message);
 			} catch (Exception e) {
@@ -89,7 +85,7 @@ public class Datastore {
 	 * Gets messages posted by a specific user.
 	 *
 	 * @return a list of messages posted by the user, or empty list if user has never posted a
-	 *     message. List is sorted by time descending.
+	 *     message. List is sorted by time descending. This is now dealt in saveMessageInformation()
 	 */
 
 	public List<Message> getMessages(String recipient) {
@@ -97,7 +93,7 @@ public class Datastore {
 
 		Query query =
 				new Query("Message")
-				.setFilter(new Query.FilterPredicate("recipient", FilterOperator.EQUAL, user))
+				.setFilter(new Query.FilterPredicate("recipient", FilterOperator.EQUAL, recipient))
 				.addSort("timestamp", SortDirection.DESCENDING);
 		PreparedQuery results = datastore.prepare(query);
 
@@ -127,6 +123,7 @@ public class Datastore {
     
 	/**
 	 * Similar to the getMessages function, fetches all the messages regardless
+	 * of user. Uses helper function saveMessageInformation
 	 * of user.
 	 * @return
 	 */
@@ -159,19 +156,12 @@ public class Datastore {
     return messages;
   }
 
-  /** Returns the total number of messages for all users. */
-<<<<<<< HEAD
-public int getTotalMessageCount(){
-  Query query = new Query("Message");
-  PreparedQuery results = datastore.prepare(query);
-  return results.countEntities(FetchOptions.Builder.withLimit(1000));
-}
 
-=======
+  /** Returns the total number of messages for all users. */
   public int getTotalMessageCount(){
     Query query = new Query("Message");
     PreparedQuery results = datastore.prepare(query);
     return results.countEntities(FetchOptions.Builder.withLimit(1000));
   }
->>>>>>> 12cc24fd7c9f24d9c5c58380c25341e3beb9ba2b
+
 }
