@@ -18,6 +18,9 @@
     });
   }
 
+/*builds an element that displays a message
+  messageDiv gets content of username,time, and message
+*/
   function buildMessageDiv(message){
    const usernameDiv = document.createElement('div');
    usernameDiv.classList.add("left-align");
