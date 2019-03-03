@@ -29,13 +29,14 @@ public class StatsPageServlet extends HttpServlet{
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
+      response.setContentType("application/json");
+      int messageCount = datastore.getTotalMessageCount();
+      String largest = datastore.getLargestMessage();
+      JsonObject jsonObject = new JsonObject();
+      jsonObject.addProperty("messageCount", messageCount);
+      jsonObject.addProperty("largestString", largest);
+      response.getOutputStream().println(jsonObject.toString());
 
-    response.setContentType("application/json");
 
-    int messageCount = datastore.getTotalMessageCount();
-
-    JsonObject jsonObject = new JsonObject();
-    jsonObject.addProperty("messageCount", messageCount);
-    response.getOutputStream().println(jsonObject.toString());
   }
 }
