@@ -47,8 +47,7 @@ public class Datastore {
 		messageEntity.setProperty("user", message.getUser());
 		messageEntity.setProperty("text", message.getText());
 		messageEntity.setProperty("timestamp", message.getTimestamp());
-    messageEntity.setProperty("recipient", message.getRecipient());
-
+    	messageEntity.setProperty("recipient", message.getRecipient());
 		datastore.put(messageEntity);
 	}
 
@@ -56,11 +55,13 @@ public class Datastore {
 	 * This method takes in an arraylist and query of all messages.
 	 * It then loops through the results query and saves the information
 	 * to a message variable to inserted into the message arraylist.
-	 * 
-	 * @param messages message arraylist 
+	 *
+	 * @param messages message arraylist
 	 * @param results the individual messages to be parsed
 	 * @param the user of the message
 	 */
+
+
 	public void saveMessageInformation(List<Message> messages, PreparedQuery results) {
 
 		for (Entity entity : results.asIterable()) {
@@ -79,8 +80,9 @@ public class Datastore {
 				e.printStackTrace();
 			}
 		}
-
 	}
+
+
 	/**
 	 * Gets messages posted by a specific user.
 	 *
@@ -89,6 +91,7 @@ public class Datastore {
 	 */
 
 	public List<Message> getMessages(String recipient) {
+
 		List<Message> messages = new ArrayList<>();
 
 		Query query =
@@ -100,7 +103,7 @@ public class Datastore {
 		saveMessageInformation(messages, results);
 
 		/*	 for (Entity entity : results.asIterable()) {
-  
+
       try {
         String idString = entity.getKey().getName();
         UUID id = UUID.fromString(idString);
@@ -120,7 +123,7 @@ public class Datastore {
 
 		return messages;
 	}
-    
+
 	/**
 	 * Similar to the getMessages function, fetches all the messages regardless
 	 * of user. Uses helper function saveMessageInformation
@@ -158,10 +161,38 @@ public class Datastore {
 
 
   /** Returns the total number of messages for all users. */
-  public int getTotalMessageCount(){
-    Query query = new Query("Message");
-    PreparedQuery results = datastore.prepare(query);
+  	public int getTotalMessageCount(){
+    	Query query = new Query("Message");
+   	 	PreparedQuery results = datastore.prepare(query);
     return results.countEntities(FetchOptions.Builder.withLimit(1000));
   }
+
+  /*Returns the largest message*/
+  public String largestText(PreparedQuery results) {
+		int iLargest = 0;
+		String s = "";
+		for (Entity entity : results.asIterable()) {
+			try {
+				String characters = (String) entity.getProperty("text");
+				if(characters.length() >= iLargest){
+					iLargest = characters.length();
+					s = characters;
+				}
+			} catch (Exception e) {
+				System.err.println("Error reading message.");
+				System.err.println(entity.toString());
+				e.printStackTrace();
+			}
+		}
+		return s;
+	}
+
+  public String getLargestMessage(){
+	Query query = new Query("Message");
+		PreparedQuery results = datastore.prepare(query);
+		String text = largestText(results);
+	return text;
+	}
+
 
 }
