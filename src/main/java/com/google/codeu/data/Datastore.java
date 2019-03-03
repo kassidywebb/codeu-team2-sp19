@@ -55,8 +55,8 @@ public class Datastore {
 	 * This method takes in an arraylist and query of all messages.
 	 * It then loops through the results query and saves the information
 	 * to a message variable to inserted into the message arraylist.
-	 * 
-	 * @param messages message arraylist 
+	 *
+	 * @param messages message arraylist
 	 * @param results the individual messages to be parsed
 	 * @param the user of the message
 	 */
@@ -91,7 +91,6 @@ public class Datastore {
 	 */
 
 	public List<Message> getMessages(String recipient) {
-		
 		List<Message> messages = new ArrayList<>();
 
 		Query query =
@@ -103,7 +102,7 @@ public class Datastore {
 		saveMessageInformation(messages, results);
 
 		/*	 for (Entity entity : results.asIterable()) {
-  
+
       try {
         String idString = entity.getKey().getName();
         UUID id = UUID.fromString(idString);
@@ -123,7 +122,7 @@ public class Datastore {
 
 		return messages;
 	}
-    
+
 	/**
 	 * Similar to the getMessages function, fetches all the messages regardless
 	 * of user. Uses helper function saveMessageInformation
