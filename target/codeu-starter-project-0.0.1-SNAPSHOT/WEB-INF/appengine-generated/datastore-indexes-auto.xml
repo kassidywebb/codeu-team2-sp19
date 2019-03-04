@@ -1,8 +1,8 @@
-<!-- Indices written at Fri, 22 Feb 2019 14:59:33 CST -->
+<!-- Indices written at Sun, 3 Mar 2019 17:26:22 CST -->
 
 <datastore-indexes>
 
-    <!-- Used 5 times in query history -->
+    <!-- Used 2 times in query history -->
     <datastore-index kind="Message" ancestor="false" source="auto">
         <property name="recipient" direction="asc"/>
         <property name="timestamp" direction="desc"/>
