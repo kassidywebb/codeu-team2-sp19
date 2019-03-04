@@ -91,7 +91,6 @@ public class Datastore {
 	 */
 
 	public List<Message> getMessages(String recipient) {
-
 		List<Message> messages = new ArrayList<>();
 
 		Query query =
@@ -167,7 +166,7 @@ public class Datastore {
     return results.countEntities(FetchOptions.Builder.withLimit(1000));
   }
 
-  /*Returns the largest message*/
+  /*Returns the largest message*/ 
   public String largestText(PreparedQuery results) {
 		int iLargest = 0;
 		String s = "";
