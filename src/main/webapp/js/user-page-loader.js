@@ -45,7 +45,7 @@ function setPageTitle() {
 }
 
 /**
- * Shows the message form if the user is logged in and viewing their own page.
+ * Shows the message form if the user is logged in and viewing their own page
  * Hides private messaging option if user is on private messaging page
  */
  function showMessageFormIfLoggedIn() {
@@ -74,7 +74,7 @@ function setPageTitle() {
          }
        });
  }
-/** Fetches messages and add them to the page. */
+/** Fetches messages and add them to the page */
 function fetchMessages() {
   const url = '/messages?user=' + parameterUsername;
   fetch(url)
