@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-function fetchAboutME(){
+function fetchAboutMe(){
   const url = '/about?user=' + parameterUsername;
   fetch(url).then((response) => {
     return response.text();
@@ -25,7 +25,7 @@ function fetchAboutME(){
     }
 
     aboutMeContainer.innerHTML = aboutMe;
-    
+
   })
 }
 
@@ -109,4 +109,5 @@ function buildUI() {
   setPageTitle();
   showMessageFormIfLoggedIn();
   fetchMessages();
+  fetchAboutMe()
 }
