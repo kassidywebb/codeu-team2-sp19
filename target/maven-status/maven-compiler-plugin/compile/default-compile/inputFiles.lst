@@ -1,6 +1,10 @@
-/Users/KassidyWebb/codeu-team2-sp19/src/main/java/com/google/codeu/servlets/LogoutServlet.java
-/Users/KassidyWebb/codeu-team2-sp19/src/main/java/com/google/codeu/data/Datastore.java
-/Users/KassidyWebb/codeu-team2-sp19/src/main/java/com/google/codeu/servlets/MessageServlet.java
-/Users/KassidyWebb/codeu-team2-sp19/src/main/java/com/google/codeu/data/Message.java
-/Users/KassidyWebb/codeu-team2-sp19/src/main/java/com/google/codeu/servlets/LoginStatusServlet.java
-/Users/KassidyWebb/codeu-team2-sp19/src/main/java/com/google/codeu/servlets/LoginServlet.java
+C:\Users\Imani's Computer\Documents\GitHub\codeu-team2-sp19\src\main\java\com\google\codeu\data\User.java
+C:\Users\Imani's Computer\Documents\GitHub\codeu-team2-sp19\src\main\java\com\google\codeu\servlets\MessageServlet.java
+C:\Users\Imani's Computer\Documents\GitHub\codeu-team2-sp19\src\main\java\com\google\codeu\servlets\LogoutServlet.java
+C:\Users\Imani's Computer\Documents\GitHub\codeu-team2-sp19\src\main\java\com\google\codeu\data\Message.java
+C:\Users\Imani's Computer\Documents\GitHub\codeu-team2-sp19\src\main\java\com\google\codeu\servlets\AboutMeServlet.java
+C:\Users\Imani's Computer\Documents\GitHub\codeu-team2-sp19\src\main\java\com\google\codeu\servlets\LoginServlet.java
+C:\Users\Imani's Computer\Documents\GitHub\codeu-team2-sp19\src\main\java\com\google\codeu\servlets\StatsPageServlet.java
+C:\Users\Imani's Computer\Documents\GitHub\codeu-team2-sp19\src\main\java\com\google\codeu\servlets\LoginStatusServlet.java
+C:\Users\Imani's Computer\Documents\GitHub\codeu-team2-sp19\src\main\java\com\google\codeu\data\Datastore.java
+C:\Users\Imani's Computer\Documents\GitHub\codeu-team2-sp19\src\main\java\com\google\codeu\servlets\MessageFeedServlet.java
