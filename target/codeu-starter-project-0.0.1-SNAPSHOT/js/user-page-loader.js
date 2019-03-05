@@ -57,8 +57,10 @@ function setPageTitle() {
            const messageForm = document.getElementById('message-form');
            messageForm.action = '/messages?recipient=' + parameterUsername;
            messageForm.classList.remove('hidden');
+           document.getElementById('about-me-form').classList.remove('hidden');
          }
        });
+
  }
 /** Fetches messages and add them to the page. */
 function fetchMessages() {
@@ -109,5 +111,5 @@ function buildUI() {
   setPageTitle();
   showMessageFormIfLoggedIn();
   fetchMessages();
-  fetchAboutMe()
+  fetchAboutMe();
 }
