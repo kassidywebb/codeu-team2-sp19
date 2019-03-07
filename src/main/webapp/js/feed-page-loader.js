@@ -37,7 +37,7 @@
 
    const bodyDiv = document.createElement('div');
    bodyDiv.classList.add('message-body');
-   /* Changed how bodyDiv get's the mssage text in feed js. It previously
+   /* Changed how bodyDiv get's the message text in feed js. It previously
       did not upload pictures to the feed.html using appendChild, so I copied
       how the div was implemented in user-page-loader.js when taking in the
       text using innerHTML

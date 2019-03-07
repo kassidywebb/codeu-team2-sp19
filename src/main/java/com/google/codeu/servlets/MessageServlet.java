@@ -77,11 +77,11 @@ public class MessageServlet extends HttpServlet {
     }
 
     String user = userService.getCurrentUser().getEmail();
-    
-    //here a regular expression is used to search for an image url entered by the user
-    //String regex is all the elements found in the url, it is the search pattern
-    // the link is then replaced with an img tag, a user is able to submit a
-    // pdf,png,jpg,gif,tiff, and bmp file
+
+    /* here a regular expression is used to search for an image url entered by the user
+       String regex is all the elements found in the url, it is the search pattern
+       the link is then replaced with an img tag, a user is able to submit a
+       pdf,png,jpg,gif,tiff, and bmp file */
     String userText = Jsoup.clean(request.getParameter("text"), Whitelist.none());
     String regex = "(https?://\\S+\\.(png|jpg|gif|pdf|tiff|bmp))";
     String replacement = "<img src=\"$1\" />";
@@ -90,7 +90,7 @@ public class MessageServlet extends HttpServlet {
     String sendto = request.getParameter("sendto");
     String recipient = request.getParameter("recipient");
     String privatemessage = request.getParameter("private");
-    
+
     if (privatemessage != null) {
       if (recipient.compareTo(sendto) < 0) {
         recipient = recipient + sendto;

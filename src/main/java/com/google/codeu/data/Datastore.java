@@ -48,7 +48,7 @@ public class Datastore {
 		datastore.put(userEntity);
 	}
 	/**
-	* Returns the User owned by the email address, 
+	* Returns the User owned by the email address,
 	*null if no matching User was found
 	*/
 	public User getUser(String email) {
@@ -127,25 +127,6 @@ public class Datastore {
 
 		saveMessageInformation(messages, results);
 
-		/*	 for (Entity entity : results.asIterable()) {
-
-      try {
-        String idString = entity.getKey().getName();
-        UUID id = UUID.fromString(idString);
-        String user = (String) entity.getProperty("user");
-
-        String text = (String) entity.getProperty("text");
-        long timestamp = (long) entity.getProperty("timestamp");
-
-        Message message = new Message(id, user, text, timestamp, recipient);
-        messages.add(message);
-      } catch (Exception e) {
-        System.err.println("Error reading message.");
-        System.err.println(entity.toString());
-        e.printStackTrace();
-      }
-    } */
-
 		return messages;
 	}
 
@@ -164,23 +145,6 @@ public class Datastore {
 
 		saveMessageInformation(messages, results);
 
-		/* for (Entity entity : results.asIterable()) {
-		   try {
-		    String idString = entity.getKey().getName();
-		    UUID id = UUID.fromString(idString);
-		    String user = (String) entity.getProperty("user");
-		    String text = (String) entity.getProperty("text");
-		    long timestamp = (long) entity.getProperty("timestamp");
-
-		    Message message = new Message(id, user, text, timestamp);
-		    messages.add(message);
-		   } catch (Exception e) {
-		    System.err.println("Error reading message.");
-		    System.err.println(entity.toString());
-		    e.printStackTrace();
-		   }
-		  }*/
-
     return messages;
   }
 
@@ -192,7 +156,7 @@ public class Datastore {
     return results.countEntities(FetchOptions.Builder.withLimit(1000));
   }
 
-  /*Returns the largest message*/ 
+  /*Returns the largest message*/
   public String largestText(PreparedQuery results) {
 		int iLargest = 0;
 		String s = "";
