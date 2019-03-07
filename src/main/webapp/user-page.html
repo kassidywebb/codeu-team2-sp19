@@ -31,20 +31,33 @@ limitations under the License.
     </nav>
     <h1 id="page-title">User Page</h1>
 
+    <div id="about-me-container">Loading...</div>
+      <div id="about-me-form" class="hidden">
+      <form action="/about" method="POST">
+        <textarea name="about-me" placeholder="about me" rows=4 required></textarea>
+        <br/>
+        <input type="submit" value="Submit">
+      </form>
+      </div>
+
     <form id="message-form" action="/messages" method="POST" class="hidden">
-      Would you like to message someone else? What's their email?
-      <br/>
-      <textarea name="sendto" id="sendto-input" placeholder="Ex: kwebb@codeustudents.com"></textarea>
+      <div id="send-option" class="hidden">
+         Would you like to message someone else? What's their email?
+         <br/>
+         <textarea name="sendto" id="sendto-input" placeholder="Ex: kwebb@codeustudents.com"></textarea>
+      </div>
       <br/><br/>
       Enter a new message:
       <br/>
       <textarea name="text" id="message-input"></textarea>
       <br/><br/>
-      <div class="side">
-        Would you like to send this privately?
-      </div>
-      <div class="side">
-        <input type="checkbox" name="private" value="Yes">
+      <div id="private-option" class="hidden">
+         <div>
+           Would you like to send this privately?
+         </div>
+         <div>
+           <input type="checkbox" name="private" value="Yes" id="private-option-checkbox">
+         </div>
       </div>
       <br/><br/>
       <input type="submit" value="Submit">

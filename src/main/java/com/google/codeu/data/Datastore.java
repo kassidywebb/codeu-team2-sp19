@@ -19,10 +19,13 @@ package com.google.codeu.data;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.FetchOptions.Builder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -30,39 +33,76 @@ import java.util.UUID;
 /** Provides access to the data stored in Datastore. */
 public class Datastore {
 
-  private DatastoreService datastore;
 
-  public Datastore() {
-    datastore = DatastoreServiceFactory.getDatastoreService();
-  }
+	private DatastoreService datastore;
 
-  /** Stores the Message in Datastore. */
-  public void storeMessage(Message message) {
-    Entity messageEntity = new Entity("Message", message.getId().toString());
-    messageEntity.setProperty("user", message.getUser());
-    messageEntity.setProperty("text", message.getText());
-    messageEntity.setProperty("timestamp", message.getTimestamp());
-    messageEntity.setProperty("recipient", message.getRecipient());
+	public Datastore() {
+		datastore = DatastoreServiceFactory.getDatastoreService();
+	}
 
-    datastore.put(messageEntity);
-  }
 
-  /**
-   * Gets messages posted by a specific user.
-   *
-   * @return a list of messages posted by the user, or empty list if user has never posted a
-   *     message. List is sorted by time descending.
-   */
-   public List<Message> getMessages(String recipient) {
-    List<Message> messages = new ArrayList<>();
+	/** Stores the Message in Datastore. */
+	public void storeMessage(Message message) {
+		Entity messageEntity = new Entity("Message", message.getId().toString());
+		messageEntity.setProperty("user", message.getUser());
+		messageEntity.setProperty("text", message.getText());
+		messageEntity.setProperty("timestamp", message.getTimestamp());
+    	messageEntity.setProperty("recipient", message.getRecipient());
+		datastore.put(messageEntity);
+	}
 
-    Query query =
-        new Query("Message")
-            .setFilter(new Query.FilterPredicate("recipient", FilterOperator.EQUAL, recipient))
-            .addSort("timestamp", SortDirection.DESCENDING);
-    PreparedQuery results = datastore.prepare(query);
+	/**
+	 * This method takes in an arraylist and query of all messages.
+	 * It then loops through the results query and saves the information
+	 * to a message variable to inserted into the message arraylist.
+	 *
+	 * @param messages message arraylist
+	 * @param results the individual messages to be parsed
+	 * @param the user of the message
+	 */
 
-    for (Entity entity : results.asIterable()) {
+
+	public void saveMessageInformation(List<Message> messages, PreparedQuery results) {
+
+		for (Entity entity : results.asIterable()) {
+			try {
+				String idString = entity.getKey().getName();
+				UUID id = UUID.fromString(idString);
+				String user = (String) entity.getProperty("user");
+				String text = (String) entity.getProperty("text");
+				long timestamp = (long) entity.getProperty("timestamp");
+				String recipient = (String) entity.getProperty("recipient");
+				Message message = new Message(id, user, text, timestamp, recipient);
+				messages.add(message);
+			} catch (Exception e) {
+				System.err.println("Error reading message.");
+				System.err.println(entity.toString());
+				e.printStackTrace();
+			}
+		}
+	}
+
+
+	/**
+	 * Gets messages posted by a specific user.
+	 *
+	 * @return a list of messages posted by the user, or empty list if user has never posted a
+	 *     message. List is sorted by time descending. This is now dealt in saveMessageInformation()
+	 */
+
+	public List<Message> getMessages(String recipient) {
+		List<Message> messages = new ArrayList<>();
+
+		Query query =
+				new Query("Message")
+				.setFilter(new Query.FilterPredicate("recipient", FilterOperator.EQUAL, recipient))
+				.addSort("timestamp", SortDirection.DESCENDING);
+		PreparedQuery results = datastore.prepare(query);
+
+		saveMessageInformation(messages, results);
+
+		/*	 for (Entity entity : results.asIterable()) {
+
       try {
         String idString = entity.getKey().getName();
         UUID id = UUID.fromString(idString);
@@ -78,8 +118,80 @@ public class Datastore {
         System.err.println(entity.toString());
         e.printStackTrace();
       }
-    }
+    } */
+
+		return messages;
+	}
+
+	/**
+	 * Similar to the getMessages function, fetches all the messages regardless
+	 * of user. Uses helper function saveMessageInformation
+	 * of user.
+	 * @return
+	 */
+	public List<Message> getAllMessages(){
+		List<Message> messages = new ArrayList<>();
+
+		Query query = new Query("Message")
+				.addSort("timestamp", SortDirection.DESCENDING);
+		PreparedQuery results = datastore.prepare(query);
+
+		saveMessageInformation(messages, results);
+
+		/* for (Entity entity : results.asIterable()) {
+		   try {
+		    String idString = entity.getKey().getName();
+		    UUID id = UUID.fromString(idString);
+		    String user = (String) entity.getProperty("user");
+		    String text = (String) entity.getProperty("text");
+		    long timestamp = (long) entity.getProperty("timestamp");
+
+		    Message message = new Message(id, user, text, timestamp);
+		    messages.add(message);
+		   } catch (Exception e) {
+		    System.err.println("Error reading message.");
+		    System.err.println(entity.toString());
+		    e.printStackTrace();
+		   }
+		  }*/
 
     return messages;
   }
+
+
+  /** Returns the total number of messages for all users. */
+  	public int getTotalMessageCount(){
+    	Query query = new Query("Message");
+   	 	PreparedQuery results = datastore.prepare(query);
+    return results.countEntities(FetchOptions.Builder.withLimit(1000));
+  }
+
+  /*Returns the largest message*/ 
+  public String largestText(PreparedQuery results) {
+		int iLargest = 0;
+		String s = "";
+		for (Entity entity : results.asIterable()) {
+			try {
+				String characters = (String) entity.getProperty("text");
+				if(characters.length() >= iLargest){
+					iLargest = characters.length();
+					s = characters;
+				}
+			} catch (Exception e) {
+				System.err.println("Error reading message.");
+				System.err.println(entity.toString());
+				e.printStackTrace();
+			}
+		}
+		return s;
+	}
+
+  public String getLargestMessage(){
+	Query query = new Query("Message");
+		PreparedQuery results = datastore.prepare(query);
+		String text = largestText(results);
+	return text;
+	}
+
+
 }
