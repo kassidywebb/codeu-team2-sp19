@@ -58,7 +58,7 @@ function setPageTitle() {
            const messageForm = document.getElementById('message-form');
            messageForm.action = '/messages?recipient=' + parameterUsername;
            messageForm.classList.remove('hidden');
-
+           
            /** Using 34 because @codestudents.com is 17 characters long
             * and there's at least 2 people in a direct message
             */
@@ -71,8 +71,10 @@ function setPageTitle() {
           } else {
              document.getElementById('private-option-checkbox').checked = true;
           }
+           document.getElementById('about-me-form').classList.remove('hidden');
          }
        });
+
  }
 /** Fetches messages and add them to the page */
 function fetchMessages() {
@@ -123,5 +125,5 @@ function buildUI() {
   setPageTitle();
   showMessageFormIfLoggedIn();
   fetchMessages();
-  fetchAboutMe()
+  fetchAboutMe();
 }

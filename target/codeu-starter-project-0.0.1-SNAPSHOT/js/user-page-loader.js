@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-function fetchAboutME(){
+function fetchAboutMe(){
   const url = '/about?user=' + parameterUsername;
   fetch(url).then((response) => {
     return response.text();
@@ -25,7 +25,7 @@ function fetchAboutME(){
     }
 
     aboutMeContainer.innerHTML = aboutMe;
-    
+
   })
 }
 
@@ -71,8 +71,10 @@ function setPageTitle() {
           } else {
              document.getElementById('private-option-checkbox').checked = true;
           }
+           document.getElementById('about-me-form').classList.remove('hidden');
          }
        });
+
  }
 /** Fetches messages and add them to the page. */
 function fetchMessages() {
@@ -123,4 +125,5 @@ function buildUI() {
   setPageTitle();
   showMessageFormIfLoggedIn();
   fetchMessages();
+  fetchAboutMe();
 }
