@@ -62,6 +62,7 @@ function showMessageFormIfLoggedIn() {
                 /** Using 34 because @codestudents.com is 17 characters long
                  * and there's at least 2 people in a direct message
                  */
+
                 if (parameterUsername.length < 34) {
                     const privateOption = document.getElementById('private-option');
                     privateOption.classList.remove('hidden');
@@ -71,10 +72,10 @@ function showMessageFormIfLoggedIn() {
                 } else {
                     document.getElementById('private-option-checkbox').checked = true;
                 }
+
                 document.getElementById('about-me-form').classList.remove('hidden');
             }
         });
-
 }
 /** Fetches messages and add them to the page */
 function fetchMessages() {
@@ -110,7 +111,7 @@ function buildMessageDiv(message) {
 
     const bodyDiv = document.createElement('div');
     bodyDiv.classList.add('message-body');
-    bodyDiv.innerHTML = handleBBcode(message.text);
+    bodyDiv.innerHTML = handleBBCode(message.text);
 
     const messageDiv = document.createElement('div');
     messageDiv.classList.add('message-div');
