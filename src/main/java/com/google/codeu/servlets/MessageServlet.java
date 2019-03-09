@@ -29,12 +29,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
+import com.google.cloud.language.v1.Document;
+import com.google.cloud.language.v1.Document.Type;
+import com.google.cloud.language.v1.LanguageServiceClient;
+import com.google.cloud.language.v1.Sentiment;
 
 /** Handles fetching and saving {@link Message} instances. */
 @WebServlet("/messages")
 public class MessageServlet extends HttpServlet {
 
   private Datastore datastore;
+
+  private float getSentimentScore(String text) throws IOException {
+     Document doc = Document.newBuilder()
+         .setContent(text).setType(Type.PLAIN_TEXT).build();
+
+     LanguageServiceClient languageService = LanguageServiceClient.create();
+     Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
+     languageService.close();
+
+     return sentiment.getScore();
+  }
 
   @Override
   public void init() {
@@ -81,6 +96,7 @@ public class MessageServlet extends HttpServlet {
     String sendto = request.getParameter("sendto");
     String recipient = request.getParameter("recipient");
     String privatemessage = request.getParameter("private");
+    float sentimentScore = this.getSentimentScore(text);
     if (privatemessage != null) {
       if (recipient.compareTo(sendto) < 0) {
         recipient = recipient + sendto;
@@ -95,9 +111,10 @@ public class MessageServlet extends HttpServlet {
       recipient = recipient;
     }
 
-    Message message = new Message(user, text, recipient);
+    Message message = new Message(user, text, recipient, sentimentScore);
     datastore.storeMessage(message);
 
     response.sendRedirect("/user-page.html?user=" + recipient);
   }
+
 }
