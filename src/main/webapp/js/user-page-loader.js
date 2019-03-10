@@ -45,7 +45,8 @@ function setPageTitle() {
 }
 
 /**
- * Shows the message form if the user is logged in and viewing their own page.
+ * Shows the message form if the user is logged in and viewing their own page
+ * Hides private messaging option if user is on private messaging page
  */
  function showMessageFormIfLoggedIn() {
    fetch('/login-status')
@@ -57,12 +58,25 @@ function setPageTitle() {
            const messageForm = document.getElementById('message-form');
            messageForm.action = '/messages?recipient=' + parameterUsername;
            messageForm.classList.remove('hidden');
+           
+           /** Using 34 because @codestudents.com is 17 characters long
+            * and there's at least 2 people in a direct message
+            */
+           if (parameterUsername.length < 34) {
+             const privateOption = document.getElementById('private-option');
+             privateOption.classList.remove('hidden');
+
+             const sendOption = document.getElementById('send-option');
+             sendOption.classList.remove('hidden');
+          } else {
+             document.getElementById('private-option-checkbox').checked = true;
+          }
            document.getElementById('about-me-form').classList.remove('hidden');
          }
        });
 
  }
-/** Fetches messages and add them to the page. */
+/** Fetches messages and add them to the page */
 function fetchMessages() {
   const url = '/messages?user=' + parameterUsername;
   fetch(url)
