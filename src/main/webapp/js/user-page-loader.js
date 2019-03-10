@@ -58,7 +58,7 @@ function setPageTitle() {
            const messageForm = document.getElementById('message-form');
            messageForm.action = '/messages?recipient=' + parameterUsername;
            messageForm.classList.remove('hidden');
-           
+
            /** Using 34 because @codestudents.com is 17 characters long
             * and there's at least 2 people in a direct message
             */
@@ -106,7 +106,7 @@ function buildMessageDiv(message) {
   const headerDiv = document.createElement('div');
   headerDiv.classList.add('message-header');
   headerDiv.appendChild(document.createTextNode(
-      message.user + ' - ' + new Date(message.timestamp)));
+    message.user + ' - ' + new Date(message.timestamp) + ' [' + message.sentimentScore + ']'));
 
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('message-body');
