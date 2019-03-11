@@ -48,7 +48,7 @@ public class Datastore {
 		datastore.put(userEntity);
 	}
 	/**
-	* Returns the User owned by the email address, 
+	* Returns the User owned by the email address,
 	*null if no matching User was found
 	*/
 	public User getUser(String email) {
@@ -74,6 +74,7 @@ public class Datastore {
 		messageEntity.setProperty("text", message.getText());
 		messageEntity.setProperty("timestamp", message.getTimestamp());
     	messageEntity.setProperty("recipient", message.getRecipient());
+		messageEntity.setProperty("sentimentScore", message.getSentimentScore());
 		datastore.put(messageEntity);
 	}
 
@@ -98,7 +99,13 @@ public class Datastore {
 				String text = (String) entity.getProperty("text");
 				long timestamp = (long) entity.getProperty("timestamp");
 				String recipient = (String) entity.getProperty("recipient");
-				Message message = new Message(id, user, text, timestamp, recipient);
+
+				/*Before adding sentiment scores as a feature, there were already messages
+				 without scores. This sets the old sentiment scores to 0 for old messages
+				 */
+				float sentimentScore = entity.getProperty("sentimentScore") == null? (float) 0.0 : ((Double) entity.getProperty("sentimentScore")).floatValue();
+
+				Message message = new Message(id, user, text, timestamp, recipient, sentimentScore);
 				messages.add(message);
 			} catch (Exception e) {
 				System.err.println("Error reading message.");
@@ -192,7 +199,7 @@ public class Datastore {
     return results.countEntities(FetchOptions.Builder.withLimit(1000));
   }
 
-  /*Returns the largest message*/ 
+  /*Returns the largest message*/
   public String largestText(PreparedQuery results) {
 		int iLargest = 0;
 		String s = "";
