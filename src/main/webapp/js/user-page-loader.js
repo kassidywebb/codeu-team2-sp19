@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-function fetchAboutMe(){
-  const url = '/about?user=' + parameterUsername;
-  fetch(url).then((response) => {
-    return response.text();
-  }).then((aboutMe) => {
-    const aboutMeContainer = document.getElementById('about-me-container');
-    if(aboutMe == ''){
-      aboutMe = 'This user has not entered any information yet.'
-    }
+function fetchAboutMe() {
+    const url = '/about?user=' + parameterUsername;
+    fetch(url).then((response) => {
+        return response.text();
+    }).then((aboutMe) => {
+        const aboutMeContainer = document.getElementById('about-me-container');
+        if (aboutMe == '') {
+            aboutMe = 'This user has not entered any information yet.'
+        }
 
-    aboutMeContainer.innerHTML = aboutMe;
+        aboutMeContainer.innerHTML = aboutMe;
 
-  })
+    })
 }
 
 // Get ?user=XYZ parameter value
@@ -35,66 +35,67 @@ const parameterUsername = urlParams.get('user');
 
 // URL must include ?user=XYZ parameter. If not, redirect to homepage.
 if (!parameterUsername) {
-  window.location.replace('/');
+    window.location.replace('/');
 }
 
 /** Sets the page title based on the URL parameter username. */
 function setPageTitle() {
-  document.getElementById('page-title').innerText = parameterUsername;
-  document.title = parameterUsername + ' - User Page';
+    document.getElementById('page-title').innerText = parameterUsername;
+    document.title = parameterUsername + ' - User Page';
 }
 
 /**
  * Shows the message form if the user is logged in and viewing their own page
  * Hides private messaging option if user is on private messaging page
  */
- function showMessageFormIfLoggedIn() {
-   fetch('/login-status')
-       .then((response) => {
-         return response.json();
-       })
-       .then((loginStatus) => {
-         if (loginStatus.isLoggedIn) {
-           const messageForm = document.getElementById('message-form');
-           messageForm.action = '/messages?recipient=' + parameterUsername;
-           messageForm.classList.remove('hidden');
+function showMessageFormIfLoggedIn() {
+    fetch('/login-status')
+        .then((response) => {
+            return response.json();
+        })
+        .then((loginStatus) => {
+            if (loginStatus.isLoggedIn) {
+                const messageForm = document.getElementById('message-form');
+                messageForm.action = '/messages?recipient=' + parameterUsername;
+                messageForm.classList.remove('hidden');
 
-           /** Using 34 because @codestudents.com is 17 characters long
-            * and there's at least 2 people in a direct message
-            */
-           if (parameterUsername.length < 34) {
-             const privateOption = document.getElementById('private-option');
-             privateOption.classList.remove('hidden');
+                /** Using 34 because @codestudents.com is 17 characters long
+                 * and there's at least 2 people in a direct message
+                 */
 
-             const sendOption = document.getElementById('send-option');
-             sendOption.classList.remove('hidden');
-          } else {
-             document.getElementById('private-option-checkbox').checked = true;
-          }
-           document.getElementById('about-me-form').classList.remove('hidden');
-         }
-       });
+                if (parameterUsername.length < 34) {
+                    const privateOption = document.getElementById('private-option');
+                    privateOption.classList.remove('hidden');
 
- }
+                    const sendOption = document.getElementById('send-option');
+                    sendOption.classList.remove('hidden');
+                } else {
+                    document.getElementById('private-option-checkbox').checked = true;
+                }
+
+                document.getElementById('about-me-form').classList.remove('hidden');
+            }
+        });
+}
 /** Fetches messages and add them to the page */
 function fetchMessages() {
-  const url = '/messages?user=' + parameterUsername;
-  fetch(url)
-      .then((response) => {
-        return response.json();
-      })
-      .then((messages) => {
-        const messagesContainer = document.getElementById('message-container');
-        if (messages.length == 0) {
-          messagesContainer.innerHTML = '<p>This user has no posts yet.</p>';
-        } else {
-          messagesContainer.innerHTML = '';
-        }
-        messages.forEach((message) => {
-          const messageDiv = buildMessageDiv(message);
-          messagesContainer.appendChild(messageDiv);
+    const url = '/messages?user=' + parameterUsername;
+    fetch(url)
+        .then((response) => {
+            return response.json();
+        })
+        .then((messages) => {
+            const messagesContainer = document.getElementById('message-container');
+            if (messages.length == 0) {
+                messagesContainer.innerHTML = '<p>This user has no posts yet.</p>';
+            } else {
+                messagesContainer.innerHTML = '';
+            }
+            messages.forEach((message) => {
+                const messageDiv = buildMessageDiv(message);
+                messagesContainer.appendChild(messageDiv);
+            });
         });
-      });
 }
 
 /**
@@ -103,27 +104,56 @@ function fetchMessages() {
  * @return {Element}
  */
 function buildMessageDiv(message) {
-  const headerDiv = document.createElement('div');
-  headerDiv.classList.add('message-header');
-  headerDiv.appendChild(document.createTextNode(
-      message.user + ' - ' + new Date(message.timestamp) + ' [' + message.sentimentScore + ']'));
+    const headerDiv = document.createElement('div');
+    headerDiv.classList.add('message-header');
+    headerDiv.appendChild(document.createTextNode(
+        message.user + ' - ' + new Date(message.timestamp)));
 
-  const bodyDiv = document.createElement('div');
-  bodyDiv.classList.add('message-body');
-  bodyDiv.innerHTML = message.text;
+    const bodyDiv = document.createElement('div');
+    bodyDiv.classList.add('message-body');
+    bodyDiv.innerHTML = handleBBCode(message.text);
 
-  const messageDiv = document.createElement('div');
-  messageDiv.classList.add('message-div');
-  messageDiv.appendChild(headerDiv);
-  messageDiv.appendChild(bodyDiv);
+    const messageDiv = document.createElement('div');
+    messageDiv.classList.add('message-div');
+    messageDiv.appendChild(headerDiv);
+    messageDiv.appendChild(bodyDiv);
 
-  return messageDiv;
+    return messageDiv;
 }
+
+/*Array of Bbcode tags in regular expression*/
+var regexFind = new Array(
+    new RegExp('\\[b](.*?)\\[/b]', 'gi'),
+    new RegExp('\\[i](.*?)\\[/i]', 'gi'),
+    new RegExp('\\[u](.*?)\\[/u]', 'gi'),
+    new RegExp('\\[url](.*?)\\[/url]', 'gi')
+);
+
+/*Length of the array BbCode*/
+var regexLen = regexFind.length;
+
+
+/*Array of tags HTML to replace*/
+var regexReplace = new Array(
+    '<b>$1</b>',
+    '<i>$1</i>',
+    '<u>$1</u>',
+    '<a href="$1">$1</a>'
+);
+
+/*Find the tags in Bbcode and replace by tags in HTML from the word input*/
+function handleBBCode(input) {
+    for (var i = 0; i < regexLen; i++) {
+        input = input.replace(regexFind[i], regexReplace[i]);
+    }
+    return input;
+}
+
 
 /** Fetches data and populates the UI of the page. */
 function buildUI() {
-  setPageTitle();
-  showMessageFormIfLoggedIn();
-  fetchMessages();
-  fetchAboutMe();
+    setPageTitle();
+    showMessageFormIfLoggedIn();
+    fetchMessages();
+    fetchAboutMe();
 }
