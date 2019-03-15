@@ -106,7 +106,7 @@ public class MessageServlet extends HttpServlet {
     String recipient = request.getParameter("recipient");
     String privatemessage = request.getParameter("private");
 
-    float sentimentScore = this.getSentimentScore(text);
+    float sentimentScore = this.getSentimentScore(textWithImagesReplaced);
 
     if (privatemessage != null) {
       if (recipient.compareTo(sendto) < 0) {
@@ -123,7 +123,7 @@ public class MessageServlet extends HttpServlet {
     }
 
     Message message = new Message(user, textWithImagesReplaced, recipient, sentimentScore);
-    
+
     datastore.storeMessage(message);
 
     response.sendRedirect("/user-page.html?user=" + recipient);
