@@ -156,3 +156,4 @@ function buildUI() {
     showMessageFormIfLoggedIn();
     fetchMessages();
     fetchAboutMe();
+}
