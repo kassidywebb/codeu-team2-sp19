@@ -40,7 +40,7 @@ limitations under the License.
       </form>
       </div>
 
-    <form id="message-form" action="/messages" method="POST" class="hidden">
+    <form id="message-form" action="/image-upload-url" method="POST" class="hidden" enctype="multipart/form-data">
       <div id="send-option" class="hidden">
          Would you like to message someone else? What's their email?
          <br/>
@@ -60,9 +60,13 @@ limitations under the License.
          </div>
       </div>
       <br/><br/>
+      Add an image to your message:
+      <input type="file" name="image" id="image-option">
+      <br/>
+      <input type="hidden" value="" name="recipient" id="recipientInput">
       <input type="submit" value="Submit">
     </form>
-    <hr/>
+    <br/><br/>
 
     <div id="message-container">Loading...</div>
 

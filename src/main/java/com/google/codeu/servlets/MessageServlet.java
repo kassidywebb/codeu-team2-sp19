@@ -33,6 +33,8 @@ import com.google.cloud.language.v1.Document;
 import com.google.cloud.language.v1.Document.Type;
 import com.google.cloud.language.v1.LanguageServiceClient;
 import com.google.cloud.language.v1.Sentiment;
+import com.google.appengine.api.blobstore.BlobstoreService;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
 /** Handles fetching and saving {@link Message} instances. */
 @WebServlet("/messages")
@@ -97,16 +99,22 @@ public class MessageServlet extends HttpServlet {
        String regex is all the elements found in the url, it is the search pattern
        the link is then replaced with an img tag, a user is able to submit a
        pdf,png,jpg,gif,tiff, and bmp file */
-    String userText = Jsoup.clean(request.getParameter("text"), Whitelist.none());
+    String text = Jsoup.clean(request.getParameter("text"), Whitelist.none());
     String regex = "(https?://\\S+\\.(png|jpg|gif|pdf|tiff|bmp))";
     String replacement = "<img src=\"$1\" />";
-    String textWithImagesReplaced = userText.replaceAll(regex, replacement);
+    String textWithImagesReplaced = text.replaceAll(regex, replacement);
 
     String sendto = request.getParameter("sendto");
     String recipient = request.getParameter("recipient");
     String privatemessage = request.getParameter("private");
 
     float sentimentScore = this.getSentimentScore(textWithImagesReplaced);
+
+    /* This creates a Blobstore instance, then gets the image url(s) which are stored
+       in a map of string. Then converts the urls to a list. */
+    BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+    Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
+    List<BlobKey> blobKeys = blobs.get("image");
 
     if (privatemessage != null) {
       if (recipient.compareTo(sendto) < 0) {
@@ -123,6 +131,16 @@ public class MessageServlet extends HttpServlet {
     }
 
     Message message = new Message(user, textWithImagesReplaced, recipient, sentimentScore);
+
+    /* Makes sure the list of images is not empty (and image was uploaded),
+       then gets the url from Blobstore */
+    if(blobKeys != null && !blobKeys.isEmpty()) {
+       BlobKey blobKey = blobKeys.get(0);
+       ImagesService imagesService = ImagesServiceFactory.getImagesService();
+       ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
+       String imageUrl = imagesService.getServingUrl(options);
+       message.setImageUrl(imageUrl);
+    }
 
     datastore.storeMessage(message);
 
