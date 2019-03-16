@@ -107,6 +107,7 @@ public class Datastore {
 				 without scores. This sets the old sentiment scores to 0 for old messages
 				 */
 				float sentimentScore = entity.getProperty("sentimentScore") == null? (float) 0.0 : ((Double) entity.getProperty("sentimentScore")).floatValue();
+				
 				String imageUrl = (String) entity.getProperty("imageUrl");
 
 				Message message = new Message(id, user, text, timestamp, recipient, sentimentScore, imageUrl);
