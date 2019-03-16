@@ -35,6 +35,11 @@ import com.google.cloud.language.v1.LanguageServiceClient;
 import com.google.cloud.language.v1.Sentiment;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.images.ImagesService;
+import com.google.appengine.api.images.ImagesServiceFactory;
+import com.google.appengine.api.images.ServingUrlOptions;
+import java.util.Map;
 
 /** Handles fetching and saving {@link Message} instances. */
 @WebServlet("/messages")
@@ -112,6 +117,7 @@ public class MessageServlet extends HttpServlet {
 
     /* This creates a Blobstore instance, then gets the image url(s) which are stored
        in a map of string. Then converts the urls to a list. */
+       //String imageUrl = this.getParameter("");
     BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
     Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
     List<BlobKey> blobKeys = blobs.get("image");
@@ -130,7 +136,7 @@ public class MessageServlet extends HttpServlet {
       recipient = recipient;
     }
 
-    Message message = new Message(user, textWithImagesReplaced, recipient, sentimentScore);
+    Message message = new Message(user, textWithImagesReplaced, recipient, sentimentScore, "");
 
     /* Makes sure the list of images is not empty (and image was uploaded),
        then gets the url from Blobstore */
@@ -143,6 +149,7 @@ public class MessageServlet extends HttpServlet {
     }
 
     datastore.storeMessage(message);
+
 
     response.sendRedirect("/user-page.html?user=" + recipient);
   }

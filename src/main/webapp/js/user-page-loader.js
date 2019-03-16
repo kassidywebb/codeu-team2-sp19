@@ -130,6 +130,11 @@ function buildMessageDiv(message) {
     messageDiv.appendChild(headerDiv);
     messageDiv.appendChild(bodyDiv);
 
+    if(message.imageUrl){
+       bodyDiv.innerHTML += '<br/>';
+       bodyDiv.innerHTML += '<img src="' + message.imageUrl + '" />';
+    }
+
     return messageDiv;
 }
 
