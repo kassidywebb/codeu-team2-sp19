@@ -117,7 +117,6 @@ public class MessageServlet extends HttpServlet {
 
     /* This creates a Blobstore instance, then gets the image url(s) which are stored
        in a map of string. Then converts the urls to a list. */
-       //String imageUrl = this.getParameter("");
     BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
     Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
     List<BlobKey> blobKeys = blobs.get("image");
@@ -136,6 +135,7 @@ public class MessageServlet extends HttpServlet {
       recipient = recipient;
     }
 
+    //add empty string as imageUrl parameter
     Message message = new Message(user, textWithImagesReplaced, recipient, sentimentScore, "");
 
     /* Makes sure the list of images is not empty (and image was uploaded),
