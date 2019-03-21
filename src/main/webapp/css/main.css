@@ -49,7 +49,7 @@ nav li {
     margin-right: 10px
 }
 
-nav li::hover {
+nav li:hover {
     background: white;
 }
 
