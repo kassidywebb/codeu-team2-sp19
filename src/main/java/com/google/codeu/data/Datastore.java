@@ -75,6 +75,9 @@ public class Datastore {
 		messageEntity.setProperty("timestamp", message.getTimestamp());
     	messageEntity.setProperty("recipient", message.getRecipient());
 		messageEntity.setProperty("sentimentScore", message.getSentimentScore());
+		if(message.getImageUrl() != null) {
+  			messageEntity.setProperty("imageUrl", message.getImageUrl());
+		}
 		datastore.put(messageEntity);
 	}
 
@@ -104,8 +107,10 @@ public class Datastore {
 				 without scores. This sets the old sentiment scores to 0 for old messages
 				 */
 				float sentimentScore = entity.getProperty("sentimentScore") == null? (float) 0.0 : ((Double) entity.getProperty("sentimentScore")).floatValue();
+				
+				String imageUrl = (String) entity.getProperty("imageUrl");
 
-				Message message = new Message(id, user, text, timestamp, recipient, sentimentScore);
+				Message message = new Message(id, user, text, timestamp, recipient, sentimentScore, imageUrl);
 				messages.add(message);
 			} catch (Exception e) {
 				System.err.println("Error reading message.");
