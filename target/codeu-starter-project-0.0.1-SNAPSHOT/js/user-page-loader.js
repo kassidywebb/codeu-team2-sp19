@@ -45,7 +45,7 @@ function setPageTitle() {
 }
 
 /**
- * Shows the message form if the user is logged in and viewing their own page.
+ * Shows the message form if the user is logged in and viewing their own page
  * Hides private messaging option if user is on private messaging page
  */
  function showMessageFormIfLoggedIn() {
@@ -58,7 +58,7 @@ function setPageTitle() {
            const messageForm = document.getElementById('message-form');
            messageForm.action = '/messages?recipient=' + parameterUsername;
            messageForm.classList.remove('hidden');
-
+           
            /** Using 34 because @codestudents.com is 17 characters long
             * and there's at least 2 people in a direct message
             */
@@ -76,7 +76,7 @@ function setPageTitle() {
        });
 
  }
-/** Fetches messages and add them to the page. */
+/** Fetches messages and add them to the page */
 function fetchMessages() {
   const url = '/messages?user=' + parameterUsername;
   fetch(url)
@@ -110,7 +110,7 @@ function buildMessageDiv(message) {
 
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('message-body');
-  bodyDiv.innerHTML = message.text;
+  bodyDiv.innerHTML = handleBBCode(message.text);
 
   const messageDiv = document.createElement('div');
   messageDiv.classList.add('message-div');
@@ -126,4 +126,5 @@ function buildUI() {
   showMessageFormIfLoggedIn();
   fetchMessages();
   fetchAboutMe();
+  
 }
