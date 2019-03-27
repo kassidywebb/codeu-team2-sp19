@@ -1,0 +1,96 @@
+/*Details and features abou the title page*/
+
+h1 {
+    text-align: center;
+    margin-bottom: 2%;
+    font-size: 700%;
+}
+
+
+/*Frame all the form in to a grey box*/
+
+.form {
+    background-color: #e0e0e0;
+    padding: 4%;
+    width: 70%;
+    margin: auto;
+    border-radius: 5%;
+}
+
+
+/*Giving features to al the form*/
+
+form {
+    display: inline;
+}
+
+.title input[type=text] {
+    width: 30%;
+    padding: 1%;
+    font-size: 120%;
+    border-top-style: none;
+    border-right-style: none;
+    border-bottom-style: solid;
+    border-left-style: none;
+}
+
+.inputs input[type=text] {
+    width: 20%;
+    padding: 1%;
+    font-size: 120%;
+    border-top-style: none;
+    border-right-style: none;
+    border-bottom-style: solid;
+    border-left-style: none;
+}
+
+.inputs input[type=date] {
+    width: 20%;
+    padding: 1%;
+    font-size: 120%;
+    border-top-style: none;
+    border-right-style: none;
+    border-bottom-style: solid;
+    border-left-style: none;
+}
+
+.inputs input[type=time] {
+    width: 20%;
+    padding: 1%;
+    font-size: 120%;
+    border-top-style: none;
+    border-right-style: none;
+    border-bottom-style: solid;
+    border-left-style: none;
+}
+
+.details p textarea {
+    width: 70%;
+    padding: 1%;
+    font-size: 120%;
+    font-family: "Arial", Helvetica, sans-serif;
+    border-top-style: none;
+    border-right-style: none;
+    border-bottom-style: solid;
+    border-left-style: none;
+    resize: none;
+}
+
+input[type=submit] {
+    width: 10%;
+    background-color: black;
+    color: white;
+    padding: 10px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: blue;
+}
+
+.hidden {
+    display: none;
+}
