@@ -29,10 +29,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
-import com.google.cloud.language.v1.Document;
-import com.google.cloud.language.v1.Document.Type;
-import com.google.cloud.language.v1.LanguageServiceClient;
-import com.google.cloud.language.v1.Sentiment;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.blobstore.BlobKey;
@@ -46,17 +42,6 @@ import java.util.Map;
 public class MessageServlet extends HttpServlet {
 
   private Datastore datastore;
-
-  private float getSentimentScore(String text) throws IOException {
-      Document doc = Document.newBuilder()
-         .setContent(text).setType(Type.PLAIN_TEXT).build();
-
-      LanguageServiceClient languageService = LanguageServiceClient.create();
-      Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
-      languageService.close();
-
-      return sentiment.getScore();
-  }
 
   @Override
   public void init() {
@@ -113,8 +98,6 @@ public class MessageServlet extends HttpServlet {
     String recipient = request.getParameter("recipient");
     String privatemessage = request.getParameter("private");
 
-    float sentimentScore = this.getSentimentScore(textWithImagesReplaced);
-
     /* This creates a Blobstore instance, then gets the image url(s) which are stored
        in a map of string. Then converts the urls to a list. */
     BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
@@ -136,7 +119,7 @@ public class MessageServlet extends HttpServlet {
     }
 
     //add empty string as imageUrl parameter
-    Message message = new Message(user, textWithImagesReplaced, recipient, sentimentScore, "");
+    Message message = new Message(user, textWithImagesReplaced, recipient, "");
 
     /* Makes sure the list of images is not empty (and image was uploaded),
        then gets the url from Blobstore */

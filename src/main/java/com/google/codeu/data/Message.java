@@ -26,7 +26,6 @@ public class Message {
   private String text;
   private long timestamp;
   private String recipient;
-  private float sentimentScore;
   private String imageUrl;
 
   /**
@@ -34,17 +33,16 @@ public class Message {
    * random ID and uses the current system time for the creation time. Added new imageUrl parameter
    * and set function.
    */
-   public Message(String user, String text, String recipient, float sentimentScore, String imageUrl) {
-     this(UUID.randomUUID(), user, text, System.currentTimeMillis(), recipient, sentimentScore, imageUrl);
+   public Message(String user, String text, String recipient, String imageUrl) {
+     this(UUID.randomUUID(), user, text, System.currentTimeMillis(), recipient, imageUrl);
    }
 
-   public Message(UUID id, String user, String text, long timestamp, String recipient, float sentimentScore, String imageUrl) {
+   public Message(UUID id, String user, String text, long timestamp, String recipient, String imageUrl) {
      this.id = id;
      this.user = user;
      this.text = text;
      this.timestamp = timestamp;
      this.recipient = recipient;
-     this.sentimentScore = sentimentScore;
      this.imageUrl = imageUrl;
    }
 
@@ -71,10 +69,6 @@ public class Message {
 
   public String getRecipient(){
     return recipient;
-  }
-
-  public float getSentimentScore(){
-    return sentimentScore;
   }
 
   public String getImageUrl(){
