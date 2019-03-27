@@ -18,23 +18,23 @@ public class Event {
    * Constructs a new {@link Message} posted by {@code user} with {@code text} content. Generates a
    * random ID and uses the current system time for the creation time.
    */
-   public Message(String user, 
-                  String title, 
-                  String date, 
-                  long time, 
-                  String location, 
-                  String details, 
+   public Event(String user,
+                  String title,
+                  String date,
+                  long time,
+                  String location,
+                  String details,
                   String imageUrl) {
      this(UUID.randomUUID(), user, title, date, time, location, details, imageUrl);
    }
 
-   public Message(UUID id, 
-                  String user, 
-                  String title, 
-                  String date, 
-                  long time, 
-                  String location, 
-                  String details, 
+   public Event(UUID id, 
+                  String user,
+                  String title,
+                  String date,
+                  long time,
+                  String location,
+                  String details,
                   String imageUrl) {
      this.id = id;
      this.user = user;
