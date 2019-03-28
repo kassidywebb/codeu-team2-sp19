@@ -98,6 +98,7 @@ public class MessageServlet extends HttpServlet {
     String sendto = request.getParameter("sendto");
     String recipient = request.getParameter("recipient");
     String privatemessage = request.getParameter("private");
+    String image = request.getParameter("image");
 
     if (privatemessage != null) {
       if (recipient.compareTo(sendto) < 0) {
@@ -127,7 +128,6 @@ public class MessageServlet extends HttpServlet {
       BlobKey blobKey = blobKeys.get(0);
       ImagesService imagesService = ImagesServiceFactory.getImagesService();
       ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
-      System.out.print(options);
       String imageUrl = imagesService.getServingUrl(options);
       message.setImageUrl(imageUrl);
     } else {
