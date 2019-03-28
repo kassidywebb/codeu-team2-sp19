@@ -127,6 +127,7 @@ public class MessageServlet extends HttpServlet {
       BlobKey blobKey = blobKeys.get(0);
       ImagesService imagesService = ImagesServiceFactory.getImagesService();
       ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
+      System.out.print(options);
       String imageUrl = imagesService.getServingUrl(options);
       message.setImageUrl(imageUrl);
     } else {
