@@ -37,6 +37,7 @@ import com.google.appengine.api.images.ImagesService;
 import com.google.appengine.api.images.ImagesServiceFactory;
 import com.google.appengine.api.images.ServingUrlOptions;
 import java.util.Map;
+import java.util.Enumeration;
 
 /** Handles fetching and saving {@link Message} instances. */
 @WebServlet("/messages")
@@ -98,7 +99,13 @@ public class MessageServlet extends HttpServlet {
     String sendto = request.getParameter("sendto");
     String recipient = request.getParameter("recipient");
     String privatemessage = request.getParameter("private");
-    String image = request.getParameter("image");
+    System.out.println("Kassidy - " + request.getRequestURL());
+    System.out.println("Kassidy - " + request.getHeaderNames());
+    System.out.println("Kassidy - " + request.getParameterNames());
+    for (Enumeration<String> e = request.getParameterNames(); e.hasMoreElements();)
+      System.out.println(e.nextElement());
+   for (Enumeration<String> e = request.getHeaderNames(); e.hasMoreElements();)
+      System.out.println(e.nextElement());
 
     if (privatemessage != null) {
       if (recipient.compareTo(sendto) < 0) {
