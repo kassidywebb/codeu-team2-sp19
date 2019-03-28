@@ -91,7 +91,7 @@ public class MessageServlet extends HttpServlet {
        the link is then replaced with an img tag, a user is able to submit a
        pdf,png,jpg,gif,tiff, and bmp file */
     String text = Jsoup.clean(request.getParameter("text"), Whitelist.none());
-    String regex = "(https?://\\S+\\.(png|jpg|gif|pdf|tiff|bmp))";
+    String regex = "(https?://\\S+\\.(png|jpeg|gif|pdf|tiff|bmp))";
     String replacement = "<img src=\"$1\" />";
     String textWithImagesReplaced = text.replaceAll(regex, replacement);
 
@@ -106,11 +106,9 @@ public class MessageServlet extends HttpServlet {
       } else {
         recipient = sendto + recipient;
       }
-    }
-    else if (!sendto.isEmpty()) {
+    } else if (!sendto.isEmpty()) {
         recipient = sendto;
-    }
-    else {
+    } else {
       recipient = recipient;
     }
 
@@ -125,6 +123,7 @@ public class MessageServlet extends HttpServlet {
     /* Makes sure the list of images is not empty (and image was uploaded),
        then gets the url from Blobstore */
     if(blobKeys != null && !blobKeys.isEmpty()) {
+      System.out.println("Kassidy is here");
       BlobKey blobKey = blobKeys.get(0);
       ImagesService imagesService = ImagesServiceFactory.getImagesService();
       ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
