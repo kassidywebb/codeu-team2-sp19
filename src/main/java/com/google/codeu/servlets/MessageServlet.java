@@ -24,6 +24,7 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -98,12 +99,6 @@ public class MessageServlet extends HttpServlet {
     String recipient = request.getParameter("recipient");
     String privatemessage = request.getParameter("private");
 
-    /* This creates a Blobstore instance, then gets the image url(s) which are stored
-       in a map of string. Then converts the urls to a list. */
-    BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
-    Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
-    List<BlobKey> blobKeys = blobs.get("image");
-
     if (privatemessage != null) {
       if (recipient.compareTo(sendto) < 0) {
         recipient = recipient + sendto;
@@ -118,22 +113,28 @@ public class MessageServlet extends HttpServlet {
       recipient = recipient;
     }
 
-    //add empty string as imageUrl parameter
-    Message message = new Message(user, textWithImagesReplaced, recipient, "");
+    Message message = new Message(user, textWithImagesReplaced, recipient);
+
+    /* This creates a Blobstore instance, then gets the image url(s) which are stored
+      in a map of string. Then converts the urls to a list. */
+    BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+    Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
+    List<BlobKey> blobKeys = blobs.get("image");
 
     /* Makes sure the list of images is not empty (and image was uploaded),
        then gets the url from Blobstore */
     if(blobKeys != null && !blobKeys.isEmpty()) {
-       BlobKey blobKey = blobKeys.get(0);
-       ImagesService imagesService = ImagesServiceFactory.getImagesService();
-       ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
-       String imageUrl = imagesService.getServingUrl(options);
-       message.setImageUrl(imageUrl);
+      BlobKey blobKey = blobKeys.get(0);
+      ImagesService imagesService = ImagesServiceFactory.getImagesService();
+      ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
+      String imageUrl = imagesService.getServingUrl(options);
+      message.setImageUrl(imageUrl);
+    } else {
+         message.setImageUrl("");
     }
 
     datastore.storeMessage(message);
 
-
-    response.sendRedirect("/user-page.html?user=" + recipient);
+    response.sendRedirect("/user-page.html?user=" + user);
   }
 }

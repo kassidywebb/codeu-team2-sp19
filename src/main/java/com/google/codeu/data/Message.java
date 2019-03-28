@@ -33,22 +33,21 @@ public class Message {
    * random ID and uses the current system time for the creation time. Added new imageUrl parameter
    * and set function.
    */
-   public Message(String user, String text, String recipient, String imageUrl) {
-     this(UUID.randomUUID(), user, text, System.currentTimeMillis(), recipient, imageUrl);
+   public Message(String user, String text, String recipient) {
+     this(UUID.randomUUID(), user, text, System.currentTimeMillis(), recipient);
    }
 
-   public Message(UUID id, String user, String text, long timestamp, String recipient, String imageUrl) {
+   public Message(UUID id, String user, String text, long timestamp, String recipient) {
      this.id = id;
      this.user = user;
      this.text = text;
      this.timestamp = timestamp;
      this.recipient = recipient;
-     this.imageUrl = imageUrl;
+     this.imageUrl = "";
    }
 
-  public void setImageUrl(String imageUrl) {
-     this.imageUrl = imageUrl;
-     return;
+  public void setImageUrl(String url) {
+     this.imageUrl = url;
   }
 
   public UUID getId() {
@@ -72,7 +71,7 @@ public class Message {
   }
 
   public String getImageUrl(){
-    return imageUrl;
+    return this.imageUrl;
   }
 
 }
