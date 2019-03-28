@@ -35,11 +35,9 @@ public class Datastore {
 
 
 	private DatastoreService datastore;
-	private DatastoreService eventstore;
-
+	
 	public Datastore() {
 		datastore = DatastoreServiceFactory.getDatastoreService();
-		eventstore = DatastoreServiceFactory.getDatastoreService();
 	}
 
 	/** Stores the User in Datastore. */
@@ -208,7 +206,7 @@ public class Datastore {
 		if(event.getImageUrl() != null) {
   			eventEntity.setProperty("imageUrl", event.getImageUrl());
 		}
-		eventstore.put(eventEntity);
+		datastore.put(eventEntity);
 	}
 
 	/**
@@ -265,7 +263,7 @@ public class Datastore {
 				new Query("Event")
 				.setFilter(new Query.FilterPredicate("recipient", FilterOperator.EQUAL, recipient))
 				.addSort("timestamp", SortDirection.DESCENDING);
-		PreparedQuery results = eventstore.prepare(query);
+		PreparedQuery results = datastore.prepare(query);
 
 		saveEventInformation(events, results);
 
@@ -283,7 +281,7 @@ public class Datastore {
 
 		Query query = new Query("Event")
 				.addSort("timestamp", SortDirection.DESCENDING);
-		PreparedQuery results = eventstore.prepare(query);
+		PreparedQuery results = datastore.prepare(query);
 
 		saveEventInformation(events, results);
 
