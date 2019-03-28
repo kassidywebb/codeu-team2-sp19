@@ -63,11 +63,11 @@ public class Event {
     return title;
   }
 
-  public String getdate() {
+  public String getDate() {
     return date;
   }
 
-  public Long getTime() {
+  public long getTime() {
     return time;
   }
 
@@ -75,9 +75,13 @@ public class Event {
     return location;
   }
 
+  public String getDetais() {
+	  return details;
+  }
+  
   public String getImageUrl() {
     return imageUrl;
   }
-
+  
 
 }

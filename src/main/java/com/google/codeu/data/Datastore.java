@@ -195,14 +195,18 @@ public class Datastore {
 	return text;
 	}
 
+  
+  
+  
 	/** Stores the Event in Datastore. */
 	public void storeEvent(Event event) {
 		Entity eventEntity = new Entity("Event", event.getId().toString());
 		eventEntity.setProperty("user", event.getUser());
-		eventEntity.setProperty("text", event.getText());
-		eventEntity.setProperty("timestamp", event.getTimestamp());
-    	eventEntity.setProperty("recipient", event.getRecipient());
-		eventEntity.setProperty("sentimentScore", event.getSentimentScore());
+		eventEntity.setProperty("title", event.getTitle());
+		eventEntity.setProperty("date", event.getDate());
+		eventEntity.setProperty("time", event.getTime());
+    	eventEntity.setProperty("location", event.getLocation());
+    	eventEntity.setProperty("details", event.getLocation());
 		if(event.getImageUrl() != null) {
   			eventEntity.setProperty("imageUrl", event.getImageUrl());
 		}
@@ -227,9 +231,11 @@ public class Datastore {
 				String idString = entity.getKey().getName();
 				UUID id = UUID.fromString(idString);
 				String user = (String) entity.getProperty("user");
-				String text = (String) entity.getProperty("text");
-				long timestamp = (long) entity.getProperty("timestamp");
-				String recipient = (String) entity.getProperty("recipient");
+				String title = (String) entity.getProperty("title");
+				String date = (String) entity.getProperty("date");
+				long time = (long) entity.getProperty("time");
+				String location = (String) entity.getProperty("location");
+				String details = (String) entity.getProperty("details");
 
 				/*Before adding sentiment scores as a feature, there were already messages
 				 without scores. This sets the old sentiment scores to 0 for old messages
@@ -238,10 +244,10 @@ public class Datastore {
 
 				String imageUrl = (String) entity.getProperty("imageUrl");
 
-				Event event = new Event(id, user, text, timestamp, recipient, sentimentScore, imageUrl);
+				Event event = new Event(id, user, title, date, time, location, details, imageUrl);
 				events.add(event);
 			} catch (Exception e) {
-				System.err.println("Error reading message.");
+				System.err.println("Error reading events.");
 				System.err.println(entity.toString());
 				e.printStackTrace();
 			}
@@ -256,13 +262,13 @@ public class Datastore {
 	 *     message. List is sorted by time descending. This is now dealt in saveEventInformation()
 	 */
 
-	public List<Event> getEvents(String recipient) {
+	public List<Event> getEvents(String user) {
 		List<Event> events = new ArrayList<>();
 
 		Query query =
 				new Query("Event")
-				.setFilter(new Query.FilterPredicate("recipient", FilterOperator.EQUAL, recipient))
-				.addSort("timestamp", SortDirection.DESCENDING);
+				.setFilter(new Query.FilterPredicate("user", FilterOperator.EQUAL, user))
+				.addSort("time", SortDirection.DESCENDING);
 		PreparedQuery results = datastore.prepare(query);
 
 		saveEventInformation(events, results);
@@ -280,7 +286,7 @@ public class Datastore {
 		List<Event> events = new ArrayList<>();
 
 		Query query = new Query("Event")
-				.addSort("timestamp", SortDirection.DESCENDING);
+				.addSort("time", SortDirection.DESCENDING);
 		PreparedQuery results = datastore.prepare(query);
 
 		saveEventInformation(events, results);
