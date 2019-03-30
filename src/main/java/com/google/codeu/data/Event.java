@@ -18,6 +18,17 @@ public class Event {
    * Constructs a new {@link Message} posted by {@code user} with {@code text} content. Generates a
    * random ID and uses the current system time for the creation time.
    */
+  public Event(){
+     this.id = null;
+     this.user = null;
+     this.title = null;
+     this.date = null;
+     this.time = (Long) null;
+     this.location = null;
+     this.details = null;
+     this.imageUrl = null;
+   
+  }  
    public Event(String user,
                   String title,
                   String date,
