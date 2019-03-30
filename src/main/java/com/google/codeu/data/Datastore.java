@@ -205,6 +205,7 @@ public class Datastore {
 		eventEntity.setProperty("title", event.getTitle());
 		eventEntity.setProperty("date", event.getDate());
 		eventEntity.setProperty("time", event.getTime());
+		eventEntity.setProperty("timestamp", event.getTimestamp());
     	eventEntity.setProperty("location", event.getLocation());
     	eventEntity.setProperty("details", event.getLocation());
 		if(event.getImageUrl() != null) {
@@ -233,18 +234,18 @@ public class Datastore {
 				String user = (String) entity.getProperty("user");
 				String title = (String) entity.getProperty("title");
 				String date = (String) entity.getProperty("date");
-				long time = (long) entity.getProperty("time");
+				String time = (String) entity.getProperty("time");
+				long timestamp = (long) entity.getProperty("timestamp");
 				String location = (String) entity.getProperty("location");
 				String details = (String) entity.getProperty("details");
 
 				/*Before adding sentiment scores as a feature, there were already messages
 				 without scores. This sets the old sentiment scores to 0 for old messages
 				 */
-				float sentimentScore = entity.getProperty("sentimentScore") == null? (float) 0.0 : ((Double) entity.getProperty("sentimentScore")).floatValue();
 
 				String imageUrl = (String) entity.getProperty("imageUrl");
 
-				Event event = new Event(id, user, title, date, time, location, details, imageUrl);
+				Event event = new Event(id, user, title, date, time, timestamp, location, details, imageUrl);
 				events.add(event);
 			} catch (Exception e) {
 				System.err.println("Error reading events.");
@@ -268,7 +269,7 @@ public class Datastore {
 		Query query =
 				new Query("Event")
 				.setFilter(new Query.FilterPredicate("user", FilterOperator.EQUAL, user))
-				.addSort("time", SortDirection.DESCENDING);
+				.addSort("timestamp", SortDirection.DESCENDING);
 		PreparedQuery results = datastore.prepare(query);
 
 		saveEventInformation(events, results);
@@ -286,7 +287,7 @@ public class Datastore {
 		List<Event> events = new ArrayList<>();
 
 		Query query = new Query("Event")
-				.addSort("time", SortDirection.DESCENDING);
+				.addSort("timestamp", SortDirection.DESCENDING);
 		PreparedQuery results = datastore.prepare(query);
 
 		saveEventInformation(events, results);
