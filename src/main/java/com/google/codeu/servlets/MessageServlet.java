@@ -124,6 +124,8 @@ public class MessageServlet extends HttpServlet {
     response.sendRedirect("/user-page.html?user=" + user);
   }
 
+  /* Function that handles all blobstore requests for adding an image
+     to a message */
   private void setMessageImageUrl (HttpServletRequest request, Message message) {
 
      /* This creates a Blobstore instance, then gets the image url(s) which are stored
