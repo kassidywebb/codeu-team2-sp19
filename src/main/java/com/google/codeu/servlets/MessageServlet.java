@@ -117,7 +117,16 @@ public class MessageServlet extends HttpServlet {
 
     Message message = new Message(user, textWithImagesReplaced, recipient);
 
-    /* This creates a Blobstore instance, then gets the image url(s) which are stored
+    //blobstore function that gets and saves image url
+    setMessageImageUrl(request, message);
+    datastore.storeMessage(message);
+
+    response.sendRedirect("/user-page.html?user=" + user);
+  }
+
+  private void setMessageImageUrl (HttpServletRequest request, Message message) {
+
+     /* This creates a Blobstore instance, then gets the image url(s) which are stored
       in a map of string. Then converts the urls to a list. */
     BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
     Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
@@ -139,9 +148,5 @@ public class MessageServlet extends HttpServlet {
        blobstoreService.delete(blobKey);
       }
     }
-
-    datastore.storeMessage(message);
-
-    response.sendRedirect("/user-page.html?user=" + user);
   }
 }
