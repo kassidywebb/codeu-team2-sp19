@@ -22,9 +22,9 @@ limitations under the License.
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/user-page.css">
     <script src="/js/user-page-loader.js"></script>
-    <script src="https://cdn.ckeditor.com/ckeditor5/11.2.0/classic/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/11.2.0/classic/ckeditor.js">const config = {removePlugins: ['Heading', 'ImageUpload']</script>
   </head>
-  <body onload="buildUI(); ClassicEditor.create( document.getElementById('message-input') ); ClassicEditor.create( document.getElementById('about-me-form') );">
+  <body onload="buildUI(); ClassicEditor.create( document.getElementById('message-input'), ('about-me-form'), config );">
     <nav>
       <ul id="navigation">
         <li><a href="/">Home</a></li>

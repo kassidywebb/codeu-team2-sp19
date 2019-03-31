@@ -28,16 +28,35 @@ import com.google.gson.JsonObject;
   *Gets Information from user
   */
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response)
-  throws IOException{
+   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-  response.setContentType("application/json");
+    response.setContentType("application/json");
 
-  String eventTitle = request.getParameter("Event Title");
-  String date = request.getParameter("Date (mm/dd/yy)");
-  String time = request.getParameter("Time");
-  String location = request.getParameter("Location");
-  String details = request.getParameter("Details");
+    String user = request.getParameter("user");
+    String recipient = request.getParameter("recipient");
 
+    if (user == null || user.equals("")) {
+      response.getWriter().println("[]");
+      return;
+    }
 }
-}
+@Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+    UserService userService = UserServiceFactory.getUserService();
+    if (!userService.isUserLoggedIn()) {
+      response.sendRedirect("/index.html");
+      return;
+    }
+
+    String title = request.getParameter("Title");
+    String location = request.getParameter("Location");
+    String date = request.getParameter("Date");
+    String time = request.getParameter("Time");
+    String details = request.getParameter("Details");
+    
+    Event event = new Event(user, title, date, time, location, details, imageUrl);
+    datastore.storeEvent(event);
+
+    response.sendRedirect("/user-page.html?user=" + title);
+  }
