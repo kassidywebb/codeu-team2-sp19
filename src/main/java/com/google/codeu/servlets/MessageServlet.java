@@ -33,6 +33,8 @@ import org.jsoup.safety.Whitelist;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobInfo;
+import com.google.appengine.api.blobstore.BlobInfoFactory;
 import com.google.appengine.api.images.ImagesService;
 import com.google.appengine.api.images.ImagesServiceFactory;
 import com.google.appengine.api.images.ServingUrlOptions;
@@ -93,20 +95,13 @@ public class MessageServlet extends HttpServlet {
        the link is then replaced with an img tag, a user is able to submit a
        pdf,png,jpg,gif,tiff, and bmp file */
     String text = Jsoup.clean(request.getParameter("text"), Whitelist.none());
-    String regex = "(https?://\\S+\\.(png|jpeg|gif|pdf|tiff|bmp))";
+    String regex = "(https?://\\S+\\.(png|jpeg|jpg|gif|pdf|tiff|bmp))";
     String replacement = "<img src=\"$1\" />";
     String textWithImagesReplaced = text.replaceAll(regex, replacement);
 
     String sendto = request.getParameter("sendto");
     String recipient = request.getParameter("recipient");
     String privatemessage = request.getParameter("private");
-    System.out.println("Kassidy - " + request.getRequestURL());
-    System.out.println("Kassidy - " + request.getHeaderNames());
-    System.out.println("Kassidy - " + request.getParameterNames());
-    for (Enumeration<String> e = request.getParameterNames(); e.hasMoreElements();)
-      System.out.println(e.nextElement());
-   for (Enumeration<String> e = request.getHeaderNames(); e.hasMoreElements();)
-      System.out.println(e.nextElement());
 
     if (privatemessage != null) {
       if (recipient.compareTo(sendto) < 0) {
@@ -131,15 +126,17 @@ public class MessageServlet extends HttpServlet {
     /* Makes sure the list of images is not empty (and image was uploaded),
        then gets the url from Blobstore */
     if(blobKeys != null && !blobKeys.isEmpty()) {
-      System.out.println("Kassidy is here");
       BlobKey blobKey = blobKeys.get(0);
-      ImagesService imagesService = ImagesServiceFactory.getImagesService();
-      ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
-      try {
+
+      final BlobInfo blobInfo = new BlobInfoFactory().loadBlobInfo(blobKey);
+      long size = blobInfo.getSize();
+      if(size > 0){
+         ImagesService imagesService = ImagesServiceFactory.getImagesService();
+         ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
          String imageUrl = imagesService.getServingUrl(options);
          message.setImageUrl(imageUrl);
-      } catch (ImagesServiceFailureException unused) {
-
+      } else {
+       blobstoreService.delete(blobKey);
       }
     }
 
