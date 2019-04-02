@@ -24,7 +24,8 @@ public class Event {
      this.user = null;
      this.title = null;
      this.date = null;
-     this.time = (Long) null;
+     this.time = null;
+     this.timestamp = (Long) null;
      this.location = null;
      this.details = null;
      this.imageUrl = null;

@@ -40,7 +40,8 @@ public class EventOneServlet extends HttpServlet{
       String userauthor = event.getUser();
       String title = event.getTitle();
       String date = event.getDate();
-      long time = event.getTime();
+      String time = event.getTime();
+      long timestamp = event.getTimestamp();
       String location = event.getLocation();
       String details = event.getDetais();
       String imageurl = event.getImageUrl();
@@ -50,6 +51,7 @@ public class EventOneServlet extends HttpServlet{
       jsonObject.addProperty("title", title);
       jsonObject.addProperty("date", date);
       jsonObject.addProperty("time",time);
+      jsonObject.addProperty("timestamp",timestamp);
       jsonObject.addProperty("location",location);
       jsonObject.addProperty("details",details);
       jsonObject.addProperty("imageUrl",imageurl);

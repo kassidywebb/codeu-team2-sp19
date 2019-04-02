@@ -292,39 +292,27 @@ public class Datastore {
   }
 
 
-  /**This function returns one Event given a query**/
+  /**This function gives a Eventby reference given a query and a empty Event as a parameter**/
   
   public void saveIndividualEvent(Event event,PreparedQuery results) {
 	
-	for (Entity entity : results.asIterable()) {
-		try {
-			String idString = entity.getKey().getName();
-			UUID id = UUID.fromString(idString);
-			String user = (String) entity.getProperty("user");
-			String title = (String) entity.getProperty("title");
-			String date = (String) entity.getProperty("date");
-			long time = (long) entity.getProperty("time");
-			String location = (String) entity.getProperty("location");
-			String details = (String) entity.getProperty("details");
-			
-			/*Before adding sentiment scores as a feature, there were already messages
-			 without scores. This sets the old sentiment scores to 0 for old messages
-			 */
-			float sentimentScore = entity.getProperty("sentimentScore") == null? (float) 0.0 : ((Double) entity.getProperty("sentimentScore")).floatValue();
-			
-			
-			String imageUrl = (String) entity.getProperty("imageUrl");
+		Entity entity = results.asSingleEntity();
 
-			event = new Event(id, user, title, date, time, location, details, imageUrl);
-		} catch (Exception e) {
-			System.err.println("Error reading events.");
-			System.err.println(entity.toString());
-			e.printStackTrace();
-			}
-		}
+		String idString = entity.getKey().getName();
+		UUID id = UUID.fromString(idString);
+		String user = (String) entity.getProperty("user");
+		String title = (String) entity.getProperty("title");
+		String date = (String) entity.getProperty("date");
+		String time = (String) entity.getProperty("time");
+		long timestamp = (long) entity.getProperty("timestamp");
+		String location = (String) entity.getProperty("location");
+		String details = (String) entity.getProperty("details");		
+		String imageUrl = (String) entity.getProperty("imageUrl");
+
+		event = new Event(id, user, title, date, time, timestamp,location, details, imageUrl);
 		
-
   }
+		
 	
 	/**This function returns one Event given a specific ID**/
   public Event getIndividualEvent(UUID id) {
