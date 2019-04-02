@@ -9,7 +9,8 @@ public class Event {
   private String user;
   private String title;
   private String date;
-  private long time; //Might need to be changed to string or something
+  private String time;
+  private long timestamp;
   private String location;
   private String details;
   private String imageUrl;
@@ -32,18 +33,20 @@ public class Event {
    public Event(String user,
                   String title,
                   String date,
-                  long time,
+                  String time,
+                  long timestamp,
                   String location,
                   String details,
                   String imageUrl) {
-     this(UUID.randomUUID(), user, title, date, time, location, details, imageUrl);
+     this(UUID.randomUUID(), user, title, date, time, timestamp, location, details, imageUrl);
    }
 
    public Event(UUID id, 
                   String user,
                   String title,
                   String date,
-                  long time,
+                  String time,
+                  long timestamp,
                   String location,
                   String details,
                   String imageUrl) {
@@ -52,6 +55,7 @@ public class Event {
      this.title = title;
      this.date = date;
      this.time = time;
+     this.timestamp = timestamp;
      this.location = location;
      this.details = details;
      this.imageUrl = imageUrl;
@@ -78,9 +82,13 @@ public class Event {
     return date;
   }
 
-  public long getTime() {
+  public String getTime() {
     return time;
   }
+  
+  public long getTimestamp() {
+	    return timestamp;
+	  }
 
   public String getLocation() {
     return location;

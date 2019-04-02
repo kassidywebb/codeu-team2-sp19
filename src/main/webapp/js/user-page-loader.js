@@ -61,7 +61,7 @@ function showMessageFormIfLoggedIn() {
 }
 
 function fetchImageUploadUrlAndShowForm() {
-  fetch('/image-upload-url')
+  fetch('/image-upload-url?recipient=' + parameterUsername)
       .then((response) => {
         return response.text();
       })
@@ -130,7 +130,7 @@ function buildMessageDiv(message) {
     messageDiv.appendChild(headerDiv);
     messageDiv.appendChild(bodyDiv);
 
-    if(message.imageUrl){
+    if(message.imageUrl != ""){
        bodyDiv.innerHTML += '<br/>';
        bodyDiv.innerHTML += '<img src="' + message.imageUrl + '" />';
     }

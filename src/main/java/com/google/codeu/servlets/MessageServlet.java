@@ -24,39 +24,29 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
-import com.google.cloud.language.v1.Document;
-import com.google.cloud.language.v1.Document.Type;
-import com.google.cloud.language.v1.LanguageServiceClient;
-import com.google.cloud.language.v1.Sentiment;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobInfo;
+import com.google.appengine.api.blobstore.BlobInfoFactory;
 import com.google.appengine.api.images.ImagesService;
 import com.google.appengine.api.images.ImagesServiceFactory;
 import com.google.appengine.api.images.ServingUrlOptions;
 import java.util.Map;
+import java.util.Enumeration;
+import com.google.appengine.api.images.ImagesServiceFailureException;
 
 /** Handles fetching and saving {@link Message} instances. */
 @WebServlet("/messages")
 public class MessageServlet extends HttpServlet {
 
   private Datastore datastore;
-
-  private float getSentimentScore(String text) throws IOException {
-      Document doc = Document.newBuilder()
-         .setContent(text).setType(Type.PLAIN_TEXT).build();
-
-      LanguageServiceClient languageService = LanguageServiceClient.create();
-      Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
-      languageService.close();
-
-      return sentiment.getScore();
-  }
 
   @Override
   public void init() {
@@ -105,7 +95,7 @@ public class MessageServlet extends HttpServlet {
        the link is then replaced with an img tag, a user is able to submit a
        pdf,png,jpg,gif,tiff, and bmp file */
     String text = Jsoup.clean(request.getParameter("text"), Whitelist.none());
-    String regex = "(https?://\\S+\\.(png|jpg|gif|pdf|tiff|bmp))";
+    String regex = "(https?://\\S+\\.(png|jpeg|jpg|gif|pdf|tiff|bmp))";
     String replacement = "<img src=\"$1\" />";
     String textWithImagesReplaced = text.replaceAll(regex, replacement);
 
@@ -113,44 +103,52 @@ public class MessageServlet extends HttpServlet {
     String recipient = request.getParameter("recipient");
     String privatemessage = request.getParameter("private");
 
-    float sentimentScore = this.getSentimentScore(textWithImagesReplaced);
-
-    /* This creates a Blobstore instance, then gets the image url(s) which are stored
-       in a map of string. Then converts the urls to a list. */
-    BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
-    Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
-    List<BlobKey> blobKeys = blobs.get("image");
-
     if (privatemessage != null) {
       if (recipient.compareTo(sendto) < 0) {
         recipient = recipient + sendto;
       } else {
         recipient = sendto + recipient;
       }
-    }
-    else if (!sendto.isEmpty()) {
+    } else if (!sendto.isEmpty()) {
         recipient = sendto;
-    }
-    else {
+    } else {
       recipient = recipient;
     }
 
-    //add empty string as imageUrl parameter
-    Message message = new Message(user, textWithImagesReplaced, recipient, sentimentScore, "");
+    Message message = new Message(user, textWithImagesReplaced, recipient);
+
+    //blobstore function that gets and saves image url
+    setMessageImageUrl(request, message);
+    datastore.storeMessage(message);
+
+    response.sendRedirect("/user-page.html?user=" + user);
+  }
+
+  /* Function that handles all blobstore requests for adding an image
+     to a message */
+  private void setMessageImageUrl (HttpServletRequest request, Message message) {
+
+     /* This creates a Blobstore instance, then gets the image url(s) which are stored
+      in a map of string. Then converts the urls to a list. */
+    BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+    Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
+    List<BlobKey> blobKeys = blobs.get("image");
 
     /* Makes sure the list of images is not empty (and image was uploaded),
        then gets the url from Blobstore */
     if(blobKeys != null && !blobKeys.isEmpty()) {
-       BlobKey blobKey = blobKeys.get(0);
-       ImagesService imagesService = ImagesServiceFactory.getImagesService();
-       ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
-       String imageUrl = imagesService.getServingUrl(options);
-       message.setImageUrl(imageUrl);
+      BlobKey blobKey = blobKeys.get(0);
+
+      final BlobInfo blobInfo = new BlobInfoFactory().loadBlobInfo(blobKey);
+      long size = blobInfo.getSize();
+      if(size > 0){
+         ImagesService imagesService = ImagesServiceFactory.getImagesService();
+         ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
+         String imageUrl = imagesService.getServingUrl(options);
+         message.setImageUrl(imageUrl);
+      } else {
+       blobstoreService.delete(blobKey);
+      }
     }
-
-    datastore.storeMessage(message);
-
-
-    response.sendRedirect("/user-page.html?user=" + recipient);
   }
 }
