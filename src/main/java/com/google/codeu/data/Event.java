@@ -83,7 +83,7 @@ public class Event {
     return location;
   }
 
-  public String getDetais() {
+  public String getDetails() {
 	  return details;
   }
   

@@ -26,6 +26,9 @@ import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.FetchOptions.Builder;
+
+import static com.google.appengine.api.datastore.FetchOptions.Builder.withLimit;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -34,7 +37,8 @@ import java.util.UUID;
 public class Datastore {
 
 
-	private DatastoreService datastore;
+	protected DatastoreService datastore;
+	protected int amount = 0;
 
 	public Datastore() {
 		datastore = DatastoreServiceFactory.getDatastoreService();
@@ -211,6 +215,7 @@ public class Datastore {
 		if(event.getImageUrl() != null) {
   			eventEntity.setProperty("imageUrl", event.getImageUrl());
 		}
+		amount++;
 		datastore.put(eventEntity);
 	}
 
@@ -238,10 +243,6 @@ public class Datastore {
 				long timestamp = (long) entity.getProperty("timestamp");
 				String location = (String) entity.getProperty("location");
 				String details = (String) entity.getProperty("details");
-
-				/*Before adding sentiment scores as a feature, there were already messages
-				 without scores. This sets the old sentiment scores to 0 for old messages
-				 */
 
 				String imageUrl = (String) entity.getProperty("imageUrl");
 
@@ -294,6 +295,11 @@ public class Datastore {
 
     return events;
   }
-
+	
+	public int numberOfEvents() {
+		
+		return datastore.prepare(new Query("Event")).countEntities(withLimit(10));
+	}
+	
 
 }

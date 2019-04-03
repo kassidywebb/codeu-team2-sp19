@@ -1,11 +1,7 @@
 package com.google.codeu.data;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.jupiter.api.Test;
+import static com.google.appengine.api.datastore.FetchOptions.Builder.withLimit;
+import static org.junit.Assert.assertEquals;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -15,18 +11,11 @@ import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestC
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import org.junit.After;
 import org.junit.Before;
-import com.google.appengine.api.datastore.FetchOptions;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query.FilterOperator;
-import com.google.appengine.api.datastore.Query.SortDirection;
-import com.google.appengine.api.datastore.FetchOptions;
-import com.google.appengine.api.datastore.FetchOptions.Builder;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import org.junit.Test;
 
 public class DatastoreTest {
 
+	
   private final LocalServiceTestHelper helper =
       new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 
@@ -40,13 +29,36 @@ public class DatastoreTest {
     helper.tearDown();
   } 
 
-//Run this test twice to prove we're not leaking any state across tests.
  private void doTest() {
-   DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
-   assertEquals(0, ds.prepare(new Query("yam")).countEntities(FetchOptions.Builder.withLimit(10)));
-   ds.put(new Entity("yam"));
-   ds.put(new Entity("yam"));
-   assertEquals(2, ds.prepare(new Query("yam")).countEntities(FetchOptions.Builder.withLimit(10)));
+	 
+   Datastore datastore = new Datastore();
+	 
+   Event exampleEvent = new Event("Ahmed", "HotPocket Event", "03/29/19",
+   		"3:00PM", 4523, "Sunnyvalue, CA", "It will be fun and have lots of food",
+   		"some random img string");
+   
+     datastore.storeEvent(exampleEvent);
+     /* Check if there is 1 event inside the datastore right now*/
+  	assertEquals(1, datastore.numberOfEvents());
+  	assertEquals(1, ds.prepare(new Query("Event")).countEntities(withLimit(10)));
+  	
+  	  /* When getEvents is called an arrayList of Events is created according to the 
+  	   * user specified in the parameter. In this case getEvents should create a list
+  	   * holding 1 object from user Ahmed.
+  	   */
+ 	assertEquals(1, datastore.getEvents("Ahmed").size());
+  	
+	Event exampleEvent2 = new Event("Demha", "Orchestra Maze", "03/31/19",
+  	   		"8:00PM", 8472523, "SanFrancisco, CA", "It will be fun and have lots of music",
+  	   		"a cello and violion img url");
+	datastore.storeEvent(exampleEvent2);
+	
+	/*getAllEvents returns an arraylist of events regardless of User. 
+	 * With the second added event, there should now be two  events in
+	 * the list right now.
+	 */
+  	assertEquals(2, datastore.getAllEvents().size());
+  	
  }
 
  @Test
@@ -54,46 +66,4 @@ public class DatastoreTest {
    doTest();
  }
 
- @Test
- public void testInsert2() {
-   doTest();
- }
-/*
-  // Run this test twice to prove we're not leaking any state across tests.
-	@Test
-    void doTest() {
-	   
-		 DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
-		 
-    Event exampleEvent = new Event("Ahmed", "HotPocket Event", "03/29/19",
-    		"3:00PM", 4523, "Sunnyvalue, CA", "It will be fun and have lots of food",
-    		"some random img string");
-    
-    Entity eventEntity = new Entity("Event", exampleEvent.getId().toString());
-	eventEntity.setProperty("user", exampleEvent.getUser());
-	eventEntity.setProperty("title", exampleEvent.getTitle());
-	eventEntity.setProperty("date", exampleEvent.getDate());
-	eventEntity.setProperty("time", exampleEvent.getTime());
-	eventEntity.setProperty("timestamp", exampleEvent.getTimestamp());
-	eventEntity.setProperty("location", exampleEvent.getLocation());
-	eventEntity.setProperty("details", exampleEvent.getLocation());
-	if(exampleEvent.getImageUrl() != null) {
-			eventEntity.setProperty("imageUrl", exampleEvent.getImageUrl());
-	}
-	 ds.put(eventEntity); 
-    
-    List<Event> exampleList = new ArrayList<Event>(); ;
-    exampleList.add(exampleEvent);
-   ((Datastore) ds).storeEvent(exampleEvent);
- //  assertEquals(4,2+2);
-   // List<Event> eventList = ((Datastore) ds).getEvents("Ahmed");
-    //assertEquals(exampleList,eventList);
-    
-    assertEquals(2, ds.prepare(new Query("Event")).countEntities(FetchOptions.Builder.withLimit(10)));
-   // ds.put(new Entity("yam"));
-    //ds.put(new Entity("yam"));
-    //assertEquals(2, ds.prepare(new Query("yam")).countEntities(withLimit(10)));
-    
-  }
-*/
 }
