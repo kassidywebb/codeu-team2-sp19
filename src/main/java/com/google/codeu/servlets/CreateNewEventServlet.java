@@ -72,7 +72,7 @@ import com.google.appengine.api.blobstore.BlobInfoFactory;
     String location = request.getParameter("Location");
     String date = request.getParameter("Date");
     String time = request.getParameter("Time");
-    long timestamp = java.lang.System.currentTimeMillis();
+    long timestamp = System.currentTimeMillis();
     String details = request.getParameter("Details");
     String imageUrl = request.getParameter("Image Url");
 
