@@ -6,10 +6,28 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
+import java.util.List;
+import java.lang.*;
 
 import com.google.codeu.data.Datastore;
+import com.google.codeu.data.Event;
 import com.google.gson.JsonObject;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 
+import com.google.appengine.api.images.ImagesService;
+import com.google.appengine.api.images.ImagesServiceFactory;
+import com.google.appengine.api.images.ServingUrlOptions;
+import com.google.appengine.api.images.ImagesServiceFailureException;
+import java.util.Map;
+import java.util.Enumeration;
+
+import com.google.appengine.api.blobstore.BlobstoreService;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobInfo;
+import com.google.appengine.api.blobstore.BlobInfoFactory;
 /**
  * Handles fetching site statistics.
  */
@@ -49,14 +67,44 @@ import com.google.gson.JsonObject;
       return;
     }
 
+    String user = userService.getCurrentUser().getEmail();
     String title = request.getParameter("Title");
     String location = request.getParameter("Location");
     String date = request.getParameter("Date");
     String time = request.getParameter("Time");
+    long timestamp = java.lang.System.currentTimeMillis();
     String details = request.getParameter("Details");
+    String imageUrl = request.getParameter("Image Url");
+
     
-    Event event = new Event(user, title, date, time, location, details, imageUrl);
+    Event event = new Event(user, title, date, time, timestamp, location, details, imageUrl);
     datastore.storeEvent(event);
 
     response.sendRedirect("/user-page.html?user=" + title);
   }
+   private void setEventImageUrl (HttpServletRequest request, Event event) {
+
+     /* This creates a Blobstore instance, then gets the image url(s) which are stored
+      in a map of string. Then converts the urls to a list. */
+    BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+    Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
+    List<BlobKey> blobKeys = blobs.get("image");
+
+    /* Makes sure the list of images is not empty (and image was uploaded),
+       then gets the url from Blobstore */
+    if(blobKeys != null && !blobKeys.isEmpty()) {
+      BlobKey blobKey = blobKeys.get(0);
+
+      final BlobInfo blobInfo = new BlobInfoFactory().loadBlobInfo(blobKey);
+      long size = blobInfo.getSize();
+      if(size > 0){
+         ImagesService imagesService = ImagesServiceFactory.getImagesService();
+         ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
+         String imageUrl = imagesService.getServingUrl(options);
+         event.setImageUrl(imageUrl);
+      } else {
+       blobstoreService.delete(blobKey);
+      }
+    }
+  }
+}
