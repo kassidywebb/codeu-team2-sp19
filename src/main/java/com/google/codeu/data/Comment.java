@@ -25,8 +25,8 @@ public class Comment {
 	private String user;
 	private String text;
 	private long timestamp;
-	private UUID eventId;
 	private String imageUrl;
+	private UUID eventId;
 
 	/**
 	 * Constructs a new {@link Comment} posted by {@code user} with {@code text} content. Generates a
@@ -35,26 +35,27 @@ public class Comment {
 	 */
 
 	public Comment(){
-		this.eventId = null;
 		this.id = null;
 		this.user = null;
 		this.text = null;
 		this.timestamp = (Long) null;
 		this.imageUrl = null;
+		this.eventId = null;
 
 	}
 
-	/*public Comment(String user, String text, UUID eventID) {
+	public Comment(String user, String text, UUID eventID) {
 		this(UUID.randomUUID(), user, text, System.currentTimeMillis(), eventID);
-	}Make the eventID as first, but also have a seperate ID for the comment*/
+	}
+	//Make the eventID as first, but also have a seperate ID for the comment*/
 
-	public Comment( UUID eventId, String user, String text, long timestamp) {
-		this.eventId = eventId;
-		//this.id = id;
+	public Comment(UUID id, String user, String text, long timestamp, UUID eventId) {
+		this.id = id;
 		this.user = user;
 		this.text = text;
 		this.timestamp = timestamp;
 		this.imageUrl = "";
+		this.eventId = eventId;
 	}
 
 	public void setImageUrl(String url) {

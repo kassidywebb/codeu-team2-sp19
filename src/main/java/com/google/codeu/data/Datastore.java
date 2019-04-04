@@ -17,6 +17,7 @@
 package com.google.codeu.data;
 
 import com.google.appengine.api.datastore.DatastoreService;
+
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
@@ -29,6 +30,7 @@ import com.google.appengine.api.datastore.FetchOptions.Builder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import static com.google.appengine.api.datastore.FetchOptions.Builder.withLimit;
 
 /** Provides access to the data stored in Datastore. */
 public class Datastore {
@@ -328,32 +330,34 @@ public class Datastore {
 
 		return event;
 	}
-
+  
+//Stores the comment inside datastore
   public void storeComment(Comment comment) {
 	  //All commentEntity will have a set Id based on their Event
 		Entity commentEntity = new Entity("Comment", comment.getId().toString());
-		commentEntity.setProperty("eventId", comment.getEventId());
 		commentEntity.setProperty("user", comment.getUser());
 		commentEntity.setProperty("text", comment.getText());
 		commentEntity.setProperty("timestamp", comment.getTimestamp());
+		commentEntity.setProperty("eventId", comment.getEventId());
 		if(comment.getImageUrl() != null) {
 			commentEntity.setProperty("imageUrl", comment.getImageUrl());
 		}
 		datastore.put(commentEntity);
 	}
-
+  //saves a comment to the Comment arraylist
   public void saveCommentInformation(List<Comment> comments, PreparedQuery results) {
 
 	  for (Entity entity : results.asIterable()) {
 			try {
 				String idString = entity.getKey().getName();
-				UUID eventId = UUID.fromString(idString);
+				UUID id = UUID.fromString(idString);
 				String user = (String) entity.getProperty("user");
 				String text = (String) entity.getProperty("text");
 				long timestamp = (long) entity.getProperty("timestamp");
+				UUID eventId = (UUID) entity.getProperty("eventId");
 
 				//put into id
-				Comment comment = new Comment(eventId, user, text, timestamp);
+				Comment comment = new Comment(id, user, text, timestamp, eventId);
 
 				String imageUrl = (String) entity.getProperty("imageUrl");
 				if (imageUrl != null) {
@@ -368,14 +372,15 @@ public class Datastore {
 		}
 
 	}
-
+  //creates an arraylist of comments of the specified id
   public List<Comment> getEventComments(UUID id){
 
 	  List<Comment> comments = new ArrayList<>();
 
 	  Query query =
 				new Query("Comment")
-				.setFilter(new Query.FilterPredicate("eventId", FilterOperator.EQUAL, id));
+				.setFilter(new Query.FilterPredicate("id", FilterOperator.EQUAL, id))
+	  			.addSort("timestamp", SortDirection.DESCENDING);
 
 	  PreparedQuery results = datastore.prepare(query);
 
@@ -384,6 +389,10 @@ public class Datastore {
 	  return comments;
   }
 
+  public int numberOfEvents() {
+  		
+  		return datastore.prepare(new Query("Event")).countEntities(withLimit(10));
+  	}
 
 
 }
