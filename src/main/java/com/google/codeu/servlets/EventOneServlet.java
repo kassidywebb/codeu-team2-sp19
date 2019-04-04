@@ -43,7 +43,7 @@ public class EventOneServlet extends HttpServlet{
       String time = event.getTime();
       long timestamp = event.getTimestamp();
       String location = event.getLocation();
-      String details = event.getDetais();
+      String details = event.getDetails();
       String imageurl = event.getImageUrl();
       
       JsonObject jsonObject = new JsonObject();

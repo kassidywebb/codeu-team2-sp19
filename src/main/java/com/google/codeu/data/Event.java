@@ -25,7 +25,7 @@ public class Event {
      this.title = null;
      this.date = null;
      this.time = null;
-     this.timestamp = (Long) null;
+     this.timestamp =  (Long) null;
      this.location = null;
      this.details = null;
      this.imageUrl = null;
@@ -39,7 +39,7 @@ public class Event {
                   String location,
                   String details,
                   String imageUrl) {
-     this(UUID.randomUUID(), user, title, date, time, timestamp, location, details, imageUrl);
+     this(UUID.randomUUID(), user, title, date, time, System.currentTimeMillis(), location, details, imageUrl);
    }
 
    public Event(UUID id, 
@@ -95,7 +95,7 @@ public class Event {
     return location;
   }
 
-  public String getDetais() {
+  public String getDetails() {
 	  return details;
   }
   

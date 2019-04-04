@@ -203,7 +203,7 @@ public class Datastore {
 		eventEntity.setProperty("time", event.getTime());
 		eventEntity.setProperty("timestamp", event.getTimestamp());
     	eventEntity.setProperty("location", event.getLocation());
-    	eventEntity.setProperty("details", event.getLocation());
+    	eventEntity.setProperty("details", event.getDetails());
 		if(event.getImageUrl() != null) {
   			eventEntity.setProperty("imageUrl", event.getImageUrl());
 		}
@@ -217,7 +217,7 @@ public class Datastore {
 	 *
 	 * @param events message arraylist
 	 * @param results the individual events to be parsed
-	 * @param the user/creactor of the event
+	 * @param the user/creator of the event
 	 */
 
 
@@ -328,5 +328,62 @@ public class Datastore {
 
 		return event;
 	}
+  
+  public void storeComment(Comment comment) {
+	  //All commentEntity will have a set Id based on their Event
+		Entity commentEntity = new Entity("Comment", comment.getEventId().toString());
+		commentEntity.setProperty("id", comment.getId());
+		commentEntity.setProperty("user", comment.getUser());
+		commentEntity.setProperty("text", comment.getText());
+		commentEntity.setProperty("timestamp", comment.getTimestamp());
+		if(comment.getImageUrl() != null) {
+			commentEntity.setProperty("imageUrl", comment.getImageUrl());
+		}
+		datastore.put(commentEntity);
+	}
+  
+  public void saveCommentInformation(List<Comment> comments, PreparedQuery results) {
+	  
+	  for (Entity entity : results.asIterable()) {
+			try {
+				String idString = entity.getKey().getName();
+				UUID eventId = UUID.fromString(idString);
+				String user = (String) entity.getProperty("user");
+				String text = (String) entity.getProperty("text");
+				long timestamp = (long) entity.getProperty("timestamp");
+				
 
+				Comment comment = new Comment(eventId, user, text, timestamp);
+      
+				String imageUrl = (String) entity.getProperty("imageUrl");
+				if (imageUrl != null) {
+					comment.setImageUrl(imageUrl);
+				}
+				comments.add(comment);
+			} catch (Exception e) {
+				System.err.println("Error reading message.");
+				System.err.println(entity.toString());
+				e.printStackTrace();
+			}
+		}
+		
+	}
+  
+  public List<Comment> getEventComments(UUID id){
+	  
+	  List<Comment> comments = new ArrayList<>();
+	  
+	  Query query =
+				new Query("Comment")
+				.setFilter(new Query.FilterPredicate("id", FilterOperator.EQUAL, id));
+	  
+	  PreparedQuery results = datastore.prepare(query);
+	  
+	  saveCommentInformation(comments , results);
+	  
+	  return comments;
+  }
+	  
+  
+	
 }
