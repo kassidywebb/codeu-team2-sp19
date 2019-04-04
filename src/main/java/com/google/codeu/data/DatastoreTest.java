@@ -39,6 +39,7 @@ public class DatastoreTest {
    		"some random img string");
    
      datastore.storeEvent(exampleEvent);
+     
      /* Check if there is 1 event inside the datastore right now*/
   	assertEquals(1, datastore.numberOfEvents());
   	//assertEquals(1, ds.prepare(new Query("Event")).countEntities(withLimit(10)));
@@ -52,6 +53,7 @@ public class DatastoreTest {
 	Event exampleEvent2 = new Event("Demha", "Orchestra Maze", "03/31/19",
   	   		"8:00PM", 8472523, "SanFrancisco, CA", "It will be fun and have lots of music",
   	   		"a cello and violion img url");
+	
 	datastore.storeEvent(exampleEvent2);
 	
 	/*getAllEvents returns an arraylist of events regardless of User. 
@@ -59,6 +61,13 @@ public class DatastoreTest {
 	 * the list right now.
 	 */
   	assertEquals(2, datastore.getAllEvents().size());
+  	
+  	//Testing to see if getIndividualEvent returns the event of the ID
+  	int exists = 0;
+  	if(exampleEvent.equals(datastore.getIndividualEvent(exampleEvent.getId())))
+  		exists = 1;
+  		
+  	assertEquals(1, exists);
   	
  }
 
