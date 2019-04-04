@@ -22,7 +22,7 @@ public class EventOneServlet extends HttpServlet{
   public void init() {
     datastore = new Datastore();
   }
-  
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
@@ -36,7 +36,7 @@ public class EventOneServlet extends HttpServlet{
       }
       UUID uid = UUID.fromString(id);
       Event event = datastore.getIndividualEvent(uid);
-      
+
       String userauthor = event.getUser();
       String title = event.getTitle();
       String date = event.getDate();
@@ -45,7 +45,7 @@ public class EventOneServlet extends HttpServlet{
       String location = event.getLocation();
       String details = event.getDetails();
       String imageurl = event.getImageUrl();
-      
+
       JsonObject jsonObject = new JsonObject();
       jsonObject.addProperty("user", userauthor);
       jsonObject.addProperty("title", title);

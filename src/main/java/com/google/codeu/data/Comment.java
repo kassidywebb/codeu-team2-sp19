@@ -36,14 +36,14 @@ public class Comment {
 
 	public Comment(){
 		this.eventId = null;
-		//this.id = null;
+		this.id = null;
 		this.user = null;
 		this.text = null;
 		this.timestamp = (Long) null;
 		this.imageUrl = null;
 
-	}  
-	
+	}
+
 	/*public Comment(String user, String text, UUID eventID) {
 		this(UUID.randomUUID(), user, text, System.currentTimeMillis(), eventID);
 	}Make the eventID as first, but also have a seperate ID for the comment*/

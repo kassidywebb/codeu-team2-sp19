@@ -102,7 +102,7 @@ public class Datastore {
 				String recipient = (String) entity.getProperty("recipient");
 
 				Message message = new Message(id, user, text, timestamp, recipient);
-        
+
 				String imageUrl = (String) entity.getProperty("imageUrl");
 				if (imageUrl != null) {
 					message.setImageUrl(imageUrl);
@@ -191,9 +191,9 @@ public class Datastore {
 	return text;
 	}
 
-  
-  
-  
+
+
+
 	/** Stores the Event in Datastore. */
 	public void storeEvent(Event event) {
 		Entity eventEntity = new Entity("Event", event.getId().toString());
@@ -293,9 +293,9 @@ public class Datastore {
 
 
   /**This function gives a Eventby reference given a query and a empty Event as a parameter**/
-  
+
   public void saveIndividualEvent(Event event,PreparedQuery results) {
-	
+
 		Entity entity = results.asSingleEntity();
 
 		String idString = entity.getKey().getName();
@@ -306,17 +306,17 @@ public class Datastore {
 		String time = (String) entity.getProperty("time");
 		long timestamp = (long) entity.getProperty("timestamp");
 		String location = (String) entity.getProperty("location");
-		String details = (String) entity.getProperty("details");		
+		String details = (String) entity.getProperty("details");
 		String imageUrl = (String) entity.getProperty("imageUrl");
 
 		event = new Event(id, user, title, date, time, timestamp,location, details, imageUrl);
-		
+
   }
-		
-	
+
+
 	/**This function returns one Event given a specific ID**/
   public Event getIndividualEvent(UUID id) {
-	
+
 		Event event = new Event();
 		Query query =
 				new Query("Event")
@@ -328,11 +328,11 @@ public class Datastore {
 
 		return event;
 	}
-  
+
   public void storeComment(Comment comment) {
 	  //All commentEntity will have a set Id based on their Event
-		Entity commentEntity = new Entity("Comment", comment.getEventId().toString());
-		commentEntity.setProperty("id", comment.getId());
+		Entity commentEntity = new Entity("Comment", comment.getId().toString());
+		commentEntity.setProperty("eventId", comment.getEventId());
 		commentEntity.setProperty("user", comment.getUser());
 		commentEntity.setProperty("text", comment.getText());
 		commentEntity.setProperty("timestamp", comment.getTimestamp());
@@ -341,9 +341,9 @@ public class Datastore {
 		}
 		datastore.put(commentEntity);
 	}
-  
+
   public void saveCommentInformation(List<Comment> comments, PreparedQuery results) {
-	  
+
 	  for (Entity entity : results.asIterable()) {
 			try {
 				String idString = entity.getKey().getName();
@@ -351,10 +351,10 @@ public class Datastore {
 				String user = (String) entity.getProperty("user");
 				String text = (String) entity.getProperty("text");
 				long timestamp = (long) entity.getProperty("timestamp");
-				
 
+				//put into id
 				Comment comment = new Comment(eventId, user, text, timestamp);
-      
+
 				String imageUrl = (String) entity.getProperty("imageUrl");
 				if (imageUrl != null) {
 					comment.setImageUrl(imageUrl);
@@ -366,24 +366,24 @@ public class Datastore {
 				e.printStackTrace();
 			}
 		}
-		
+
 	}
-  
+
   public List<Comment> getEventComments(UUID id){
-	  
+
 	  List<Comment> comments = new ArrayList<>();
-	  
+
 	  Query query =
 				new Query("Comment")
-				.setFilter(new Query.FilterPredicate("id", FilterOperator.EQUAL, id));
-	  
+				.setFilter(new Query.FilterPredicate("eventId", FilterOperator.EQUAL, id));
+
 	  PreparedQuery results = datastore.prepare(query);
-	  
+
 	  saveCommentInformation(comments , results);
-	  
+
 	  return comments;
   }
-	  
-  
-	
+
+
+
 }
