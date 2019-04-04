@@ -292,9 +292,9 @@ public class Datastore {
   }
 
 
-  /**This function gives a Eventby reference given a query and a empty Event as a parameter**/
+    /**This function gives a Eventby reference given a query and a empty Event as a parameter**/
   
-  public Event saveIndividualEvent(PreparedQuery results) {
+	public void saveIndividualEvent(Event event,PreparedQuery results) {
 	
 		Entity entity = results.asSingleEntity();
 
@@ -309,21 +309,22 @@ public class Datastore {
 		String details = (String) entity.getProperty("details");		
 		String imageUrl = (String) entity.getProperty("imageUrl");
 
-		Event event = new Event(id, user, title, date, time, timestamp,location, details, imageUrl);
-		return event;
+		event = new Event(id, user, title, date, time, timestamp,location, details, imageUrl);
+		
   }
 		
 	
 	/**This function returns one Event given a specific ID**/
   public Event getIndividualEvent(UUID id) {
 	
-	Query query =
-	new Query("Event")
-	.setFilter(new Query.FilterPredicate(Entity.KEY_RESERVED_PROPERTY, FilterOperator.EQUAL, id.toString()));
+		Event event = new Event();
+		Query query =
+				new Query("Event")
+				.setFilter(new Query.FilterPredicate("id", FilterOperator.EQUAL, id));
 
 		PreparedQuery results = datastore.prepare(query);
 
-		Event event = saveIndividualEvent(results);
+		saveIndividualEvent(event,results);
 
 		return event;
 	}
