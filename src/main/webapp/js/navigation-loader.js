@@ -31,26 +31,37 @@ function addLoginOrLogoutLinkToNavigation() {
         })
         .then((loginStatus) => {
             if (loginStatus.isLoggedIn) {
-                navigationElement.appendChild(createListItemUl(createListItem(createLink(
-                    '/user-page.html?user=' + loginStatus.username, 'Your Page'))));
+                /**Creation of the menu and each element of the navigation bar **/
+                navigationElement.appendChild(createListItemUl(createLink(
+                    '/user-page.html?user=' + loginStatus.username, createListItem('Profile'))));
 
-                navigationElement.appendChild(createListItemUl(createListItem(createLink(
-                    '/logout', 'Logout'))));
+                navigationElement.appendChild(createListItemUl(createLink(
+                    '/new-event.html', createListItem('Create new Event'))));
+
+                navigationElement.appendChild(createListItemUl(createLink(
+                    '/feed.html', createListItem('Messages'))));
+
+                navigationElement.appendChild(createListItemUl(createLink(
+                    '/', createListItem('Calendar'))));
+
+                navigationElement.appendChild(createListItemUl(createLink(
+                    '/logout', createListItem('Logout'))));
             } else {
+
                 navigationElement.appendChild(createListItemUl(
-                    createListItem(createLink('/login', 'Login'))));
+                    createLink('/login', createListItem('Login'))));
             }
         });
 }
 
 /**
  * Creates an li element.
- * @param {Element} childElement
+ * @param {Element} Text
  * @return {Element} li element
  */
-function createListItem(childElement) {
+function createListItem(Text) {
     const listItemElement = document.createElement('li');
-    listItemElement.appendChild(childElement);
+    listItemElement.appendChild(document.createTextNode(Text));
     return listItemElement;
 }
 
@@ -64,12 +75,11 @@ function createListItemUl(childElement) {
 /**
  * Creates an anchor element.
  * @param {string} url
- * @param {string} text
  * @return {Element} Anchor element
  */
-function createLink(url, text) {
+function createLink(url, childElement) {
     const linkElement = document.createElement('a');
-    linkElement.appendChild(document.createTextNode(text));
+    linkElement.appendChild(childElement);
     linkElement.href = url;
     return linkElement;
 }
