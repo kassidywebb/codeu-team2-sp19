@@ -1,3 +1,8 @@
+.apptitle {
+    text-align: center;
+    font-size: 260%;
+}
+
 a {
     text-decoration: none;
 }
@@ -12,11 +17,13 @@ h1 {
 
 .row {
     max-width: 30%;
-    margin: 50px auto 0;
+    margin: auto;
+    padding-top: 10%;
 }
 
 .card {
     width: 50%;
+    margin-left: 15%;
 }
 
 .card .wrapper {
@@ -61,7 +68,7 @@ h1 {
 }
 
 .card .data .content {
-    padding: 10px;
+    padding: 0%;
 }
 
 .card .text {

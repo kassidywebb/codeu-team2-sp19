@@ -22,8 +22,6 @@
     padding: 0;
 }
 
-body {}
-
 
 /*Navigation bar features*/
 
@@ -55,7 +53,7 @@ nav li {
     height: 10vh;
     padding-top: 10%;
     color: white;
-    font-size: 150%;
+    font-size: 125%;
 }
 
 nav li:hover {
@@ -69,4 +67,5 @@ nav li:hover {
     width: 85%;
     margin-left: 15%;
     padding: 0;
+    margin-top: 0%;
 }

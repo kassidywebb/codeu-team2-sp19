@@ -9,21 +9,22 @@ hr {
     border-bottom: 1px solid;
     border-bottom-color: rgb(226, 226, 226);
     font-size: 210%;
+    font-family: "Nunito";
 }
 
 .username {
-    font-size: 150%;
-    font-family: "Cabin";
+    font-size: 120%;
+    font-family: "Nunito";
 }
 
 .date {
     text-align: center;
-    font-size: 150%;
+    font-size: 120%;
 }
 
 .location {
     text-align: left;
-    font-size: 150%;
+    font-size: 120%;
 }
 
 .time {
@@ -32,10 +33,11 @@ hr {
 
 .timestamp {
     text-align: right;
-    font-size: 100%;
+    font-size: 120%;
     color: #c9c9c9;
 }
 
 .details {
-    font-size: 150%;
+    font-size: 120%;
+    font-family: "Nunito";
 }
