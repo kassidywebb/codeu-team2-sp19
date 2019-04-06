@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Redirects the user to the Google login page or their page if they're already logged in.
+  This is the path of login servlet which Navigation-loader.js has.(Dependency)
  */
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {

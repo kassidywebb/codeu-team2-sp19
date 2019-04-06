@@ -30,6 +30,7 @@ function fetchAboutMe() {
 }
 
 // Get ?user=XYZ parameter value
+// This is the path of the variable of the user that is called in navigation-loader.js
 const urlParams = new URLSearchParams(window.location.search);
 const parameterUsername = urlParams.get('user');
 
@@ -55,38 +56,38 @@ function showMessageFormIfLoggedIn() {
         })
         .then((loginStatus) => {
             if (loginStatus.isLoggedIn) {
-               fetchImageUploadUrlAndShowForm();
+                fetchImageUploadUrlAndShowForm();
             }
         });
 }
 
 function fetchImageUploadUrlAndShowForm() {
-  fetch('/image-upload-url')
-      .then((response) => {
-        return response.text();
-      })
-      .then((imageUploadUrl) => {
-        const messageForm = document.getElementById('message-form');
-        messageForm.action = imageUploadUrl;
-        messageForm.classList.remove('hidden');
+    fetch('/image-upload-url?recipient=' + parameterUsername)
+        .then((response) => {
+            return response.text();
+        })
+        .then((imageUploadUrl) => {
+            const messageForm = document.getElementById('message-form');
+            messageForm.action = imageUploadUrl;
+            messageForm.classList.remove('hidden');
 
-        /** Using 34 because @codestudents.com is 17 characters long
-         * and there's at least 2 people in a direct message
-         */
-        document.getElementById('recipientInput').value = parameterUsername;
-        if (parameterUsername.length < 34) {
-            const privateOption = document.getElementById('private-option');
-            privateOption.classList.remove('hidden');
+            /** Using 34 because @codestudents.com is 17 characters long
+             * and there's at least 2 people in a direct message
+             */
+            document.getElementById('recipientInput').value = parameterUsername;
+            if (parameterUsername.length < 34) {
+                const privateOption = document.getElementById('private-option');
+                privateOption.classList.remove('hidden');
 
-            const sendOption = document.getElementById('send-option');
-            sendOption.classList.remove('hidden');
+                const sendOption = document.getElementById('send-option');
+                sendOption.classList.remove('hidden');
 
-        } else {
-            document.getElementById('private-option-checkbox').checked = true;
-        }
+            } else {
+                document.getElementById('private-option-checkbox').checked = true;
+            }
 
-        document.getElementById('about-me-form').classList.remove('hidden');
-      });
+            document.getElementById('about-me-form').classList.remove('hidden');
+        });
 }
 
 /** Fetches messages and add them to the page */
@@ -130,9 +131,9 @@ function buildMessageDiv(message) {
     messageDiv.appendChild(headerDiv);
     messageDiv.appendChild(bodyDiv);
 
-    if(message.imageUrl){
-       bodyDiv.innerHTML += '<br/>';
-       bodyDiv.innerHTML += '<img src="' + message.imageUrl + '" />';
+    if (message.imageUrl != "") {
+        bodyDiv.innerHTML += '<br/>';
+        bodyDiv.innerHTML += '<img src="' + message.imageUrl + '" />';
     }
 
     return messageDiv;
