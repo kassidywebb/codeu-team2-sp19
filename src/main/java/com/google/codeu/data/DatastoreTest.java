@@ -58,7 +58,7 @@ public class DatastoreTest {
 	 */
   	assertEquals(2, datastore.getAllEvents().size());
   	
-  	assertEquals(exampleEvent.getId(), datastore.getIndividualEvent(exampleEvent.getId()).getId());
+  	assertEquals(exampleEvent.getId(), datastore.getEvents("Ahmed").get(0).getId());
   	
  }
  @Test //where testing function is called
