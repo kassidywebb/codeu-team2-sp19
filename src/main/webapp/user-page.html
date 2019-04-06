@@ -9,63 +9,75 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+This is the path of html wich Navigation-loader.js has.(Dependency)
+
 -->
 
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <title>User Page</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/user-page.css">
+    <link rel="stylesheet" href="/css/event.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito">
     <script src="/js/user-page-loader.js"></script>
-  </head>
-  <body onload="buildUI();">
-    <nav>
-      <ul id="navigation">
-        <li><a href="/">Home</a></li>
-      </ul>
+</head>
+
+<body onload="buildUI();">
+    <nav id="navigation">
+        <br>
+        <br>
+        <br>
+        <ul>
+            <a href="/ ">
+                <li>HOME</li>
+            </a>
+        </ul>
     </nav>
-    <h1 id="page-title">User Page</h1>
+    <div class="content">
+        <h1 id="page-title">User Page</h1>
 
-    <div id="about-me-container">Loading...</div>
-      <div id="about-me-form" class="hidden">
-      <form action="/about" method="POST">
-        <textarea name="about-me" placeholder="about me" rows=4 required></textarea>
-        <br/>
-        <input type="submit" value="Submit">
-      </form>
-      </div>
+        <div id="about-me-container">Loading...</div>
+        <div id="about-me-form" class="hidden">
+            <form action="/about" method="POST">
+                <textarea name="about-me" placeholder="about me" rows=4 required></textarea>
+                <br/>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
 
-    <form id="message-form" action="/image-upload-url" method="POST" class="hidden" enctype="multipart/form-data">
-      <div id="send-option" class="hidden">
-         Would you like to message someone else? What's their email?
-         <br/>
-         <textarea name="sendto" id="sendto-input" placeholder="Ex: kwebb@codeustudents.com"></textarea>
-      </div>
-      <br/><br/>
-      Enter a new message:
-      <br/>
-      <textarea name="text" id="message-input"></textarea>
-      <br/><br/>
-      <div id="private-option" class="hidden">
-         <div>
-           Would you like to send this privately?
-         </div>
-         <div>
-           <input type="checkbox" name="private" value="Yes" id="private-option-checkbox">
-         </div>
-      </div>
-      <br/><br/>
-      Add an image to your message:
-      <input type="file" name="image" id="image-option">
-      <br/>
-      <input type="hidden" value="" name="recipient" id="recipientInput">
-      <input type="submit" value="Submit">
-    </form>
-    <br/><br/>
+        <form id="message-form" action="/image-upload-url" method="POST" class="hidden" enctype="multipart/form-data">
+            <div id="send-option" class="hidden">
+                Would you like to message someone else? What's their email?
+                <br/>
+                <textarea name="sendto" id="sendto-input" placeholder="Ex: kwebb@codeustudents.com"></textarea>
+            </div>
+            <br/><br/> Enter a new message:
+            <br/>
+            <textarea name="text" id="message-input"></textarea>
+            <br/><br/>
+            <div id="private-option" class="hidden">
+                <div>
+                    Would you like to send this privately?
+                </div>
+                <div>
+                    <input type="checkbox" name="private" value="Yes" id="private-option-checkbox">
+                </div>
+            </div>
+            <br/><br/> Add an image to your message:
+            <input type="file" name="image" id="image-option">
+            <br/>
+            <input type="hidden" value="" name="recipient" id="recipientInput">
+            <input type="submit" value="Submit">
+        </form>
+        <br/><br/>
 
-    <div id="message-container">Loading...</div>
+        <div id="message-container">Loading...</div>
+    </div>
+</body>
 
-  </body>
 </html>

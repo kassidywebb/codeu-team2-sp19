@@ -195,8 +195,7 @@ public class Datastore {
 
 
 
-
-	/** Stores the Event in Datastore. */
+	/** Stores the Event in Datastore. **/
 	public void storeEvent(Event event) {
 		Entity eventEntity = new Entity("Event", event.getId().toString());
 		eventEntity.setProperty("user", event.getUser());
@@ -294,10 +293,10 @@ public class Datastore {
   }
 
 
-  /**This function gives a Eventby reference given a query and a empty Event as a parameter**/
+    /**This function gives a Eventby reference given a query and a empty Event as a parameter**/
 
-  public void saveIndividualEvent(Event event,PreparedQuery results) {
-
+	public void saveIndividualEvent(Event event,PreparedQuery results) {
+	
 		Entity entity = results.asSingleEntity();
 
 		String idString = entity.getKey().getName();
@@ -330,7 +329,7 @@ public class Datastore {
 
 		return event;
 	}
-  
+
 //Stores the comment inside datastore
   public void storeComment(Comment comment) {
 	  //All commentEntity will have a set Id based on their Event
@@ -390,7 +389,7 @@ public class Datastore {
   }
 
   public int numberOfEvents() {
-  		
+
   		return datastore.prepare(new Query("Event")).countEntities(withLimit(10));
   	}
 
