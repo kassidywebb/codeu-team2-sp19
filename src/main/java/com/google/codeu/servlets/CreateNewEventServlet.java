@@ -74,10 +74,10 @@ import com.google.appengine.api.blobstore.BlobInfoFactory;
     String time = request.getParameter("Time");
     long timestamp = System.currentTimeMillis();
     String details = request.getParameter("Details");
-    String imageUrl = request.getParameter("Image Url");
 
     
-    Event event = new Event(user, title, date, time, timestamp, location, details, imageUrl);
+    Event event = new Event(user, title, date, time, timestamp, location, details);
+    setEventImageUrl(event, request);
     datastore.storeEvent(event);
 
     response.sendRedirect("/user-page.html?user=" + title);
