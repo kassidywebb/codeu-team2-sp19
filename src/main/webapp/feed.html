@@ -6,13 +6,24 @@
 <head>
     <title>Message Feed</title>
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/user-page.css">
-
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito">
     <script src="/js/feed-page-loader.js"></script>
+    <script src="/js/navigation-loader.js"></script>
 </head>
 
-<body onload="buildUI()">
-    <div id="content">
+<body onload="buildUI(); addLoginOrLogoutLinkToNavigation();">
+
+    <nav id="navigation">
+        <br>
+        <br>
+        <br>
+        <ul>
+            <a href="/">
+                <li>HOME</li>
+            </a>
+        </ul>
+    </nav>
+    <div class="content">
         <h1>Message Feed</h1>
         <hr/>
         <div id="message-container">Loading...</div>

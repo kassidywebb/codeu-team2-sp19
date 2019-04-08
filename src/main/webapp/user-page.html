@@ -25,9 +25,10 @@ This is the path of html wich Navigation-loader.js has.(Dependency)
     <link rel="stylesheet" href="/css/event.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito">
     <script src="/js/user-page-loader.js"></script>
+    <script src="/js/navigation-loader.js"></script>
 </head>
 
-<body onload="buildUI();">
+<body onload="addLoginOrLogoutLinkToNavigation(); buildUI();">
     <nav id="navigation">
         <br>
         <br>
@@ -39,6 +40,7 @@ This is the path of html wich Navigation-loader.js has.(Dependency)
         </ul>
     </nav>
     <div class="content">
+
         <h1 id="page-title">User Page</h1>
 
         <div id="about-me-container">Loading...</div>
@@ -77,6 +79,7 @@ This is the path of html wich Navigation-loader.js has.(Dependency)
         <br/><br/>
 
         <div id="message-container">Loading...</div>
+
     </div>
 </body>
 
