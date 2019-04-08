@@ -198,6 +198,7 @@ public class Datastore {
 	/** Stores the Event in Datastore. **/
 	public void storeEvent(Event event) {
 		Entity eventEntity = new Entity("Event", event.getId().toString());
+		eventEntity.setProperty("id", event.getEventId());
 		eventEntity.setProperty("user", event.getUser());
 		eventEntity.setProperty("title", event.getTitle());
 		eventEntity.setProperty("date", event.getDate());
@@ -228,6 +229,7 @@ public class Datastore {
 			try {
 				String idString = entity.getKey().getName();
 				UUID id = UUID.fromString(idString);
+				String eventId = (String) entity.getProperty("id");
 				String user = (String) entity.getProperty("user");
 				String title = (String) entity.getProperty("title");
 				String date = (String) entity.getProperty("date");
@@ -242,7 +244,7 @@ public class Datastore {
 
 				String imageUrl = (String) entity.getProperty("imageUrl");
 
-				Event event = new Event(id, user, title, date, time, timestamp, location, details, imageUrl);
+				Event event = new Event(id, eventId, user, title, date, time, timestamp, location, details, imageUrl);
 				events.add(event);
 			} catch (Exception e) {
 				System.err.println("Error reading events.");
@@ -295,40 +297,40 @@ public class Datastore {
 
     /**This function gives a Eventby reference given a query and a empty Event as a parameter**/
 
-	public void saveIndividualEvent(Event event,PreparedQuery results) {
-	
+	public Event saveIndividualEvent(PreparedQuery results) {
+		
 		Entity entity = results.asSingleEntity();
 
 		String idString = entity.getKey().getName();
 		UUID id = UUID.fromString(idString);
 		String user = (String) entity.getProperty("user");
+		String eventID = (String) entity.getProperty("id");
 		String title = (String) entity.getProperty("title");
 		String date = (String) entity.getProperty("date");
 		String time = (String) entity.getProperty("time");
 		long timestamp = (long) entity.getProperty("timestamp");
 		String location = (String) entity.getProperty("location");
-		String details = (String) entity.getProperty("details");
+		String details = (String) entity.getProperty("details");		
 		String imageUrl = (String) entity.getProperty("imageUrl");
 
-		event = new Event(id, user, title, date, time, timestamp,location, details, imageUrl);
-
+		Event event = new Event(id, eventID, user, title, date, time, timestamp,location, details, imageUrl);
+		return event;
   }
 
 
 	/**This function returns one Event given a specific ID**/
-  public Event getIndividualEvent(UUID id) {
-
-		Event event = new Event();
+	  public Event getIndividualEvent(UUID id) {
+		
 		Query query =
-				new Query("Event")
-				.setFilter(new Query.FilterPredicate("id", FilterOperator.EQUAL, id));
+		new Query("Event")
+		.setFilter(new Query.FilterPredicate("id", FilterOperator.EQUAL, id.toString()));
 
-		PreparedQuery results = datastore.prepare(query);
+			PreparedQuery results = datastore.prepare(query);
 
-		saveIndividualEvent(event,results);
+			Event event = saveIndividualEvent(results);
 
-		return event;
-	}
+			return event;
+		}
 
 //Stores the comment inside datastore
   public void storeComment(Comment comment) {
@@ -378,7 +380,7 @@ public class Datastore {
 
 	  Query query =
 				new Query("Comment")
-				.setFilter(new Query.FilterPredicate("id", FilterOperator.EQUAL, id))
+				.setFilter(new Query.FilterPredicate("id", FilterOperator.EQUAL, id.toString()))
 	  			.addSort("timestamp", SortDirection.DESCENDING);
 
 	  PreparedQuery results = datastore.prepare(query);
