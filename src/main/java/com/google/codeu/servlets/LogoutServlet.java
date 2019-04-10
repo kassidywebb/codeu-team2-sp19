@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Redirects the user to the Google logout page, which then redirects to the homepage.
+      This is the path of logout servlet which Navigation-loader.js has.(Dependency)
  */
 @WebServlet("/logout")
 public class LogoutServlet extends HttpServlet {

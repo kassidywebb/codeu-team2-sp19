@@ -1,3 +1,5 @@
+<!--This is the path of html which Navigation-loader.js has.(Dependency) -->
+
 <!DOCTYPE html>
 <html>
 
@@ -6,34 +8,50 @@
     <title>New Event</title>
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/new-event.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito">
     <script src="/js/new-event.js"></script>
+    <script src="/js/navigation-loader.js"></script>
 </head>
 
-<body onload="buildUI();">
-    <div id="new-event" class="hidden">
-        <h1>Create new Event</h1>
-        <div class="form">
-            <form action="" method="POST">
-                <div align="center" class="title">
-                    <input type="text" name="even-title" placeholder="Event title">
-                </div>
-                <br/>
-                <div align="center" class="inputs">
-                    Date: <input type="date" name="date" placeholder="Date-event"> Time: <input type="time" name="time" placeholder="Time"> Place: <input type="text" name="location" placeholder="Location">
-                </div>
-                <br/>
-                <div align="center" class="details">
-                    <p><textarea name="details" placeholder="Details about the event"></textarea></p>
-                </div>
-                <br/>
-                <div align="center">
-                    Add Image: <input type="file" name="image" placeholder="File-images">
-                </div>
-                <br/>
-                <div align="center">
-                    <input type="submit" value="Submit">
-                </div>
-            </form>
+<body onload="buildUI(); addLoginOrLogoutLinkToNavigation();">
+    <nav id="navigation">
+        <br>
+        <br>
+        <br>
+        <ul>
+            <a href="/">
+                <li>HOME</li>
+            </a>
+        </ul>
+    </nav>
+    <div class="content">
+        <div id="new-event" class="hidden">
+
+            <h1>Create new Event</h1>
+            <hr>
+            <div class="form">
+                <form action="" method="POST">
+                    <div align="center" class="title">
+                        <input type="text" name="even-title" placeholder="Event title">
+                    </div>
+                    <br/>
+                    <div align="center" class="inputs">
+                        Date: <input type="date" name="date" placeholder="Date-event"> Time: <input type="time" name="time" placeholder="Time"> Place: <input type="text" name="location" placeholder="Location">
+                    </div>
+                    <br/>
+                    <div align="center">
+                        <textarea name="details" placeholder="Details about the event"></textarea>
+                    </div>
+                    <br/>
+                    <div align="center">
+                        Add Image: <input type="file" name="image" placeholder="File-images">
+                    </div>
+                    <br/>
+                    <div align="center">
+                        <input type="submit" value="Submit">
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </body>

@@ -3,18 +3,25 @@
 h1 {
     text-align: center;
     margin-bottom: 2%;
-    font-size: 700%;
+    font-size: 500%;
+    font-family: "Nunito";
+}
+
+hr {
+    color: #000000;
 }
 
 
 /*Frame all the form in to a grey box*/
 
 .form {
-    background-color: #e0e0e0;
     padding: 4%;
     width: 70%;
     margin: auto;
-    border-radius: 5%;
+    border-style: solid;
+    border-width: 3px;
+    margin-top: 2%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 
@@ -28,56 +35,40 @@ form {
     width: 30%;
     padding: 1%;
     font-size: 120%;
-    border-top-style: none;
-    border-right-style: none;
-    border-bottom-style: solid;
-    border-left-style: none;
+    border-style: solid;
 }
 
 .inputs input[type=text] {
     width: 20%;
     padding: 1%;
     font-size: 120%;
-    border-top-style: none;
-    border-right-style: none;
-    border-bottom-style: solid;
-    border-left-style: none;
+    border-style: solid;
 }
 
 .inputs input[type=date] {
     width: 20%;
     padding: 1%;
     font-size: 120%;
-    border-top-style: none;
-    border-right-style: none;
-    border-bottom-style: solid;
-    border-left-style: none;
+    border-style: solid;
 }
 
 .inputs input[type=time] {
     width: 20%;
     padding: 1%;
     font-size: 120%;
-    border-top-style: none;
-    border-right-style: none;
-    border-bottom-style: solid;
-    border-left-style: none;
+    border-style: solid;
 }
 
-.details p textarea {
+textarea {
     width: 70%;
     padding: 1%;
     font-size: 120%;
     font-family: "Arial", Helvetica, sans-serif;
-    border-top-style: none;
-    border-right-style: none;
-    border-bottom-style: solid;
-    border-left-style: none;
-    resize: none;
+    border-style: solid 1px;
 }
 
 input[type=submit] {
-    width: 10%;
+    width: 20%;
     background-color: black;
     color: white;
     padding: 10px 20px;
