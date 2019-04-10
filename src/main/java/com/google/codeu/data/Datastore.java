@@ -102,7 +102,7 @@ public class Datastore {
 				String recipient = (String) entity.getProperty("recipient");
 
 				Message message = new Message(id, user, text, timestamp, recipient);
-        
+
 				String imageUrl = (String) entity.getProperty("imageUrl");
 				if (imageUrl != null) {
 					message.setImageUrl(imageUrl);
@@ -191,9 +191,9 @@ public class Datastore {
 	return text;
 	}
 
-  
-  
-  
+
+
+
 	/** Stores the Event in Datastore. */
 	public void storeEvent(Event event) {
 		Entity eventEntity = new Entity("Event", event.getId().toString());
@@ -234,11 +234,6 @@ public class Datastore {
 				long timestamp = (long) entity.getProperty("timestamp");
 				String location = (String) entity.getProperty("location");
 				String details = (String) entity.getProperty("details");
-
-				/*Before adding sentiment scores as a feature, there were already messages
-				 without scores. This sets the old sentiment scores to 0 for old messages
-				 */
-
 				String imageUrl = (String) entity.getProperty("imageUrl");
 
 				Event event = new Event(id, user, title, date, time, timestamp, location, details, imageUrl);
