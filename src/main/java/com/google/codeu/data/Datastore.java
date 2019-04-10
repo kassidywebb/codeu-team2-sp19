@@ -191,9 +191,6 @@ public class Datastore {
 	return text;
 	}
 
-
-
-  
 	/** Stores the Event in Datastore. **/
 	public void storeEvent(Event event) {
 		Entity eventEntity = new Entity("Event", event.getId().toString());
