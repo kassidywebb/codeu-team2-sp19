@@ -14,6 +14,11 @@ h1 {
   margin-bottom: 0px;
 }
 
+.card img {
+   object-fit: contain;
+   max-width: 300px;
+}
+
 .row {
   max-width: 30%;
   margin: 50px auto 0;
@@ -24,10 +29,6 @@ h1 {
 }
 
 .card .wrapper {
-  background-image: url("dogs.jpg");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-color: white;
   min-height: 400px;
   position: relative;
   overflow: hidden;
@@ -56,11 +57,7 @@ h1 {
   position: absolute;
   bottom: 0;
   width: 100%;
-  -webkit-transform: translateY(calc(50px + 110px));
-          transform: translateY(calc(50px + 110px));
-  -webkit-transition: -webkit-transform 0.3s;
-  transition: -webkit-transform 0.3s;
-  transition: transform 0.3s;
+  transform: translateY(calc(50px + 110px));
   transition: transform 0.3s, -webkit-transform 0.3s;
 }
 
@@ -71,7 +68,6 @@ h1 {
 .card .text {
   height: 50px;
 }
-
 
 .card .button {
   display: block;
