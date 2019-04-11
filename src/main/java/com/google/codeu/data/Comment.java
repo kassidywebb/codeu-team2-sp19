@@ -18,7 +18,8 @@ package com.google.codeu.data;
 
 import java.util.UUID;
 
-/** A single message posted by a user. */
+/** A single comment posted by a user on an event. Users will be able to post comments on
+    an associated event on the event's page.*/
 public class Comment {
 
 	private UUID id;
