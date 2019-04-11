@@ -192,15 +192,10 @@ public class Datastore {
 		return text;
 	}
 
-<<<<<<< HEAD
-	/** Stores the Event in Datastore. **/
-=======
-
 
 	/** Stores the Event in Datastore. The "id" property is the UUID
 	 * in a string format, this isues for sorting in the Datastore
 	 * for a specific Event. **/
->>>>>>> ahmedBranch
 	public void storeEvent(Event event) {
 		Entity eventEntity = new Entity("Event", event.getId().toString());
 		eventEntity.setProperty("id", event.getEventId());
@@ -244,10 +239,6 @@ public class Datastore {
 				long timestamp = (long) entity.getProperty("timestamp");
 				String location = (String) entity.getProperty("location");
 				String details = (String) entity.getProperty("details");
-<<<<<<< HEAD
-=======
-
->>>>>>> ahmedBranch
 				String imageUrl = (String) entity.getProperty("imageUrl");
 
 				Event event = new Event(id, eventId, user, title, date, time, timestamp, location, details, imageUrl);
@@ -302,15 +293,10 @@ public class Datastore {
 	}
 
 
-<<<<<<< HEAD
-    /**This function gives a Eventby reference given a query and a empty Event as a parameter**/
-
-	public void saveIndividualEvent(Event event,PreparedQuery results) {
-=======
 	/**This function gives a Eventby reference given a query and a empty Event as a parameter**/
 
 	public Event saveIndividualEvent(PreparedQuery results) {
->>>>>>> ahmedBranch
+
 
 		Entity entity = results.asSingleEntity();
 
@@ -326,17 +312,7 @@ public class Datastore {
 		String details = (String) entity.getProperty("details");
 		String imageUrl = (String) entity.getProperty("imageUrl");
 
-<<<<<<< HEAD
-		event = new Event(id, user, title, date, time, timestamp,location, details, imageUrl);
 
-  }
-
-
-	/**This function returns one Event given a specific ID**/
-  public Event getIndividualEvent(UUID id) {
-
-		Event event = new Event();
-=======
 		Event event = new Event(id, eventID, user, title, date, time, timestamp,location, details, imageUrl);
 		return event;
 	}
@@ -344,8 +320,6 @@ public class Datastore {
 
 	/**This function returns one Event given a specific ID**/
 	public Event getIndividualEvent(UUID id) {
-
->>>>>>> ahmedBranch
 		Query query =
 				new Query("Event")
 				.setFilter(new Query.FilterPredicate("id", FilterOperator.EQUAL, id.toString()));
