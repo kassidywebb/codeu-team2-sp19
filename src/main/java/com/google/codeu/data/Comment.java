@@ -22,11 +22,12 @@ import java.util.UUID;
 public class Comment {
 
 	private UUID id;
+	private String eventId;
 	private String user;
 	private String text;
 	private long timestamp;
 	private String imageUrl;
-	private UUID eventId;
+	
 
 	/**
 	 * Constructs a new {@link Comment} posted by {@code user} with {@code text} content. Generates a
@@ -36,32 +37,34 @@ public class Comment {
 
 	public Comment(){
 		this.id = null;
+		this.eventId = null;
 		this.user = null;
 		this.text = null;
 		this.timestamp = (Long) null;
 		this.imageUrl = null;
-		this.eventId = null;
+		
 
 	}
 
-	public Comment(String user, String text, UUID eventID) {
-		this(UUID.randomUUID(), user, text, System.currentTimeMillis(), eventID);
+	public Comment(String eventId, String user, String text) {
+		this(UUID.randomUUID(), eventId, user, text, System.currentTimeMillis());
 	}
 	//Make the eventID as first, but also have a seperate ID for the comment*/
 
-	public Comment(UUID id, String user, String text, long timestamp, UUID eventId) {
+	public Comment(UUID id, String eventId, String user, String text, long timestamp) {
 		this.id = id;
+		this.eventId = eventId;
 		this.user = user;
 		this.text = text;
 		this.timestamp = timestamp;
 		this.imageUrl = "";
-		this.eventId = eventId;
+		
 	}
 
 	public void setImageUrl(String url) {
 		this.imageUrl = url;
 	}
-	public void setEventId(UUID id) {
+	public void setEventId(String id) {
 		this.eventId = id;
 	}
 
@@ -81,7 +84,7 @@ public class Comment {
 		return timestamp;
 	}
 
-	public UUID getEventId(){
+	public String getEventId(){
 		return eventId;
 	}
 
