@@ -6,6 +6,7 @@ import java.util.UUID;
 public class Event {
 
   private UUID id;
+  private String eventid;
   private String user;
   private String title;
   private String date;
@@ -21,17 +22,19 @@ public class Event {
    */
   public Event(){
      this.id = null;
+     this.eventid = null;
      this.user = null;
      this.title = null;
      this.date = null;
      this.time = null;
-     this.timestamp = (Long) null;
+     this.timestamp =  (Long) null;
      this.location = null;
      this.details = null;
      this.imageUrl = null;
    
   }  
-   public Event(String user,
+   public Event(String eventid,
+		   		String user,
                   String title,
                   String date,
                   String time,
@@ -39,10 +42,11 @@ public class Event {
                   String location,
                   String details,
                   String imageUrl) {
-     this(UUID.randomUUID(), user, title, date, time, timestamp, location, details, imageUrl);
+     this(UUID.randomUUID(), eventid, user, title, date, time, System.currentTimeMillis(), location, details, imageUrl);
    }
 
    public Event(UUID id, 
+		   		  String eventid,
                   String user,
                   String title,
                   String date,
@@ -52,6 +56,7 @@ public class Event {
                   String details,
                   String imageUrl) {
      this.id = id;
+     this.eventid = eventid;
      this.user = user;
      this.title = title;
      this.date = date;
@@ -69,6 +74,10 @@ public class Event {
 
   public UUID getId() {
     return id;
+  }
+
+  public String getEventId() {
+    return id.toString();
   }
 
   public String getUser() {
@@ -95,7 +104,7 @@ public class Event {
     return location;
   }
 
-  public String getDetais() {
+  public String getDetails() {
 	  return details;
   }
   
