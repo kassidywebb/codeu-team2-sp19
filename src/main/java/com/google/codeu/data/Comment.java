@@ -36,17 +36,6 @@ public class Comment {
 	 * and set function.
 	 */
 
-	public Comment(){
-		this.id = null;
-		this.eventId = null;
-		this.user = null;
-		this.text = null;
-		this.timestamp = (Long) null;
-		this.imageUrl = null;
-		
-
-	}
-
 	public Comment(String eventId, String user, String text) {
 		this(UUID.randomUUID(), eventId, user, text, System.currentTimeMillis());
 	}
