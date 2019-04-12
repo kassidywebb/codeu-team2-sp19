@@ -65,7 +65,6 @@ public class MessageServlet extends HttpServlet {
 
     String user = request.getParameter("user");
     String recipient = request.getParameter("recipient");
-    String name = request.getParameter("name");
 
     if (user == null || user.equals("")) {
       // Request is invalid, return empty array
