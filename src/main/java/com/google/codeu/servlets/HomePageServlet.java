@@ -9,14 +9,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.codeu.data.Datastore;
-import com.google.codeu.data.Message;
+import com.google.codeu.data.Event;
 import com.google.gson.Gson;
 
 /**
  * Handles fetching all messages for the public feed.
  */
-@WebServlet("/feed")
-public class MessageFeedServlet extends HttpServlet {
+@WebServlet("/home")
+public class HomePageServlet extends HttpServlet {
 
 	private Datastore datastore;
 
@@ -35,9 +35,9 @@ public class MessageFeedServlet extends HttpServlet {
 
 		response.setContentType("application/json");
 
-		List<Message> messages = datastore.getAllMessages();
+		List<Event> events = datastore.getAllEvents();
 		Gson gson = new Gson();
-		String json = gson.toJson(messages);
+		String json = gson.toJson(events);
 
 		response.getOutputStream().println(json);
 	}

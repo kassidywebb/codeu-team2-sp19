@@ -29,6 +29,7 @@ import com.google.appengine.api.datastore.FetchOptions.Builder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import static com.google.appengine.api.datastore.FetchOptions.Builder.withLimit;
 
 /** Provides access to the data stored in Datastore. */
 public class Datastore {
@@ -48,9 +49,9 @@ public class Datastore {
 		datastore.put(userEntity);
 	}
 	/**
-	* Returns the User owned by the email address,
-	*null if no matching User was found
-	*/
+	 * Returns the User owned by the email address,
+	 *null if no matching User was found
+	 */
 	public User getUser(String email) {
 
 		Query query = new Query("User").setFilter(new Query.FilterPredicate("email",FilterOperator.EQUAL, email));
@@ -61,10 +62,10 @@ public class Datastore {
 			return null;
 		}
 
-	String aboutMe = (String)userEntity.getProperty("aboutMe");
-	User user = new User(email, aboutMe);
+		String aboutMe = (String)userEntity.getProperty("aboutMe");
+		User user = new User(email, aboutMe);
 
-	return user;
+		return user;
 	}
 
 	/** Stores the Message in Datastore. */
@@ -73,8 +74,8 @@ public class Datastore {
 		messageEntity.setProperty("user", message.getUser());
 		messageEntity.setProperty("text", message.getText());
 		messageEntity.setProperty("timestamp", message.getTimestamp());
-    	messageEntity.setProperty("recipient", message.getRecipient());
-  		messageEntity.setProperty("imageUrl", message.getImageUrl());
+		messageEntity.setProperty("recipient", message.getRecipient());
+		messageEntity.setProperty("imageUrl", message.getImageUrl());
 
 		datastore.put(messageEntity);
 	}
@@ -102,7 +103,7 @@ public class Datastore {
 				String recipient = (String) entity.getProperty("recipient");
 
 				Message message = new Message(id, user, text, timestamp, recipient);
-        
+
 				String imageUrl = (String) entity.getProperty("imageUrl");
 				if (imageUrl != null) {
 					message.setImageUrl(imageUrl);
@@ -153,19 +154,19 @@ public class Datastore {
 
 		saveMessageInformation(messages, results);
 
-    return messages;
-  }
+		return messages;
+	}
 
 
-  /** Returns the total number of messages for all users. */
-  	public int getTotalMessageCount(){
-    	Query query = new Query("Message");
-   	 	PreparedQuery results = datastore.prepare(query);
-    return results.countEntities(FetchOptions.Builder.withLimit(1000));
-  }
+	/** Returns the total number of messages for all users. */
+	public int getTotalMessageCount(){
+		Query query = new Query("Message");
+		PreparedQuery results = datastore.prepare(query);
+		return results.countEntities(FetchOptions.Builder.withLimit(1000));
+	}
 
-  /*Returns the largest message*/
-  public String largestText(PreparedQuery results) {
+	/*Returns the largest message*/
+	public String largestText(PreparedQuery results) {
 		int iLargest = 0;
 		String s = "";
 		for (Entity entity : results.asIterable()) {
@@ -184,28 +185,29 @@ public class Datastore {
 		return s;
 	}
 
-  public String getLargestMessage(){
-	Query query = new Query("Message");
+	public String getLargestMessage(){
+		Query query = new Query("Message");
 		PreparedQuery results = datastore.prepare(query);
 		String text = largestText(results);
-	return text;
+		return text;
 	}
 
-  
-  
-  
-	/** Stores the Event in Datastore. **/
+
+	/** Stores the Event in Datastore. The "id" property is the UUID
+	 * in a string format, this isues for sorting in the Datastore
+	 * for a specific Event. **/
 	public void storeEvent(Event event) {
 		Entity eventEntity = new Entity("Event", event.getId().toString());
+		eventEntity.setProperty("id", event.getEventId());
 		eventEntity.setProperty("user", event.getUser());
 		eventEntity.setProperty("title", event.getTitle());
 		eventEntity.setProperty("date", event.getDate());
 		eventEntity.setProperty("time", event.getTime());
 		eventEntity.setProperty("timestamp", event.getTimestamp());
-    	eventEntity.setProperty("location", event.getLocation());
-    	eventEntity.setProperty("details", event.getLocation());
+		eventEntity.setProperty("location", event.getLocation());
+		eventEntity.setProperty("details", event.getDetails());
 		if(event.getImageUrl() != null) {
-  			eventEntity.setProperty("imageUrl", event.getImageUrl());
+			eventEntity.setProperty("imageUrl", event.getImageUrl());
 		}
 		datastore.put(eventEntity);
 	}
@@ -214,10 +216,12 @@ public class Datastore {
 	 * This method takes in an arraylist and query of all events.
 	 * It then loops through the results query and saves the information
 	 * to a event variable to inserted into the message arraylist.
+	 * I added the eventId property to now be added to the created Event object.
+	 * Its the regular UUID but now as a string variable.
 	 *
 	 * @param events message arraylist
 	 * @param results the individual events to be parsed
-	 * @param the user/creactor of the event
+	 * @param the user/creator of the event
 	 */
 
 
@@ -227,6 +231,7 @@ public class Datastore {
 			try {
 				String idString = entity.getKey().getName();
 				UUID id = UUID.fromString(idString);
+				String eventId = (String) entity.getProperty("id");
 				String user = (String) entity.getProperty("user");
 				String title = (String) entity.getProperty("title");
 				String date = (String) entity.getProperty("date");
@@ -234,15 +239,11 @@ public class Datastore {
 				long timestamp = (long) entity.getProperty("timestamp");
 				String location = (String) entity.getProperty("location");
 				String details = (String) entity.getProperty("details");
-
-				/*Before adding sentiment scores as a feature, there were already messages
-				 without scores. This sets the old sentiment scores to 0 for old messages
-				 */
-
 				String imageUrl = (String) entity.getProperty("imageUrl");
 
-				Event event = new Event(id, user, title, date, time, timestamp, location, details, imageUrl);
+				Event event = new Event(id, eventId, user, title, date, time, timestamp, location, details, imageUrl);
 				events.add(event);
+
 			} catch (Exception e) {
 				System.err.println("Error reading events.");
 				System.err.println(entity.toString());
@@ -288,45 +289,111 @@ public class Datastore {
 
 		saveEventInformation(events, results);
 
-    return events;
-  }
+		return events;
+	}
 
 
-    /**This function gives a Eventby reference given a query and a empty Event as a parameter**/
-  
-	public void saveIndividualEvent(Event event,PreparedQuery results) {
-	
+	/**This function gives a Eventby reference given a query and a empty Event as a parameter**/
+
+	public Event saveIndividualEvent(PreparedQuery results) {
+
+
 		Entity entity = results.asSingleEntity();
 
 		String idString = entity.getKey().getName();
 		UUID id = UUID.fromString(idString);
 		String user = (String) entity.getProperty("user");
+		String eventID = (String) entity.getProperty("id");
 		String title = (String) entity.getProperty("title");
 		String date = (String) entity.getProperty("date");
 		String time = (String) entity.getProperty("time");
 		long timestamp = (long) entity.getProperty("timestamp");
 		String location = (String) entity.getProperty("location");
-		String details = (String) entity.getProperty("details");		
+		String details = (String) entity.getProperty("details");
 		String imageUrl = (String) entity.getProperty("imageUrl");
 
-		event = new Event(id, user, title, date, time, timestamp,location, details, imageUrl);
-		
-  }
-		
-	
+
+		Event event = new Event(id, eventID, user, title, date, time, timestamp,location, details, imageUrl);
+		return event;
+	}
+
+
 	/**This function returns one Event given a specific ID**/
-  public Event getIndividualEvent(UUID id) {
-	
-		Event event = new Event();
+	public Event getIndividualEvent(UUID id) {
 		Query query =
 				new Query("Event")
-				.setFilter(new Query.FilterPredicate("id", FilterOperator.EQUAL, id));
+				.setFilter(new Query.FilterPredicate("id", FilterOperator.EQUAL, id.toString()));
 
 		PreparedQuery results = datastore.prepare(query);
 
-		saveIndividualEvent(event,results);
+		Event event = saveIndividualEvent(results);
 
 		return event;
 	}
+
+	//Stores the comment inside datastore
+	public void storeComment(Comment comment) {
+		//All commentEntity will have a set Id based on their Event
+		Entity commentEntity = new Entity("Comment", comment.getId().toString());
+		commentEntity.setProperty("eventId", comment.getEventId());
+		commentEntity.setProperty("user", comment.getUser());
+		commentEntity.setProperty("text", comment.getText());
+		commentEntity.setProperty("timestamp", comment.getTimestamp());
+		if(comment.getImageUrl() != null) {
+			commentEntity.setProperty("imageUrl", comment.getImageUrl());
+		}
+		datastore.put(commentEntity);
+	}
+
+	//saves a comment to the Comment arraylist
+	public void saveCommentInformation(List<Comment> comments, PreparedQuery results) {
+
+		for (Entity entity : results.asIterable()) {
+			try {
+				String idString = entity.getKey().getName();
+				UUID id = UUID.fromString(idString);
+				String eventId = (String) entity.getProperty("eventId");
+				String user = (String) entity.getProperty("user");
+				String text = (String) entity.getProperty("text");
+				long timestamp = (long) entity.getProperty("timestamp");
+
+				//put into id
+				Comment comment = new Comment(id, eventId, user, text, timestamp);
+
+				String imageUrl = (String) entity.getProperty("imageUrl");
+				if (imageUrl != null) {
+					comment.setImageUrl(imageUrl);
+				}
+				comments.add(comment);
+			} catch (Exception e) {
+				System.err.println("Error reading message.");
+				System.err.println(entity.toString());
+				e.printStackTrace();
+			}
+		}
+
+	}
+	//creates an arraylist of comments of the specified id
+	public List<Comment> getEventComments(UUID id){
+
+		List<Comment> comments = new ArrayList<>();
+
+		Query query =
+				new Query("Comment")
+				.setFilter(new Query.FilterPredicate("eventId", FilterOperator.EQUAL, id.toString()))
+				.addSort("timestamp", SortDirection.DESCENDING);
+
+		PreparedQuery results = datastore.prepare(query);
+
+		saveCommentInformation(comments , results);
+
+		return comments;
+	}
+
+	public int numberOfEvents() {
+
+		return datastore.prepare(new Query("Event")).countEntities(withLimit(10));
+	}
+
 
 }

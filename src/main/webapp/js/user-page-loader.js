@@ -122,9 +122,10 @@ function buildMessageDiv(message) {
     headerDiv.appendChild(document.createTextNode(
         message.user + ' - ' + new Date(message.timestamp)));
 
-    const bodyDiv = document.createElement('div');
-    bodyDiv.classList.add('message-body');
-    bodyDiv.innerHTML = handleBBCode(message.text);
+
+  const bodyDiv = document.createElement('div');
+  bodyDiv.classList.add('message-body');
+  bodyDiv.innerHTML = handleBBCode(message.text);
 
     const messageDiv = document.createElement('div');
     messageDiv.classList.add('message-div');

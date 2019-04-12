@@ -17,6 +17,7 @@
 package com.google.codeu.servlets;
 
 import com.google.appengine.api.users.UserService;
+
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.codeu.data.Datastore;
 import com.google.codeu.data.Message;
@@ -121,7 +122,7 @@ public class MessageServlet extends HttpServlet {
     setMessageImageUrl(request, message);
     datastore.storeMessage(message);
 
-    response.sendRedirect("/user-page.html?user=" + user);
+    response.sendRedirect("/user-page.html?user=" + recipient);
   }
 
   /* Function that handles all blobstore requests for adding an image
