@@ -60,6 +60,7 @@ public class EventOneServlet extends HttpServlet{
 		long timestamp = event.getTimestamp();
 		String location = event.getLocation();
 		String details = event.getDetails();
+		String host = event.getHostedBy();
 		String imageurl = event.getImageUrl();
 
 		JsonObject jsonObject = new JsonObject();
@@ -70,6 +71,7 @@ public class EventOneServlet extends HttpServlet{
 		jsonObject.addProperty("timestamp",timestamp);
 		jsonObject.addProperty("location",location);
 		jsonObject.addProperty("details",details);
+		jsonObject.addProperty("host",host);
 		jsonObject.addProperty("imageUrl",imageurl);
 
 		response.getOutputStream().println(jsonObject.toString());

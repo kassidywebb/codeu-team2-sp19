@@ -14,6 +14,7 @@ public class Event {
   private long timestamp;
   private String location;
   private String details;
+  private String hostedBy;
   private String imageUrl;
 
   /**
@@ -30,6 +31,7 @@ public class Event {
      this.timestamp =  (Long) null;
      this.location = null;
      this.details = null;
+     this.hostedBy = null;
      this.imageUrl = null;
    
   }  
@@ -41,8 +43,10 @@ public class Event {
                   long timestamp,
                   String location,
                   String details,
+                  String hostedBy,
                   String imageUrl) {
-     this(UUID.randomUUID(), eventid, user, title, date, time, System.currentTimeMillis(), location, details, imageUrl);
+     this(UUID.randomUUID(), eventid, user, title, date, time,
+    		 System.currentTimeMillis(), location, details, hostedBy, imageUrl);
    }
 
    public Event(UUID id, 
@@ -54,6 +58,7 @@ public class Event {
                   long timestamp,
                   String location,
                   String details,
+                  String hostedBy,
                   String imageUrl) {
      this.id = id;
      this.eventid = eventid;
@@ -64,6 +69,7 @@ public class Event {
      this.timestamp = timestamp;
      this.location = location;
      this.details = details;
+     this.hostedBy = hostedBy;
      this.imageUrl = imageUrl;
    }
 
@@ -106,6 +112,10 @@ public class Event {
 
   public String getDetails() {
 	  return details;
+  }
+  
+  public String getHostedBy() {
+	  return hostedBy;
   }
   
   public String getImageUrl() {
