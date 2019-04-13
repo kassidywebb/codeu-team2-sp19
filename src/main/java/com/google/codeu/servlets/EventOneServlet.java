@@ -60,7 +60,7 @@ public class EventOneServlet extends HttpServlet{
 		long timestamp = event.getTimestamp();
 		String location = event.getLocation();
 		String details = event.getDetails();
-		String host = event.getHostedBy();
+		String host = event.getHost();
 		String imageurl = event.getImageUrl();
 
 		JsonObject jsonObject = new JsonObject();

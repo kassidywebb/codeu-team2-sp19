@@ -325,7 +325,7 @@ public class Datastore {
 
 
 		Event event = new Event(user, title, date, time, timestamp, location, details, host);
-		event.setId(eventID);
+		event.setId(eventId);
 		if (imageUrl != null) {
 			event.setImageUrl(imageUrl);
 		}
