@@ -1,12 +1,12 @@
 package com.google.codeu.data;
 
 import java.util.UUID;
+import java.util.*;
 
 /** A single message posted by a user. */
 public class Event {
 
   private UUID id;
-  private String eventid;
   private String user;
   private String title;
   private String date;
@@ -22,7 +22,6 @@ public class Event {
    */
   public Event(){
      this.id = null;
-     this.eventid = null;
      this.user = null;
      this.title = null;
      this.date = null;
@@ -33,30 +32,25 @@ public class Event {
      this.imageUrl = null;
    
   }  
-   public Event(String eventid,
-		   		String user,
+   public Event(String user,
                   String title,
                   String date,
                   String time,
                   long timestamp,
                   String location,
-                  String details,
-                  String imageUrl) {
-     this(UUID.randomUUID(), eventid, user, title, date, time, System.currentTimeMillis(), location, details, imageUrl);
+                  String details) {
+     this(UUID.randomUUID(),user, title, date, time, timestamp, location, details);
    }
 
    public Event(UUID id, 
-		   		  String eventid,
                   String user,
                   String title,
                   String date,
                   String time,
                   long timestamp,
                   String location,
-                  String details,
-                  String imageUrl) {
+                  String details) {
      this.id = id;
-     this.eventid = eventid;
      this.user = user;
      this.title = title;
      this.date = date;
@@ -64,13 +58,17 @@ public class Event {
      this.timestamp = timestamp;
      this.location = location;
      this.details = details;
-     this.imageUrl = imageUrl;
+     this.imageUrl = "";
    }
 
   public void setImageUrl(String imageUrl) {
      this.imageUrl = imageUrl;
      return;
   }
+  public void setId(String id) {
+    this.id = UUID.fromString(id); 
+    return;
+ }
 
   public UUID getId() {
     return id;

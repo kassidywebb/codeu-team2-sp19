@@ -68,18 +68,19 @@ import com.google.appengine.api.blobstore.BlobInfoFactory;
     }
 
     String user = userService.getCurrentUser().getEmail();
-    String title = request.getParameter("Title");
-    String location = request.getParameter("Location");
-    String date = request.getParameter("Date");
-    String time = request.getParameter("Time");
+    String title = request.getParameter("event-title");
+    String location = request.getParameter("location");
+    String date = request.getParameter("date");
+    String time = request.getParameter("time");
     long timestamp = System.currentTimeMillis();
-    String details = request.getParameter("Details");
+    String details = request.getParameter("details");
 
     
     Event event = new Event(user, title, date, time, timestamp, location, details);
-    setEventImageUrl(event, request);
+    /*
+    setEventImageUrl(request,event);*/
     datastore.storeEvent(event);
-
+    
     response.sendRedirect("/user-page.html?user=" + title);
   }
    private void setEventImageUrl (HttpServletRequest request, Event event) {

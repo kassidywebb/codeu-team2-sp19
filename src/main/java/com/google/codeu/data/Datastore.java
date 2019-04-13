@@ -241,7 +241,11 @@ public class Datastore {
 				String details = (String) entity.getProperty("details");
 				String imageUrl = (String) entity.getProperty("imageUrl");
 
-				Event event = new Event(id, eventId, user, title, date, time, timestamp, location, details, imageUrl);
+				Event event = new Event(user, title, date, time, timestamp, location, details);
+				event.setId(eventId);
+				if (imageUrl != null) {
+					event.setImageUrl(imageUrl);
+				}
 				events.add(event);
 
 			} catch (Exception e) {
@@ -313,7 +317,11 @@ public class Datastore {
 		String imageUrl = (String) entity.getProperty("imageUrl");
 
 
-		Event event = new Event(id, eventID, user, title, date, time, timestamp,location, details, imageUrl);
+		Event event = new Event( user, title, date, time, timestamp,location, details);
+		event.setId(eventID);
+		if (imageUrl != null) {
+			event.setImageUrl(imageUrl);
+		}
 		return event;
 	}
 
@@ -380,7 +388,7 @@ public class Datastore {
 
 		Query query =
 				new Query("Comment")
-				.setFilter(new Query.FilterPredicate("eventId", FilterOperator.EQUAL, id.toString()))
+				.setFilter(new Query.FilterPredicate("id", FilterOperator.EQUAL, id.toString()))
 				.addSort("timestamp", SortDirection.DESCENDING);
 
 		PreparedQuery results = datastore.prepare(query);
