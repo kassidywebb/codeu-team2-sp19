@@ -26,7 +26,7 @@ public class AboutMeServlet extends HttpServlet {
  public void init() {
   datastore = new Datastore();
  }
- 
+
  /**
   * Responds with the "about me" section for a particular user.
   */
@@ -35,42 +35,41 @@ public class AboutMeServlet extends HttpServlet {
    throws IOException {
 
   response.setContentType("text/html");
-  
+
   String user = request.getParameter("user");
-  
+
   if(user == null || user.equals("")) {
    // Request is invalid, return empty response
    return;
   }
-  
+
   User userData = datastore.getUser(user);
 
   if(userData == null || userData.getAboutMe() == null){
     return;
   }
-  
+
   response.getOutputStream().println(userData.getAboutMe());
  }
- 
+
  @Override
  public void doPost(HttpServletRequest request, HttpServletResponse response)
    throws IOException {
 
-  UserService userService = UserServiceFactory.getUserService();  
+  UserService userService = UserServiceFactory.getUserService();
   if (!userService.isUserLoggedIn()) {
    response.sendRedirect("/index.html");
    return;
   }
-  
+
   String userEmail = userService.getCurrentUser().getEmail();
   String aboutMe = request.getParameter("about-me");
   String name = request.getParameter("name");
   
-
   User user = new User(userEmail, aboutMe, name);
   datastore.storeUser(user);
 
-  
+
   response.sendRedirect("/user-page.html?user=" + userEmail);
  }
 }

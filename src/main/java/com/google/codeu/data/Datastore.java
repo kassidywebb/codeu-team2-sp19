@@ -65,7 +65,8 @@ public class Datastore {
 
 		String aboutMe = (String)userEntity.getProperty("aboutMe");
 		String name = (String)userEntity.getProperty("name");
-		
+
+
 		User user = new User(email, aboutMe, name);
 
 		return user;
@@ -243,6 +244,7 @@ public class Datastore {
 				long timestamp = (long) entity.getProperty("timestamp");
 				String location = (String) entity.getProperty("location");
 				String details = (String) entity.getProperty("details");
+
 				String host = (String) entity.getProperty("host");
 				String imageUrl = (String) entity.getProperty("imageUrl");
 
@@ -250,8 +252,7 @@ public class Datastore {
 				event.setId(eventId);
 				if (imageUrl != null) {
 					event.setImageUrl(imageUrl);
-				}
-				events.add(event);
+				}				events.add(event);
 
 			} catch (Exception e) {
 				System.err.println("Error reading events.");
@@ -312,7 +313,7 @@ public class Datastore {
 		String idString = entity.getKey().getName();
 		UUID id = UUID.fromString(idString);
 		String user = (String) entity.getProperty("user");
-		String eventID = (String) entity.getProperty("id");
+		String eventId = (String) entity.getProperty("id");
 		String title = (String) entity.getProperty("title");
 		String date = (String) entity.getProperty("date");
 		String time = (String) entity.getProperty("time");

@@ -33,7 +33,7 @@ public class Event {
 		this.host = null;
 		this.imageUrl = null;
 
-	}  
+	}
 	public Event(String user,
 			String title,
 			String date,
@@ -45,7 +45,7 @@ public class Event {
 		this(UUID.randomUUID(),user, title, date, time, timestamp, location, details, host);
 	}
 
-	public Event(UUID id, 
+	public Event(UUID id,
 			String user,
 			String title,
 			String date,
@@ -71,7 +71,7 @@ public class Event {
 		return;
 	}
 	public void setId(String id) {
-		this.id = UUID.fromString(id); 
+		this.id = UUID.fromString(id);
 		return;
 	}
 
@@ -118,6 +118,5 @@ public class Event {
 	public String getImageUrl() {
 		return imageUrl;
 	}
-
 
 }

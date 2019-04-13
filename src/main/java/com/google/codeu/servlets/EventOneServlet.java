@@ -60,7 +60,7 @@ public class EventOneServlet extends HttpServlet{
 		long timestamp = event.getTimestamp();
 		String location = event.getLocation();
 		String details = event.getDetails();
-		String host = event.getHost();
+		String host = event.getHostedBy();
 		String imageurl = event.getImageUrl();
 
 		JsonObject jsonObject = new JsonObject();
@@ -91,7 +91,7 @@ public class EventOneServlet extends HttpServlet{
 
 
 	@Override
-	public void doPost(HttpServletRequest request, HttpServletResponse response) 
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
 		UserService userService = UserServiceFactory.getUserService();
 		if (!userService.isUserLoggedIn()) {
