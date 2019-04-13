@@ -64,9 +64,10 @@ public class AboutMeServlet extends HttpServlet {
   
   String userEmail = userService.getCurrentUser().getEmail();
   String aboutMe = request.getParameter("about-me");
+  String name = request.getParameter("name");
   
 
-  User user = new User(userEmail,aboutMe);
+  User user = new User(userEmail, aboutMe, name);
   datastore.storeUser(user);
 
   

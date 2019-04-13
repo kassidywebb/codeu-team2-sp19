@@ -46,6 +46,7 @@ public class Datastore {
 		Entity userEntity = new Entity("User",user.getEmail());
 		userEntity.setProperty("email",user.getEmail());
 		userEntity.setProperty("aboutMe",user.getAboutMe());
+		userEntity.setProperty("name",user.getName());
 		datastore.put(userEntity);
 	}
 	/**
@@ -63,7 +64,9 @@ public class Datastore {
 		}
 
 		String aboutMe = (String)userEntity.getProperty("aboutMe");
-		User user = new User(email, aboutMe);
+		String name = (String)userEntity.getProperty("name");
+		
+		User user = new User(email, aboutMe, name);
 
 		return user;
 	}
@@ -206,6 +209,7 @@ public class Datastore {
 		eventEntity.setProperty("timestamp", event.getTimestamp());
 		eventEntity.setProperty("location", event.getLocation());
 		eventEntity.setProperty("details", event.getDetails());
+		eventEntity.setProperty("host",event.getHost());
 		if(event.getImageUrl() != null) {
 			eventEntity.setProperty("imageUrl", event.getImageUrl());
 		}
@@ -239,9 +243,10 @@ public class Datastore {
 				long timestamp = (long) entity.getProperty("timestamp");
 				String location = (String) entity.getProperty("location");
 				String details = (String) entity.getProperty("details");
+				String host = (String) entity.getProperty("host");
 				String imageUrl = (String) entity.getProperty("imageUrl");
 
-				Event event = new Event(user, title, date, time, timestamp, location, details);
+				Event event = new Event(user, title, date, time, timestamp, location, details, host);
 				event.setId(eventId);
 				if (imageUrl != null) {
 					event.setImageUrl(imageUrl);
@@ -314,10 +319,11 @@ public class Datastore {
 		long timestamp = (long) entity.getProperty("timestamp");
 		String location = (String) entity.getProperty("location");
 		String details = (String) entity.getProperty("details");
+		String host = (String) entity.getProperty("host");
 		String imageUrl = (String) entity.getProperty("imageUrl");
 
 
-		Event event = new Event( user, title, date, time, timestamp,location, details);
+		Event event = new Event(user, title, date, time, timestamp, location, details, host);
 		event.setId(eventID);
 		if (imageUrl != null) {
 			event.setImageUrl(imageUrl);
