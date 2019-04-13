@@ -33,11 +33,12 @@ public class DatastoreTest {
 		Datastore datastore = new Datastore();
 
 		Event exampleEvent = new Event("", "Ahmed", "HotPocket Event", "03/29/19",
-				"3:00PM", 4523, "Sunnyvalue, CA", "It will be fun and have lots of food",
+				"3:00PM", 4523, "Sunnyvalue, CA", "It will be fun and have lots of food","CodeU",
 				"some random img string");
 
 		Event exampleEvent2 = new Event("","Demha", "Orchestra Maze", "03/31/19",
-				"8:00PM", 8472523, "SanFrancisco, CA", "It will be fun and have lots of music", "a cello  and violion img url");
+				"8:00PM", 8472523, "SanFrancisco, CA", "It will be fun and have lots of music",
+				"Google", "a cello  and violion img url");
 		
 		datastore.storeEvent(exampleEvent);
 		datastore.storeEvent(exampleEvent2);

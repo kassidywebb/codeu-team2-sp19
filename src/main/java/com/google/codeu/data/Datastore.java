@@ -46,6 +46,7 @@ public class Datastore {
 		Entity userEntity = new Entity("User",user.getEmail());
 		userEntity.setProperty("email",user.getEmail());
 		userEntity.setProperty("aboutMe",user.getAboutMe());
+		userEntity.setProperty("name",user.getName());
 		datastore.put(userEntity);
 	}
 	/**
@@ -63,7 +64,10 @@ public class Datastore {
 		}
 
 		String aboutMe = (String)userEntity.getProperty("aboutMe");
-		User user = new User(email, aboutMe);
+		String name = (String)userEntity.getProperty("name");
+
+
+		User user = new User(email, aboutMe, name);
 
 		return user;
 	}
@@ -206,6 +210,7 @@ public class Datastore {
 		eventEntity.setProperty("timestamp", event.getTimestamp());
 		eventEntity.setProperty("location", event.getLocation());
 		eventEntity.setProperty("details", event.getDetails());
+		eventEntity.setProperty("host",event.getHost());
 		if(event.getImageUrl() != null) {
 			eventEntity.setProperty("imageUrl", event.getImageUrl());
 		}
@@ -239,14 +244,15 @@ public class Datastore {
 				long timestamp = (long) entity.getProperty("timestamp");
 				String location = (String) entity.getProperty("location");
 				String details = (String) entity.getProperty("details");
+
+				String host = (String) entity.getProperty("host");
 				String imageUrl = (String) entity.getProperty("imageUrl");
 
-				Event event = new Event(user, title, date, time, timestamp, location, details);
+				Event event = new Event(user, title, date, time, timestamp, location, details, host);
 				event.setId(eventId);
 				if (imageUrl != null) {
 					event.setImageUrl(imageUrl);
-				}
-				events.add(event);
+				}				events.add(event);
 
 			} catch (Exception e) {
 				System.err.println("Error reading events.");
@@ -307,18 +313,19 @@ public class Datastore {
 		String idString = entity.getKey().getName();
 		UUID id = UUID.fromString(idString);
 		String user = (String) entity.getProperty("user");
-		String eventID = (String) entity.getProperty("id");
+		String eventId = (String) entity.getProperty("id");
 		String title = (String) entity.getProperty("title");
 		String date = (String) entity.getProperty("date");
 		String time = (String) entity.getProperty("time");
 		long timestamp = (long) entity.getProperty("timestamp");
 		String location = (String) entity.getProperty("location");
 		String details = (String) entity.getProperty("details");
+		String host = (String) entity.getProperty("host");
 		String imageUrl = (String) entity.getProperty("imageUrl");
 
 
-		Event event = new Event( user, title, date, time, timestamp,location, details);
-		event.setId(eventID);
+		Event event = new Event(user, title, date, time, timestamp, location, details, host);
+		event.setId(eventId);
 		if (imageUrl != null) {
 			event.setImageUrl(imageUrl);
 		}
