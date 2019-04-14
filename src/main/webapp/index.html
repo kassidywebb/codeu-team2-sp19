@@ -22,11 +22,13 @@ limitations under the License.
     <title>CodeU 2019 Starter Project</title>
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/user-page.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito">
     <script src="/js/navigation-loader.js"></script>
+    <script src="/js/home_event_page_loader.js"></script>
 </head>
 
-<body onload="addLoginOrLogoutLinkToNavigation();">
+<body onload="buildUI(); addLoginOrLogoutLinkToNavigation();">
     <nav id="navigation">
         <br>
         <br>
@@ -37,26 +39,11 @@ limitations under the License.
             </a>
         </ul>
     </nav>
-    <div class="content">
+    <div id="content" class="content">
         <div>
-            <p class="apptitle">App Title</p>
+            <p class="apptitle">App title</p>
         </div>
-        <div class="row">
-            <div class="card">
-                <div class="wrapper">
-                    <div class="data">
-                        <div class="content">
-                            <span class="date">April 1st, 2019</span><br/>
-                            <span class="author">Professor Zap</span>
-                            <h1 class="title"><a href="/event.html?event=0">Feeling Zen with Yoga and Dogs</a></h1>
-                            <p class="text">Learn how to reach level 12 Zen with your dog friend. Zen makes students better learners and listeners. Event is free for students!</p>
-                            <a href="/event.html?event=0" class="button">Read more</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </li>
+        <div id="event-container">Loading...</div>
     </div>
 </body>
 

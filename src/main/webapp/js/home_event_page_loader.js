@@ -1,58 +1,88 @@
 // Fetch messages and add them to the page.
 function fetchEvents() {
     const url = '/home';
-    fetch(url).then((response) => {
-        return response.json();
-    }).then((events) => {
-        const eventContainer = document.getElementById('event-container');
-        if (events.length == 0) {
-            eventContainer.innerHTML = '<p>There are no posts yet.</p>';
-        } else {
-            eventContainer.innerHTML = '';
-        }
-        events.forEach((event) => {
-            const eventDiv = buildEventDiv(event);
-            eventContainer.appendChild(eventDiv);
+    fetch(url)
+        .then((response) => {
+            return response.json();
+        })
+        .then((events) => {
+            const eventContainer = document.getElementById('event-container');
+            if (events.length == 0) {
+                eventContainer.innerHTML = '<p>There are no posts yet.</p>';
+            } else {
+                eventContainer.remove();
+            }
+            events.forEach((event) => {
+                const eventDiv = buildEventDiv(event);
+                const content = document.getElementById('content');
+                content.appendChild(eventDiv);
+            });
         });
-    });
 }
 
 /*builds an element that displays a message
   messageDiv gets content of username,time, and message
 */
 function buildEventDiv(event) {
-    const usernameDiv = document.createElement('div');
-    usernameDiv.classList.add("left-align");
-    usernameDiv.appendChild(document.createTextNode(event.user));
-
-    const timeDiv = document.createElement('div');
-    timeDiv.classList.add('right-align');
-    timeDiv.appendChild(document.createTextNode(new Date(event.timestamp)));
-
-    const headerDiv = document.createElement('div');
-    headerDiv.classList.add('event-header');
-    headerDiv.appendChild(usernameDiv);
-    headerDiv.appendChild(timeDiv);
-
     const bodyDiv = document.createElement('div');
-    bodyDiv.classList.add('event-body');
-    /* Changed how bodyDiv get's the message text in feed js. It previously
-       did not upload pictures to the feed.html using appendChild, so I copied
-       how the div was implemented in user-page-loader.js when taking in the
-       text using innerHTML
-     */
-    bodyDiv.innerHTML = event.text;
-    //bodyDiv.appendChild(document.createTextNode(message.text));
+    bodyDiv.classList.add("row");
 
-    const eventDiv = document.createElement('div');
-    eventDiv.classList.add("event-div");
-    eventDiv.appendChild(headerDiv);
-    eventDiv.appendChild(bodyDiv);
+    const content = document.createElement('div');
+    content.classList.add("content");
 
-    return eventDiv;
+    content.appendChild(createChild('span', "date", event.date + "  " + event.time));
+    content.appendChild(document.createElement('br'));
+    content.appendChild(createChild('span', "author", event.user));
+
+    const ref = document.createElement('a');
+    ref.href = '/event.html?event=' + event.id;
+    ref.appendChild(document.createTextNode(event.title));
+
+    const hchild = document.createElement('h1');
+    hchild.classList.add("title");
+    hchild.appendChild(ref);
+
+    content.appendChild(hchild);
+
+    content.appendChild(createChild('p', "text", event.details));
+
+    const read = document.createElement('a');
+    read.href = '/event.html?event=' + event.id;
+    read.classList.add("button");
+    read.appendChild(document.createTextNode("Read more"));
+
+    content.appendChild(read);
+
+    bodyDiv.appendChild(createchildElement(createchildElement(createchildElement(content, 'div', "data"), 'div', "wrapper"), 'div', "card"));
+
+    return bodyDiv;
+}
+/*
+function paragraph(const here, Text text) {
+
+}*/
+// Fetch data and populate the UI of the page.
+function createchildElement(childElement, tag, cssClass) {
+    const item = document.createElement(tag);
+    item.classList.add(cssClass);
+    item.appendChild(childElement);
+    return item;
 }
 
-// Fetch data and populate the UI of the page.
+function createChild(tag, cssClass, text) {
+    const item = document.createElement(tag);
+    item.classList.add(cssClass);
+    item.appendChild(document.createTextNode(text));
+    return item;
+}
+
+function createLink(url, childElement) {
+    const linkElement = document.createElement('a');
+    linkElement.appendChild(childElement);
+    linkElement.href = url;
+    return linkElement;
+}
+
 function buildUI() {
-    fetchMessages();
+    fetchEvents();
 }
