@@ -19,7 +19,7 @@ package com.google.codeu.data;
 import java.util.UUID;
 
 /** A single message posted by a user. */
-public class Message extends Event {
+public class Message {
 
   private UUID id;
   private String user;
