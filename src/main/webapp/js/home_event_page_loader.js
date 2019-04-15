@@ -20,9 +20,7 @@ function fetchEvents() {
         });
 }
 
-/*builds an element that displays a message
-  messageDiv gets content of username,time, and message
-*/
+/*builds an element that displays a event */
 function buildEventDiv(event) {
     const bodyDiv = document.createElement('div');
     bodyDiv.classList.add("row");
@@ -57,30 +55,31 @@ function buildEventDiv(event) {
 
     return bodyDiv;
 }
-/*
-function paragraph(const here, Text text) {
-
-}*/
-// Fetch data and populate the UI of the page.
+/**
+ * Creates an li element.
+ * @param {string} tag
+ * @param {string} class
+ * @param {Element} element
+ * @return {Element} HTML element
+ */
 function createchildElement(childElement, tag, cssClass) {
     const item = document.createElement(tag);
     item.classList.add(cssClass);
     item.appendChild(childElement);
     return item;
 }
-
+/**
+ * Creates an li element.
+ * @param {string} tag
+ * @param {string} class
+ * @param {text} text
+ * @return {Element} HTML element
+ */
 function createChild(tag, cssClass, text) {
     const item = document.createElement(tag);
     item.classList.add(cssClass);
     item.appendChild(document.createTextNode(text));
     return item;
-}
-
-function createLink(url, childElement) {
-    const linkElement = document.createElement('a');
-    linkElement.appendChild(childElement);
-    linkElement.href = url;
-    return linkElement;
 }
 
 function buildUI() {
