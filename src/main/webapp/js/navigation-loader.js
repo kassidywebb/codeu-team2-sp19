@@ -39,7 +39,7 @@ function addLoginOrLogoutLinkToNavigation() {
                     '/new-event.html', createListItem('Create new Event'))));
 
                 navigationElement.appendChild(createListItemUl(createLink(
-                    '/feed.html', createListItem('Messages'))));
+                    '/feed.html?user=' + loginStatus.username, createListItem('Messages'))));
 
                 navigationElement.appendChild(createListItemUl(createLink(
                     '/', createListItem('Calendar'))));
