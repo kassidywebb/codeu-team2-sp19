@@ -78,8 +78,7 @@ import com.google.appengine.api.blobstore.BlobInfoFactory;
 
     
     Event event = new Event(user, title, date, time, timestamp, location, details, host);
-    /*
-    setEventImageUrl(request,event);*/
+    // setEventImageUrl(request,event);
     datastore.storeEvent(event);
     
     response.sendRedirect("/user-page.html?user=" + user);
