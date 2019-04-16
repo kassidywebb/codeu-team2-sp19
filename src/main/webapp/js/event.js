@@ -25,16 +25,14 @@ function fetchEvent() {
             return response.json();
         })
         .then((event) => {
-            if (event.user != null) {
-                document.getElementById('event-title').innerText = event.title;
-                document.getElementById('username').innerText = event.user;
-                document.getElementById('date').innerText = event.date;
-                document.getElementById('time').innerText = event.time;
-                document.getElementById('timestamp').innerText = event.timestamp;
-                document.getElementById('location').innerText = event.location;
-                document.getElementById('details').innerText = event.details;
-                document.getElementById('imageurl').innerText = event.imageurl;
-            }
+            document.getElementById('event-title').innerText = event.title;
+            document.getElementById('username').innerText = event.user;
+            document.getElementById('date').innerText = event.date;
+            document.getElementById('time').innerText = event.time;
+            document.getElementById('timestamp').innerText = event.timestamp;
+            document.getElementById('location').innerText = event.location;
+            document.getElementById('details').innerText = event.details;
+            document.getElementById('imageurl').innerText = event.imageurl;
         });
 }
 
