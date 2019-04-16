@@ -17,12 +17,21 @@
 
 /* Set the size of the sendto input to be 30 pixels high
    and will fill the width of its parent element. */
+#sendto-input {
+  height: 30px;
+  width: 100%;
+}
 
-.header {
+#message-input {
+  height: 100px;
+  width: 100%;
+}
+
+/* .header {
     width: 75%;
     margin-left: 10%;
     position: relative;
-}
+} */
 
 .image-header {
     width: 30%;
