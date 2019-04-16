@@ -19,13 +19,12 @@ function fetchAboutMe() {
     fetch(url).then((response) => {
         return response.text();
     }).then((aboutMe) => {
-        const aboutMeContainer = document.getElementById('about-me-container');
+        const aboutMeContainer = document.getElementById('user-details');
         if (aboutMe == '') {
             aboutMe = 'This user has not entered any information yet.'
         }
-
-        aboutMeContainer.innerHTML = aboutMe;
-
+        aboutMeContainer.innerText = '';
+        aboutMeContainer.innerText = aboutMe;
     })
 }
 
@@ -45,100 +44,88 @@ function setPageTitle() {
     document.title = parameterUsername + ' - User Page';
 }
 
-/**
- * Shows the message form if the user is logged in and viewing their own page
- * Hides private messaging option if user is on private messaging page
- */
-function showMessageFormIfLoggedIn() {
-    fetch('/login-status')
-        .then((response) => {
-            return response.json();
-        })
-        .then((loginStatus) => {
-            if (loginStatus.isLoggedIn) {
-                fetchImageUploadUrlAndShowForm();
-            }
-        });
-}
-
-function fetchImageUploadUrlAndShowForm() {
-    fetch('/image-upload-url?recipient=' + parameterUsername)
-        .then((response) => {
-            return response.text();
-        })
-        .then((imageUploadUrl) => {
-            const messageForm = document.getElementById('message-form');
-            messageForm.action = imageUploadUrl;
-            messageForm.classList.remove('hidden');
-
-            /** Using 34 because @codestudents.com is 17 characters long
-             * and there's at least 2 people in a direct message
-             */
-            document.getElementById('recipientInput').value = parameterUsername;
-            if (parameterUsername.length < 34) {
-                const privateOption = document.getElementById('private-option');
-                privateOption.classList.remove('hidden');
-
-                const sendOption = document.getElementById('send-option');
-                sendOption.classList.remove('hidden');
-
-            } else {
-                document.getElementById('private-option-checkbox').checked = true;
-            }
-
-            document.getElementById('about-me-form').classList.remove('hidden');
-        });
-}
-
-/** Fetches messages and add them to the page */
-function fetchMessages() {
-    const url = '/messages?user=' + parameterUsername;
+function fetchEvents() {
+    const url = '/OrganizedEvents?user=' + parameterUsername;
     fetch(url)
         .then((response) => {
             return response.json();
         })
-        .then((messages) => {
-            const messagesContainer = document.getElementById('message-container');
-            if (messages.length == 0) {
-                messagesContainer.innerHTML = '<p>This user has no posts yet.</p>';
+        .then((events) => {
+            const eventContainer = document.getElementById('event-container');
+            if (events.length == 0) {
+                eventContainer.innerHTML = '<p>There are no posts yet.</p>';
             } else {
-                messagesContainer.innerHTML = '';
+                eventContainer.remove();
             }
-            messages.forEach((message) => {
-                const messageDiv = buildMessageDiv(message);
-                messagesContainer.appendChild(messageDiv);
+            events.forEach((event) => {
+                const eventDiv = buildEventDiv(event);
+                const content = document.getElementById('organized');
+                content.appendChild(eventDiv);
             });
         });
 }
 
-/**
- * Builds an element that displays the message.
- * @param {Message} message
- * @return {Element}
- */
-function buildMessageDiv(message) {
-    const headerDiv = document.createElement('div');
-    headerDiv.classList.add('message-header');
-    headerDiv.appendChild(document.createTextNode(
-        message.user + ' - ' + new Date(message.timestamp)));
+function buildEventDiv(event) {
+    const bodyDiv = document.createElement('div');
+    bodyDiv.classList.add("row");
 
+    const content = document.createElement('div');
+    content.classList.add("content");
 
-  const bodyDiv = document.createElement('div');
-  bodyDiv.classList.add('message-body');
-  bodyDiv.innerHTML = handleBBCode(message.text);
+    content.appendChild(createChild('span', "date", event.date + "  " + event.time));
+    content.appendChild(document.createElement('br'));
+    content.appendChild(createChild('span', "author", event.user));
 
-    const messageDiv = document.createElement('div');
-    messageDiv.classList.add('message-div');
-    messageDiv.appendChild(headerDiv);
-    messageDiv.appendChild(bodyDiv);
+    const ref = document.createElement('a');
+    ref.href = '/event.html?event=' + event.id;
+    ref.appendChild(document.createTextNode(event.title));
 
-    if (message.imageUrl != "") {
-        bodyDiv.innerHTML += '<br/>';
-        bodyDiv.innerHTML += '<img src="' + message.imageUrl + '" />';
-    }
+    const hchild = document.createElement('h1');
+    hchild.classList.add("title");
+    hchild.appendChild(ref);
 
-    return messageDiv;
+    content.appendChild(hchild);
+
+    content.appendChild(createChild('p', "text", event.details));
+
+    const read = document.createElement('a');
+    read.href = '/event.html?event=' + event.id;
+    read.classList.add("button");
+    read.appendChild(document.createTextNode("Read more"));
+
+    content.appendChild(read);
+
+    bodyDiv.appendChild(createchildElement(createchildElement(createchildElement(content, 'div', "data"), 'div', "wrapper"), 'div', "card"));
+
+    return bodyDiv;
 }
+/**
+ * Creates an li element.
+ * @param {string} tag
+ * @param {string} class
+ * @param {Element} element
+ * @return {Element} HTML element
+ */
+function createchildElement(childElement, tag, cssClass) {
+    const item = document.createElement(tag);
+    item.classList.add(cssClass);
+    item.appendChild(childElement);
+    return item;
+}
+/**
+ * Creates an li element.
+ * @param {string} tag
+ * @param {string} class
+ * @param {text} text
+ * @return {Element} HTML element
+ */
+function createChild(tag, cssClass, text) {
+    const item = document.createElement(tag);
+    item.classList.add(cssClass);
+    item.appendChild(document.createTextNode(text));
+    return item;
+}
+
 
 /*Array of Bbcode tags in regular expression*/
 var regexFind = new Array(
@@ -172,7 +159,6 @@ function handleBBCode(input) {
 /** Fetches data and populates the UI of the page. */
 function buildUI() {
     setPageTitle();
-    showMessageFormIfLoggedIn();
-    fetchMessages();
     fetchAboutMe();
+    fetchEvents();
 }

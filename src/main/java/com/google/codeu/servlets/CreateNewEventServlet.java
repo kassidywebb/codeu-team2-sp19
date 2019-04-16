@@ -82,7 +82,7 @@ import com.google.appengine.api.blobstore.BlobInfoFactory;
     setEventImageUrl(request,event);*/
     datastore.storeEvent(event);
     
-    response.sendRedirect("/user-page.html?user=" + title);
+    response.sendRedirect("/user-page.html?user=" + user);
   }
    private void setEventImageUrl (HttpServletRequest request, Event event) {
 
