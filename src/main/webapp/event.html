@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito">
     <script src="/js/navigation-loader.js"></script>
     <script src="/js/event.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbRptKwLIHSNK6SnZWHErcxX5e8-fZl3g"></script>
 </head>
 
 <body onload="addLoginOrLogoutLinkToNavigation(); buildUI();">
@@ -28,7 +29,7 @@
             <p id="event-title">Yoga Dog</p>
         </div>
 
-        <div class="details">
+        <div class="details" align="center">
             <p id="username" class="username">Professor Zap</p>
             <p id="timestamp" class="timestamp">March 11, 2019</p>
             <p id="date" class="date">When: April 1st, 2019</p>
@@ -36,7 +37,8 @@
             <p id="location" class="location">Location: Gym's school</p>
             <hr>
             <p id="details" class="details">Learn how to reach level 12 Zen with your dog friend. Zen makes students better learners and listeners. Event is free for students</p>
-            <p id="imageurl">ImageUrl</p>
+            <img src="" id="imageurl">ImageUrl</img>
+            <div id="map"></div>
         </div>
     </div>
 </body>
