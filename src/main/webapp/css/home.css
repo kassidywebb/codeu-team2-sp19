@@ -26,8 +26,7 @@ h1 {
     margin-left: 15%;
 }
 
-.card .wrapper {
-    background-image: url("dogs.jpg");
+.wrapper {
     background-size: contain;
     background-repeat: no-repeat;
     background-color: white;

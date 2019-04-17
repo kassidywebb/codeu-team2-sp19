@@ -17,6 +17,10 @@ function fetchEvents() {
                 const content = document.getElementById('content');
                 content.appendChild(eventDiv);
             });
+            var cols = document.getElementsByClassName('wrapper');
+            for (i = 0; i < cols.length; i++) {
+                cols[i].style.backgroundImage = 'url(' + events[i].imageUrl + ')';
+            }
         });
 }
 
