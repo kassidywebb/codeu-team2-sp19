@@ -52,7 +52,11 @@ function buildEventDiv(event) {
     content.appendChild(read);
 
     bodyDiv.appendChild(createchildElement(createchildElement(createchildElement(content, 'div', "data"), 'div', "wrapper"), 'div', "card"));
-
+    ///It sets the event.ImageURL in the class wrapper 
+    var cols = document.getElementsByClassName('wrapper');
+    for (i = 0; i < cols.length; i++) {
+        cols[i].style.backgroundImage = 'url(' + event.imageUrl + ')';
+    }
     return bodyDiv;
 }
 /**
