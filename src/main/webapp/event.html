@@ -24,10 +24,13 @@
     </nav>
     <div class="content">
 
-        <div class="title">
-            <p id="event-title">Yoga Dog</p>
-        </div>
+        <div class="header">
+            <br>
+            <div class="image-header">
+                <img src="/images/dogs.jpg" class="image">
+            </div>
 
+<<<<<<< HEAD
         <div class="details">
             <p id="username" class="username">Professor Zap</p>
             <p id="timestamp" class="timestamp">March 11, 2019</p>
@@ -37,7 +40,48 @@
             <hr>
             <p id="details" class="details">Learn how to reach level 12 Zen with your dog friend. Zen makes students better learners and listeners. Event is free for students</p>
             <img src="" id="imageurl">ImageUrl</img>
+=======
+            <div class="info-header">
+                <p id="event-title" class="title">Yoga Dog </p>
+                <p id="host">Host Organization</p>
+                <br>
+                <p id="date" class="date">When: April 1st, 2019</p>
+                <p id="time" class="time">Time: 8 AM</p>
+                <p id="location" class="location">Location: Gym's school</p>
+                <br>
+                <p id="details" class="details">Learn how to reach level 12 Zen with your dog friend. Zen makes students better learners and listeners. Event is free for students </p>
+                <br>
+                <br>
+                <p id="username" class="username">Professor Zap</p>
+                <p id="timestamp" class="timestamp">March 11, 2019</p>
+            </div>
         </div>
+        <br>
+        <div class="title-comment">
+            <p class="comment-word">Comments</p>
+        </div>
+        <br>
+        <div class="comments" id="comments">
+            <div id="comment-box">Loading</div>
+        </div>
+        <br>
+        <div class="title-comment">
+            <p class="comment-word">Add Comment</p>
+>>>>>>> c6e6b326c80bd55005ff2c844b14c1741967dd8a
+        </div>
+        <br>
+        <form action="/CommentServlet" class="form" method="POST">
+            <input name="comment" type="text" placeholder="Comment...">
+            <input name="id" id="id" type="hidden" value="">
+        </form>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
     </div>
 </body>
 

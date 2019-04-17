@@ -3,11 +3,8 @@ hr {
 }
 
 .title {
-    margin: 0%;
     text-align: center;
-    width: 100%;
-    border-bottom: 1px solid;
-    border-bottom-color: rgb(226, 226, 226);
+    color: #545454;
     font-size: 210%;
     font-family: "Nunito";
 }
@@ -40,4 +37,83 @@ hr {
 .details {
     font-size: 120%;
     font-family: "Nunito";
+}
+
+.header {
+    width: 100%;
+    position: relative;
+}
+
+.image-header {
+    width: 25%;
+    margin-left: 10%;
+    display: inline-block;
+    border-style: solid;
+    border-width: 5px;
+}
+
+img {
+    width: 100%;
+    height: 50vh;
+}
+
+.info-header {
+    display: inline-block;
+    width: 59%;
+    overflow-wrap: break-word;
+}
+
+.comments {
+    width: 90%;
+    height: 40vh;
+    overflow: scroll;
+    margin: auto;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.comment {
+    width: 90%;
+    border-style: solid;
+    border-width: 3px;
+    border-radius: 2%;
+    margin: auto;
+}
+
+.comment-info {
+    overflow-wrap: break-word;
+}
+
+.comment-user {
+    overflow-wrap: break-word;
+}
+
+.title-coment {
+    margin: 5%;
+}
+
+.comment-word {
+    font-size: 180%;
+    font-family: "Nunito";
+}
+
+.comment-info {
+    font-size: 110%;
+    overflow-wrap: break-word;
+}
+
+.comment-user {
+    font-size: 130%;
+    overflow-wrap: break-word;
+}
+
+input[type=text] {
+    width: 100%;
+    margin: auto;
+    font-size: 110%;
+    padding: 2%;
+}
+
+.form {
+    width: 80%;
+    margin: auto;
 }

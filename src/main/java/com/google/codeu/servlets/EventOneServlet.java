@@ -75,18 +75,6 @@ public class EventOneServlet extends HttpServlet{
 		jsonObject.addProperty("imageUrl",imageurl);
 
 		response.getOutputStream().println(jsonObject.toString());
-
-		//Get the comments for the event id, if the arraylist is empty do not print
-
-		List<Comment> comments = datastore.getEventComments(uid);
-
-		if(!comments.isEmpty()) {
-
-			Gson gson = new Gson();
-			String json = gson.toJson(comments);
-			response.getWriter().println(json);
-
-		}
 	}
 
 
