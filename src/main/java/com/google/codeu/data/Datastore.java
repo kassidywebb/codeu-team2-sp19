@@ -395,7 +395,7 @@ public class Datastore {
 
 		Query query =
 				new Query("Comment")
-				.setFilter(new Query.FilterPredicate("id", FilterOperator.EQUAL, id.toString()))
+				.setFilter(new Query.FilterPredicate("eventId", FilterOperator.EQUAL, id.toString()))
 				.addSort("timestamp", SortDirection.DESCENDING);
 
 		PreparedQuery results = datastore.prepare(query);
