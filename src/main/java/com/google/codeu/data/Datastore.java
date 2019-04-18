@@ -256,7 +256,8 @@ public class Datastore {
 				event.setId(eventId);
 				if (imageUrl != null) {
 					event.setImageUrl(imageUrl);
-				}				events.add(event);
+				}
+				events.add(event);
 
 			} catch (Exception e) {
 				System.err.println("Error reading events.");

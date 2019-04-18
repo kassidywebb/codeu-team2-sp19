@@ -21,10 +21,24 @@ function showEventFormIfLoggedIn() {
         })
         .then((loginStatus) => {
             if (loginStatus.isLoggedIn) {
-                const privateOption = document.getElementById('new-event');
-                privateOption.classList.remove('hidden');
+                fetchImageUploadUrlAndShowForm();
             }
         });
+}
+
+function fetchImageUploadUrlAndShowForm() {
+  fetch('/image-upload-url-event')
+      .then((response) => {
+        return response.text();
+      })
+      .then((imageUploadUrl) => {
+        const eventForm = document.getElementById('event-form');
+        eventForm.action = imageUploadUrl;
+        eventForm.classList.remove('hidden');
+
+        const privateOption = document.getElementById('new-event');
+        privateOption.classList.remove('hidden');
+      });
 }
 
 var placeSearch, autocomplete;
@@ -69,7 +83,6 @@ function geolocate() {
     });
   }
 }
-
 
 function buildUI() {
     showEventFormIfLoggedIn();
