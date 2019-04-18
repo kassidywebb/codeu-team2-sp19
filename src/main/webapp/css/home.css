@@ -27,10 +27,7 @@ h1 {
 }
 
 .wrapper {
-<<<<<<< HEAD
-=======
     background-image: url("dogs.jpg");
->>>>>>> 9373721c56a7ed7e9bcbbeebb80c0f50f52b5bfc
     background-size: contain;
     background-repeat: no-repeat;
     background-color: white;

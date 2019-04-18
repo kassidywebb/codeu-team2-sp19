@@ -36,17 +36,12 @@ function fetchEvent() {
             document.getElementById('timestamp').innerText = timeConverter(event.timestamp);
             document.getElementById('location').innerText = event.location;
             document.getElementById('details').innerText = event.details;
-<<<<<<< HEAD
             document.getElementById('imageurl').src = event.imageUrl;
-=======
-            document.getElementById('imageurl').innerText = event.imageurl;
 
             createMap(Number(event.lat), Number(event.lng), event.title);
             addLandmark();
->>>>>>> 9373721c56a7ed7e9bcbbeebb80c0f50f52b5bfc
         });
 }
-
 
 /** Creates a map that shows landmarks around Google. */
 function createMap(lat, lng, title){
@@ -74,6 +69,7 @@ function addLandmark(map, lat, lng, title, description){
   marker.addListener('click', function() {
     infoWindow.open(map, marker);
   });
+}
 
 function showComments() {
     const url = '/CommentServlet?event=' + idEvent;
@@ -131,6 +127,7 @@ function timeConverter(UNIX_timestamp) {
     var sec = a.getSeconds();
     var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
     return time;
+
 }
 
 function buildUI() {

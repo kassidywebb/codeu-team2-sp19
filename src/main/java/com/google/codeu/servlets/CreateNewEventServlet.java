@@ -85,14 +85,8 @@ import com.google.appengine.api.blobstore.BlobInfoFactory;
     String lat = request.getParameter("lat");
     String lng = request.getParameter("lng");
 
-<<<<<<< HEAD
-    Event event = new Event(user, title, date, time, timestamp, location, details, host);
-    setEventImageUrl(request,event);
-=======
     Event event = new Event(user, title, date, time, timestamp, location, details, host, lat, lng);
-    /*
-    setEventImageUrl(request,event);*/
->>>>>>> 9373721c56a7ed7e9bcbbeebb80c0f50f52b5bfc
+    setEventImageUrl(request,event);
     datastore.storeEvent(event);
 
     response.sendRedirect("/user-page.html?user=" + user);
