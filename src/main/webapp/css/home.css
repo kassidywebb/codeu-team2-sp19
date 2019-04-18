@@ -3,86 +3,88 @@
     font-size: 260%;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 a {
-    text-decoration: none;
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
 }
 
-h1 {
-    font-family: "Open Sans", sans-serif;
-    font-weight: 300;
-    color: black;
-    margin-top: 0px;
-    margin-bottom: 0px;
+.title {
+   font-size: 2vw;
+   font-weight: bold;
 }
 
-.row {
-    width: 30%;
-    padding-top: 10%;
-    display: inline-block;
+.text {
+  font-size: 1.25vw;
+}
+
+span {
+  font-size: 1.25vw;
+}
+
+.button {
+   font-size: 1.25vw;
 }
 
 .card {
-    width: 50%;
-    margin-left: 15%;
+  max-width: 100%;
+  float: left;
+  margin: 25px;
+  width: 25%;
+  height: 20vw;
 }
 
-.wrapper {
-    background-image: url("dogs.jpg");
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-color: white;
-    min-height: 400px;
-    position: relative;
-    overflow: hidden;
-    border-style: solid;
-    border-width: 1px;
+.card .wrapper {
+  min-height: 200px;
+  position: relative;
+  height: 100%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  border-color: #4674C0;
+  border-style: solid;
+  border-width: 1px;
 }
 
-.card .wrapper:hover .data {
-    -webkit-transform: translateY(0);
-    transform: translateY(0);
+.container {
+  position: absolute;
+  height: 100%;
+  width: 100%;
 }
 
-.card .wrapper:hover {
-    background: rgba(255, 255, 255, 0.9);
+.card img {
+   object-fit: contain;
+   height: 100%;
+   width: 100%;
 }
 
-.card .title a {
-    color: black;
-    font-size: 20px;
-    font-weight: bold;
+.image {
+  opacity: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: .5s ease;
+  backface-visibility: hidden;
 }
 
-.card .data {
-    color: black;
-    font-size: 15px;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    -webkit-transform: translateY(calc(50px + 110px));
-    transform: translateY(calc(50px + 110px));
-    -webkit-transition: -webkit-transform 0.3s;
-    transition: -webkit-transform 0.3s;
-    transition: transform 0.3s;
-    transition: transform 0.3s, -webkit-transform 0.3s;
+.middle {
+  transition: .5s ease;
+  opacity: 0;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 10%;
+  text-align: center;
 }
 
-.card .data .content {
-    padding: 0%;
+.container:hover .image {
+  opacity: 0.2;
 }
 
-.card .text {
-    height: 50px;
-}
-
-.card .button {
-    display: block;
-    width: 100px;
-    margin: 70px auto 10px;
-    text-align: center;
-    font-size: 12px;
-    color: black;
-    line-height: 1;
-    position: relative;
-    font-weight: 700;
+.container:hover .middle {
+  opacity: 1;
 }
