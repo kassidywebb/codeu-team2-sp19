@@ -211,6 +211,8 @@ public class Datastore {
 		eventEntity.setProperty("location", event.getLocation());
 		eventEntity.setProperty("details", event.getDetails());
 		eventEntity.setProperty("host",event.getHost());
+		eventEntity.setProperty("lat",event.getLat());
+		eventEntity.setProperty("lng",event.getLng());
 		if(event.getImageUrl() != null) {
 			eventEntity.setProperty("imageUrl", event.getImageUrl());
 		}
@@ -246,9 +248,11 @@ public class Datastore {
 				String details = (String) entity.getProperty("details");
 
 				String host = (String) entity.getProperty("host");
+				String lat = (String) entity.getProperty("lat");
+				String lng = (String) entity.getProperty("lng");
 				String imageUrl = (String) entity.getProperty("imageUrl");
 
-				Event event = new Event(user, title, date, time, timestamp, location, details, host);
+				Event event = new Event(user, title, date, time, timestamp, location, details, host, lat, lng);
 				event.setId(eventId);
 				if (imageUrl != null) {
 					event.setImageUrl(imageUrl);
@@ -321,10 +325,12 @@ public class Datastore {
 		String location = (String) entity.getProperty("location");
 		String details = (String) entity.getProperty("details");
 		String host = (String) entity.getProperty("host");
+		String lat = (String) entity.getProperty("lat");
+		String lng = (String) entity.getProperty("lng");
 		String imageUrl = (String) entity.getProperty("imageUrl");
 
 
-		Event event = new Event(user, title, date, time, timestamp, location, details, host);
+		Event event = new Event(user, title, date, time, timestamp, location, details, host, lat, lng);
 		event.setId(eventId);
 		if (imageUrl != null) {
 			event.setImageUrl(imageUrl);
@@ -395,7 +401,7 @@ public class Datastore {
 
 		Query query =
 				new Query("Comment")
-				.setFilter(new Query.FilterPredicate("id", FilterOperator.EQUAL, id.toString()))
+				.setFilter(new Query.FilterPredicate("eventId", FilterOperator.EQUAL, id.toString()))
 				.addSort("timestamp", SortDirection.DESCENDING);
 
 		PreparedQuery results = datastore.prepare(query);

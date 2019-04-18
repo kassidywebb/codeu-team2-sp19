@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito">
     <script src="/js/new-event.js"></script>
     <script src="/js/navigation-loader.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbRptKwLIHSNK6SnZWHErcxX5e8-fZl3g&libraries=places&callback=initAutocomplete" async defer></script>
 </head>
 
 <body onload="buildUI(); addLoginOrLogoutLinkToNavigation();">
@@ -40,7 +41,14 @@
                     </div>
                     <br/>
                     <div align="center" class="inputs">
-                        Date: <input type="date" name="date" placeholder="Date-event"> Time: <input type="time" name="time" placeholder="Time"> Place: <input type="text" name="location" placeholder="Location">
+                        Date: <input type="date" name="date" placeholder="Date-event">
+                        Time: <input type="time" name="time" placeholder="Time">
+                    </div>
+                    <br/>
+                    <div align="center" class="location">
+                        <input id="autocomplete" name="location" placeholder="Location" onFocus="geolocate()" type="text"/>
+                        <input type="hidden" id="lat" name="lat" placeholder="lat">
+                        <input type="hidden" id="lng" name="lng" placeholder="lng">
                     </div>
                     <br/>
                     <div align="center">
