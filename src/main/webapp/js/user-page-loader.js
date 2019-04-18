@@ -101,6 +101,10 @@ function buildEventDiv(event) {
 
     bodyDiv.appendChild(createchildElement(createchildElement(createchildElement(content, 'div', "data"), 'div', "wrapper"), 'div', "card"));
 
+    var cols = document.getElementsByClassName('wrapper');
+    for (i = 0; i < cols.length; i++) {
+        cols[i].style.backgroundImage = 'url(' + event.imageUrl + ')';
+    }
     return bodyDiv;
 }
 /**

@@ -46,11 +46,6 @@ import com.google.gson.Gson;
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
     UserService userService = UserServiceFactory.getUserService();
-    /*
-    if (!userService.isUserLoggedIn()) {
-      response.sendRedirect("/index.html");
-      return;
-    }*/
 
     if(request.getParameter("comment") == null){
         response.sendRedirect("/event.html?event=" + request.getParameter("id"));
@@ -64,6 +59,6 @@ import com.google.gson.Gson;
     Comment comment = new Comment(id,user,commenttext);
     datastore.storeComment(comment);
     
-    response.sendRedirect("/");
+    response.sendRedirect("/event.html?event=" + request.getParameter("id"));
   }
  }

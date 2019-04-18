@@ -1,4 +1,3 @@
-
 package com.google.codeu.servlets;
 
 import java.io.IOException;
@@ -61,6 +60,8 @@ public class EventOneServlet extends HttpServlet{
 		String location = event.getLocation();
 		String details = event.getDetails();
 		String host = event.getHost();
+		String lat = event.getLat();
+		String lng = event.getLng();
 		String imageurl = event.getImageUrl();
 
 		JsonObject jsonObject = new JsonObject();
@@ -72,6 +73,8 @@ public class EventOneServlet extends HttpServlet{
 		jsonObject.addProperty("location",location);
 		jsonObject.addProperty("details",details);
 		jsonObject.addProperty("host",host);
+		jsonObject.addProperty("lat",lat);
+		jsonObject.addProperty("lng",lng);
 		jsonObject.addProperty("imageUrl",imageurl);
 
 		response.getOutputStream().println(jsonObject.toString());
