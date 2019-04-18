@@ -32,7 +32,7 @@ form {
 }
 
 .title input[type=text] {
-    width: 30%;
+    width: 70%;
     padding: 1%;
     font-size: 120%;
     border-style: solid;
@@ -46,14 +46,21 @@ form {
 }
 
 .inputs input[type=date] {
-    width: 20%;
+    width: 30%;
     padding: 1%;
     font-size: 120%;
     border-style: solid;
 }
 
 .inputs input[type=time] {
-    width: 20%;
+    width: 30%;
+    padding: 1%;
+    font-size: 120%;
+    border-style: solid;
+}
+
+.location input[type=text] {
+    width: 70%;
     padding: 1%;
     font-size: 120%;
     border-style: solid;
