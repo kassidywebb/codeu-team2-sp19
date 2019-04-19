@@ -86,6 +86,5 @@ function geolocate() {
 
 function buildUI() {
     showEventFormIfLoggedIn();
-    fillInAddress();
     geolocate();
 }
