@@ -9,9 +9,6 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
-This is the path of html wich Navigation-loader.js has.(Dependency)
-
 -->
 
 <!DOCTYPE html>
@@ -22,13 +19,11 @@ This is the path of html wich Navigation-loader.js has.(Dependency)
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/user-page.css">
+    <link rel="stylesheet" href="/css/event.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans">
     <script src="/js/user-page-loader.js"></script>
-    <script src="/js/navigation-loader.js"></script>
 </head>
-
-<body onload="addLoginOrLogoutLinkToNavigation(); buildUI();">
+<body onload="buildUI();">
     <nav id="navigation">
         <br>
         <br>
@@ -40,23 +35,48 @@ This is the path of html wich Navigation-loader.js has.(Dependency)
         </ul>
     </nav>
     <div class="content">
-        <div class="header">
-            <div class="image-header"><img class="image-profile" src="/images/avatar.png"></div>
-            <div class="info-header">
-                <h1 id="page-title">User Page</h1>
-                <p id="user-details">Details</p>
-            </div>
-        </div>
+      <div class="header">
+        <div class="image-header"><img class="image-profile" src="/images/avatar.png"></div>
 
-        <br/>
+
+
+            <div class="info-header">
+        <h1 id="page-title">User Page</h1>
+        <div
+
+        <div id="about-me-container">Loading...</div>
+        <div id="about-me-form" class="hidden">
+            <form action="/about" method="POST">
+                <textarea name="about-me" placeholder="Edit about me" rows=4 required></textarea>
+                <br/>
+                <input type="submit" value="Submit">
+            </form>
+
+
+        </div>
+        <form id="profile-form" action= "/image-upload-url-profile" method="POST" class ="hidden" enctype="multipart/form-data">
+
+             <input type="file" name="image" placeholder="Edit Profile Pic">
+             <br/>
+             <input type="submit" value="Submit">
+
+           </form>
+          </div>
+
+
+
+      </div>
+
 
         <div class="organized" id="organized">
-            <br/>
             <h1 align="center" class="organized-title">Organized Events</h1>
 
             <div id="event-container">Loading...</div>
+            </div>
 
-        </div>
+
+
+    </div>
     </div>
 </body>
 

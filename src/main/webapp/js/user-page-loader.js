@@ -19,12 +19,13 @@ function fetchAboutMe() {
     fetch(url).then((response) => {
         return response.text();
     }).then((aboutMe) => {
-        const aboutMeContainer = document.getElementById('user-details');
+        const aboutMeContainer = document.getElementById('about-me-container');
         if (aboutMe == '') {
             aboutMe = 'This user has not entered any information yet.'
         }
-        aboutMeContainer.innerText = '';
+      //  aboutMeContainer.innerText = '';
         aboutMeContainer.innerText = aboutMe;
+      document.getElementById('about-me-form').classList.remove('hidden');
     })
 }
 
@@ -36,6 +37,31 @@ const parameterUsername = urlParams.get('user');
 // URL must include ?user=XYZ parameter. If not, redirect to homepage.
 if (!parameterUsername) {
     window.location.replace('/');
+}
+function showProfileFormIfLoggedIn() {
+    fetch('/login-status')
+        .then((response) => {
+            return response.json();
+        })
+        .then((loginStatus) => {
+            if (loginStatus.isLoggedIn) {
+                fetchImageUploadUrlAndShowForm();
+            }
+        });
+}
+
+
+function fetchImageUploadUrlAndShowForm() {
+  fetch('/image-upload-url-profile')
+      .then((response) => {
+        return response.text();
+      })
+      .then((imageUploadUrl) => {
+        const profileForm = document.getElementById('profile-form');
+        profileForm.action = imageUploadUrl;
+        profileForm.classList.remove('hidden');
+        document.getElementById('imageurl').src = user.profilePic;
+      });
 }
 
 /** Sets the page title based on the URL parameter username. */
@@ -167,6 +193,7 @@ function handleBBCode(input) {
 /** Fetches data and populates the UI of the page. */
 function buildUI() {
     setPageTitle();
+    showProfileFormIfLoggedIn();
     fetchAboutMe();
     fetchEvents();
 }
