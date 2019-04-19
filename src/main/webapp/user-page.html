@@ -48,23 +48,26 @@ This is the path of html wich Navigation-loader.js has.(Dependency)
 
         <div id="about-me-container">Loading...</div>
         <div id="about-me-form" class="hidden">
-            <form action= "/about" method="POST">
+            <form action= "/about" method="POST" enctype="multipart/form-data">
               <br/>
                 <textarea name="about-me" placeholder="Edit about me" rows=3 required></textarea>
                 <br/>
-                 <input type="text" name = "name" placeholder="Enter Name Here">
+                 <input type="text" name = "name" placeholder="Enter Name Here" required>
+                 <br/>
+                  <input type="file" name="image" placeholder="Edit Profile Pic" required>
+                  <br/>
                 <input type="submit" value="Submit">
             </form>
 
 
         </div>
-        <form id="profile-form" action= "/image-upload-url-profile" method="POST" class ="hidden" enctype="multipart/form-data">
+    <!--    <form id="profile-form" action= "/image-upload-url-profile" method="POST" class ="hidden" enctype="multipart/form-data">
 
              <input type="file" name="image" placeholder="Edit Profile Pic">
              <br/>
              <input type="submit" value="Submit">
 
-           </form>
+           </form> -->
           </div>
 
 

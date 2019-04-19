@@ -62,12 +62,20 @@ public class AboutMeServlet extends HttpServlet {
     response.getWriter().println("[]");
     return;
   }
+    JsonObject jsonObject = new JsonObject();
+  BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+  String uploadUrl = blobstoreService.createUploadUrl("/about?user=" + user);
 
-  JsonObject jsonObject = new JsonObject();
+  if(uploadUrl != null){
+    userData.setProfilePic(uploadUrl);
+  }
+
+
   jsonObject.addProperty("userEmail", user);
   jsonObject.addProperty("aboutMe", userData.getAboutMe());
   jsonObject.addProperty("name", userData.getName());
   jsonObject.addProperty("profilePic", userData.getprofilePic());
+  jsonObject.addProperty("img", uploadUrl);
 
   response.getOutputStream().println(jsonObject.toString());
 
@@ -92,9 +100,9 @@ public class AboutMeServlet extends HttpServlet {
 
   User user = new User(userEmail, aboutMe, name);
 
-  if(image != null){
+//if(image != null){
   setImageUrl(request, user);
-}
+//}
   datastore.storeUser(user);
 
 

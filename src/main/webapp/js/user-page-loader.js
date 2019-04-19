@@ -54,15 +54,15 @@ function showProfileFormIfLoggedIn() {
 
 
 function fetchImageUploadUrlAndShowForm() {
-  const url = '/image-upload-url-profile';
+  const url = '/about?user=' + parameterUsername;
   fetch(url).then((response) => {
-        return response.text();
+        return response.json();
       })
-      .then((imageUploadUrl) => {
-        const profileForm = document.getElementById('profile-form');
-        profileForm.action = imageUploadUrl;
-        profileForm.classList.remove('hidden');
-        document.getElementById('imageurl').src = imageUploadUrl;
+      .then((user) => {
+        //if(!imageUploadUrl.profilePic)
+      //  const profileForm = document.getElementById('profile-form');
+        profileForm.action = user.img;
+        document.getElementById('imageurl').src = user.img;
         //document.getElementById('imageurl').src = user.profilePic;
       });
 }
@@ -72,7 +72,7 @@ function setPageTitle() {
 
   document.title = parameterUsername + ' - User Page';
   document.getElementById('page-title').innerText = parameterUsername;
-  
+
   const url = '/about?user=' + parameterUsername;
   fetch(url).then((response) => {
       return response.json();
