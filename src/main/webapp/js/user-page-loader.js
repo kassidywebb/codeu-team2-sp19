@@ -17,15 +17,14 @@
 function fetchAboutMe() {
     const url = '/about?user=' + parameterUsername;
     fetch(url).then((response) => {
-        return response.text();
-    }).then((aboutMe) => {
+        return response.json();
+    }).then((user) => {
         const aboutMeContainer = document.getElementById('about-me-container');
-        if (aboutMe == '') {
-            aboutMe = 'This user has not entered any information yet.'
+        if (user.aboutMe == 'undefined') {
+            user.aboutMe = 'This user has not entered any information yet.'
         }
-      //  aboutMeContainer.innerText = '';
-        aboutMeContainer.innerText = aboutMe;
-      document.getElementById('about-me-form').classList.remove('hidden');
+        aboutMeContainer.innerText = user.aboutMe;
+        document.getElementById('about-me-form').classList.remove('hidden');
     })
 }
 
@@ -52,22 +51,37 @@ function showProfileFormIfLoggedIn() {
 
 
 function fetchImageUploadUrlAndShowForm() {
-  fetch('/image-upload-url-profile')
+  const url = '/image-upload-url-profile?user=' + parameterUsername;
+  fetch(url)
       .then((response) => {
-        return response.text();
+        return response.json();
       })
-      .then((imageUploadUrl) => {
+      .then((user) => {
         const profileForm = document.getElementById('profile-form');
-        profileForm.action = imageUploadUrl;
+        profileForm.action = user.profilePic;
         profileForm.classList.remove('hidden');
         document.getElementById('imageurl').src = user.profilePic;
+        document.getElementById('imageurl').src = profileForm.action;
+
+        //document.getElementById('imageurl').src = user.profilePic;
       });
 }
 
 /** Sets the page title based on the URL parameter username. */
 function setPageTitle() {
-    document.getElementById('page-title').innerText = parameterUsername;
-    document.title = parameterUsername + ' - User Page';
+  const url = '/about?user=' + parameterUsername;
+  fetch(url).then((response) => {
+      return response.json();
+  }).then((user) => {
+      ;
+      if (user.name == 'undefined') {
+        document.getElementById('page-title').innerText = parameterUsername;
+        document.title = parameterUsername + ' - User Page';
+      }
+      document.getElementById('page-title').innerText = user.name;
+      document.title = user.name + ' - User Page';
+  })
+
 }
 
 function fetchEvents() {

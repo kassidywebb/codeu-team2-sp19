@@ -12,61 +12,6 @@ limitations under the License.
 
 This is the path of html wich Navigation-loader.js has.(Dependency)
 
-<!DOCTYPE html>
-<html>
-
-<head>
-    <title>User Page</title>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/home.css">
-    <link rel="stylesheet" href="/css/user-page.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans">
-    <script src="/js/user-page-loader.js"></script>
-    <script src="/js/navigation-loader.js"></script>
-</head>
-
-<body onload="addLoginOrLogoutLinkToNavigation(); buildUI();">
-    <nav id="navigation">
-        <br>
-        <br>
-        <br>
-        <ul>
-            <a href="/ ">
-                <li>HOME</li>
-            </a>
-        </ul>
-    </nav>
-    <div class="content">
-        <div class="header">
-            <div class="image-header"><img class="image-profile" src="/images/avatar.png"></div>
-            <div class="info-header">
-                <h1 id="page-title">User Page</h1>
-              </div>
-          </div>
-                <div id="about-me-container">Loading...</div>
-                <div id="about-me-form" class="hidden">
-                    <form action="/about" method="POST">
-                        <textarea name="about-me" placeholder="about me" rows=4 required></textarea>
-                        <br/>
-                        <input type="submit" value="Submit">
-                    </form>
-
-        </div>
-
-
-        <div class="organized" id="organized">
-            <h1 align="center" class="organized-title">Organized Events</h1>
-
-            <div id="event-container">Loading...</div>
-
-        </div>
-    </div>
-</body>
-
-</html>
-
 
 -->
 
@@ -97,17 +42,17 @@ This is the path of html wich Navigation-loader.js has.(Dependency)
       <div class="header">
         <div class="image-header"><img class="image-profile" src="/images/avatar.png"></div>
 
-
-
             <div class="info-header">
         <h1 id="page-title">User Page</h1>
         <div
 
         <div id="about-me-container">Loading...</div>
         <div id="about-me-form" class="hidden">
-            <form action="/about" method="POST">
-                <textarea name="about-me" placeholder="Edit about me" rows=4 required></textarea>
+            <form action= "/about" method="POST">
+              <br/>
+                <textarea name="about-me" placeholder="Edit about me" rows=3 required></textarea>
                 <br/>
+                 <input type="text" name = "name" placeholder="Enter Name, Ex: Ryan Luo">
                 <input type="submit" value="Submit">
             </form>
 
