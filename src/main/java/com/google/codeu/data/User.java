@@ -5,7 +5,7 @@ public class User {
 	private String email;
 	private String aboutMe;
 	private String name;
-	public String profilePic;
+	private String profilePic;
 
 	public User(String email, String aboutMe, String name) {
 		this.email = email;

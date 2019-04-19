@@ -20,9 +20,10 @@ function fetchAboutMe() {
         return response.json();
     }).then((user) => {
         const aboutMeContainer = document.getElementById('about-me-container');
-        if (user.aboutMe == 'undefined') {
-            user.aboutMe = 'This user has not entered any information yet.'
+        if (user.aboutMe == '') {
+            user.aboutMe = 'This user has not entered any information yet.';
         }
+      //  aboutMeContainer.innerText = '';
         aboutMeContainer.innerText = user.aboutMe;
         document.getElementById('about-me-form').classList.remove('hidden');
     })
@@ -51,18 +52,15 @@ function showProfileFormIfLoggedIn() {
 
 
 function fetchImageUploadUrlAndShowForm() {
-  const url = '/image-upload-url-profile?user=' + parameterUsername;
-  fetch(url)
-      .then((response) => {
-        return response.json();
+  const url = '/about?user=' + parameterUsername;
+  fetch(url).then((response) => {
+        return response.text();
       })
-      .then((user) => {
+      .then((imageUploadUrl) => {
         const profileForm = document.getElementById('profile-form');
-        profileForm.action = user.profilePic;
+        profileForm.action = imageUploadUrl;
         profileForm.classList.remove('hidden');
-        document.getElementById('imageurl').src = user.profilePic;
-        document.getElementById('imageurl').src = profileForm.action;
-
+        document.getElementById('imageurl').src = imageUploadUrl;
         //document.getElementById('imageurl').src = user.profilePic;
       });
 }
@@ -73,13 +71,13 @@ function setPageTitle() {
   fetch(url).then((response) => {
       return response.json();
   }).then((user) => {
-      ;
-      if (user.name == 'undefined') {
+
+      if (user.name == '') {
         document.getElementById('page-title').innerText = parameterUsername;
         document.title = parameterUsername + ' - User Page';
       }
       document.getElementById('page-title').innerText = user.name;
-      document.title = user.name + ' - User Page';
+      document.title = user + ' - User Page';
   })
 
 }

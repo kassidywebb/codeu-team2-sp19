@@ -64,7 +64,7 @@ public class AboutMeServlet extends HttpServlet {
   }
 
   JsonObject jsonObject = new JsonObject();
-  jsonObject.addProperty("useremail", user);
+  jsonObject.addProperty("userEmail", user);
   jsonObject.addProperty("aboutMe", userData.getAboutMe());
   jsonObject.addProperty("name", userData.getName());
   jsonObject.addProperty("profilePic", userData.getprofilePic());
@@ -90,14 +90,14 @@ public class AboutMeServlet extends HttpServlet {
   String name = request.getParameter("name");
 
   User user = new User(userEmail, aboutMe, name);
-  //setProfilePic(request, user);
+  //setImageUrl(request, user);
   datastore.storeUser(user);
 
 
   response.sendRedirect("/user-page.html?user=" + userEmail);
  }
 
- private void setProfilePic(HttpServletRequest request, User user) {
+ private void setImageUrl(HttpServletRequest request, User user) {
 
      /* This creates a Blobstore instance, then gets the image url(s) which are stored
       in a map of string. Then converts the urls to a list. */
@@ -116,7 +116,7 @@ public class AboutMeServlet extends HttpServlet {
          ImagesService imagesService = ImagesServiceFactory.getImagesService();
          ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
          String imageUrl = imagesService.getServingUrl(options);
-         user.profilePic = imageUrl;
+         user.setProfilePic(imageUrl);
       } else {
        blobstoreService.delete(blobKey);
       }
