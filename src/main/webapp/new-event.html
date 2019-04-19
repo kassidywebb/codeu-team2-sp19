@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito">
     <script src="/js/new-event.js"></script>
     <script src="/js/navigation-loader.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbRptKwLIHSNK6SnZWHErcxX5e8-fZl3g&libraries=places&callback=initAutocomplete" async defer></script>
 </head>
 
 <body onload="buildUI(); addLoginOrLogoutLinkToNavigation();">
@@ -30,9 +31,9 @@
             <h1>Create new Event</h1>
             <hr>
             <div class="form">
-                <form action="/CreateNewEventpage" method="POST">
+                <form id="event-form" class="hidden" action="/image-upload-url-event" method="POST" enctype="multipart/form-data">
                     <div align="center" class="title">
-                        <input type="text" name="event-title" placeholder="Event title">
+                        <input type="text" name="event-title" placeholder="Event title" required>
                     </div>
                     <br/>
                     <div align="center" class="title">
@@ -40,15 +41,22 @@
                     </div>
                     <br/>
                     <div align="center" class="inputs">
-                        Date: <input type="date" name="date" placeholder="Date-event"> Time: <input type="time" name="time" placeholder="Time"> Place: <input type="text" name="location" placeholder="Location">
+                        Date: <input type="date" name="date" placeholder="Date-event"required>
+                        Time: <input type="time" name="time" placeholder="Time"required>
+                    </div>
+                    <br/>
+                    <div align="center" class="location">
+                        <input id="autocomplete" name="location" placeholder="Location" onFocus="geolocate()" type="text"/ required>
+                        <input type="hidden" id="lat" name="lat" placeholder="lat">
+                        <input type="hidden" id="lng" name="lng" placeholder="lng">
                     </div>
                     <br/>
                     <div align="center">
-                        <textarea name="details" placeholder="Details about the event"></textarea>
+                        <textarea name="details" placeholder="Details about the event" required></textarea>
                     </div>
                     <br/>
                     <div align="center">
-                        Add Image: <input type="file" name="image" placeholder="File-images">
+                        Add Image: <input type="file" name="image" placeholder="File-images" required>
                     </div>
                     <br/>
                     <div align="center">

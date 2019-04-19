@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito">
     <script src="/js/navigation-loader.js"></script>
     <script src="/js/event.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbRptKwLIHSNK6SnZWHErcxX5e8-fZl3g"></script>
 </head>
 
 <body onload="addLoginOrLogoutLinkToNavigation(); buildUI();">
@@ -24,20 +25,52 @@
     </nav>
     <div class="content">
 
-        <div class="title">
-            <p id="event-title">Yoga Dog</p>
+        <div class="header">
+            <br>
+            <div class="image-header">
+                <img src="" id="imageurl" alt="no image found"></img>
+            </div>
+            <div class="info-header">
+                <p id="event-title" class="title">Yoga Dog </p>
+                <p id="host">Host Organization</p>
+                <br>
+                <p id="date" class="date">When: April 1st, 2019</p>
+                <p id="time" class="time">Time: 8 AM</p>
+                <p id="location" class="location">Location: Gym's school</p>
+                <br>
+                <p id="details" class="details">Learn how to reach level 12 Zen with your dog friend. Zen makes students better learners and listeners. Event is free for students </p>
+                <br>
+                <br>
+                <p id="username" class="username">Professor Zap</p>
+                <p id="timestamp" class="timestamp">March 11, 2019</p>
+            </div>
+            <div id="map"></div>
         </div>
-
-        <div class="details">
-            <p id="username" class="username">Professor Zap</p>
-            <p id="timestamp" class="timestamp">March 11, 2019</p>
-            <p id="date" class="date">When: April 1st, 2019</p>
-            <p id="time" class="time">Time: 8 AM</p>
-            <p id="location" class="location">Location: Gym's school</p>
-            <hr>
-            <p id="details" class="details">Learn how to reach level 12 Zen with your dog friend. Zen makes students better learners and listeners. Event is free for students</p>
-            <p id="imageurl">ImageUrl</p>
+        <br>
+        <div class="title-comment">
+            <p class="comment-word">Comments</p>
         </div>
+        <br>
+        <div class="comments" id="comments">
+            <div id="comment-box">Loading</div>
+        </div>
+        <br>
+        <div class="title-comment">
+            <p class="comment-word">Add Comment</p>
+        </div>
+        <br>
+        <form action="/CommentServlet" class="form" method="POST">
+            <input name="comment" type="text" placeholder="Comment...">
+            <input name="id" id="id" type="hidden" value="">
+        </form>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
     </div>
 </body>
 

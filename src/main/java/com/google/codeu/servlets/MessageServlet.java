@@ -122,7 +122,7 @@ public class MessageServlet extends HttpServlet {
     setMessageImageUrl(request, message);
     datastore.storeMessage(message);
 
-    response.sendRedirect("/user-page.html?user=" + recipient);
+    response.sendRedirect("/feed.html?user=" + recipient);
   }
 
   /* Function that handles all blobstore requests for adding an image

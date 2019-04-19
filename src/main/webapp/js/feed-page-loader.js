@@ -30,6 +30,51 @@ function setPageTitle() {
     document.title = parameterUsername + " - Message Feed";
 }
 
+/**
+ * Shows the message form if the user is logged in and viewing their own page
+ * Hides private messaging option if user is on private messaging page
+ */
+function showMessageFormIfLoggedIn() {
+    fetch('/login-status')
+        .then((response) => {
+            return response.json();
+        })
+        .then((loginStatus) => {
+            if (loginStatus.isLoggedIn) {
+                fetchImageUploadUrlAndShowForm();
+            }
+        });
+}
+
+function fetchImageUploadUrlAndShowForm() {
+    fetch('/image-upload-url?recipient=' + parameterUsername)
+        .then((response) => {
+            return response.text();
+        })
+        .then((imageUploadUrl) => {
+            const messageForm = document.getElementById('message-form');
+            messageForm.action = imageUploadUrl;
+            messageForm.classList.remove('hidden');
+
+            /** Using 34 because @codestudents.com is 17 characters long
+             * and there's at least 2 people in a direct message
+             */
+            document.getElementById('recipientInput').value = parameterUsername;
+            if (parameterUsername.length < 34) {
+                const privateOption = document.getElementById('private-option');
+                privateOption.classList.remove('hidden');
+
+                const sendOption = document.getElementById('send-option');
+                sendOption.classList.remove('hidden');
+
+            } else {
+                document.getElementById('private-option-checkbox').checked = true;
+            }
+
+            document.getElementById('about-me-form').classList.remove('hidden');
+        });
+}
+
 /** Fetches messages and add them to the page */
 function fetchMessages() {
     const url = '/messages?user=' + parameterUsername;
@@ -63,9 +108,9 @@ function buildMessageDiv(message) {
         message.user + ' - ' + new Date(message.timestamp)));
 
 
-  const bodyDiv = document.createElement('div');
-  bodyDiv.classList.add('message-body');
-  bodyDiv.innerHTML = handleBBCode(message.text);
+    const bodyDiv = document.createElement('div');
+    bodyDiv.classList.add('message-body');
+    bodyDiv.innerHTML = handleBBCode(message.text);
 
     const messageDiv = document.createElement('div');
     messageDiv.classList.add('message-div');
@@ -112,5 +157,6 @@ function handleBBCode(input) {
 /** Fetches data and populates the UI of the page. */
 function buildUI() {
    // setPageTitle();
+   showMessageFormIfLoggedIn();
    fetchMessages();
 }
