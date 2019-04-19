@@ -44,25 +44,31 @@
                 <p id="username" class="username">Professor Zap</p>
                 <p id="timestamp" class="timestamp">March 11, 2019</p>
             </div>
-            <div id="map"></div>
         </div>
-        <br>
-        <div class="title-comment">
-            <p class="comment-word">Comments</p>
+        <br/>
+        <div class="row">
+           <div class="comment-side">
+              <div class="title-comment">
+                  <p class="comment-word">Comments</p>
+              </div>
+              <br/>
+              <div class="comments" id="comments">
+                  <div id="comment-box">Loading</div>
+              </div>
+           </div>
+           <div id="map" class="map-side"></div>
         </div>
-        <br>
-        <div class="comments" id="comments">
-            <div id="comment-box">Loading</div>
+        <br/>
+        <br/>
+        <br/>
+        <div class="bottom">
+           <p class="add-comment">Add Comment</p>
+           <br/>
+           <form action="/CommentServlet" class="form" method="POST">
+               <input name="comment" type="text" placeholder="Comment...">
+               <input name="id" id="id" type="hidden" value="">
+           </form>
         </div>
-        <br>
-        <div class="title-comment">
-            <p class="comment-word">Add Comment</p>
-        </div>
-        <br>
-        <form action="/CommentServlet" class="form" method="POST">
-            <input name="comment" type="text" placeholder="Comment...">
-            <input name="id" id="id" type="hidden" value="">
-        </form>
         <br>
         <br>
         <br>
