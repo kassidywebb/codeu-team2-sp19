@@ -12,6 +12,7 @@ import java.lang.*;
 
 import com.google.codeu.data.Datastore;
 import com.google.codeu.data.Event;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -57,6 +58,12 @@ import com.google.appengine.api.blobstore.BlobInfoFactory;
       response.getWriter().println("[]");
       return;
     }
+
+    List<Event> events = datastore.getEvents(user);
+    Gson gson = new Gson();
+    String json = gson.toJson(events);
+
+    response.getWriter().println(json);
 }
 @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -75,12 +82,13 @@ import com.google.appengine.api.blobstore.BlobInfoFactory;
     long timestamp = System.currentTimeMillis();
     String details = request.getParameter("details");
     String host = request.getParameter("host");
+    String lat = request.getParameter("lat");
+    String lng = request.getParameter("lng");
 
-    
-    Event event = new Event(user, title, date, time, timestamp, location, details, host);
-    // setEventImageUrl(request,event);
+    Event event = new Event(user, title, date, time, timestamp, location, details, host, lat, lng);
+    setEventImageUrl(request,event);
     datastore.storeEvent(event);
-    
+
     response.sendRedirect("/user-page.html?user=" + user);
   }
    private void setEventImageUrl (HttpServletRequest request, Event event) {

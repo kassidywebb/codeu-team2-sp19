@@ -103,37 +103,45 @@ function fetchEvents() {
         });
 }
 
+/*builds an element that displays a event */
 function buildEventDiv(event) {
     const bodyDiv = document.createElement('div');
-    bodyDiv.classList.add("row");
 
-    const content = document.createElement('div');
-    content.classList.add("content");
+    const container = document.createElement('div');
+    container.classList.add("container");
 
-    content.appendChild(createChild('span', "date", event.date + "  " + event.time));
-    content.appendChild(document.createElement('br'));
-    content.appendChild(createChild('span', "author", event.user));
+    var image = new Image();
+    image.src = event.imageUrl;
+    image.classList.add("image");
+    container.appendChild(image)
+
+    const middle = document.createElement('div');
+    middle.classList.add("middle");
+
+    middle.appendChild(createChild('span', "author", event.user));
+    middle.appendChild(document.createElement('br'));
+    middle.appendChild(createChild('span', "date", event.date + " - " + event.time));
 
     const ref = document.createElement('a');
     ref.href = '/event.html?event=' + event.id;
     ref.appendChild(document.createTextNode(event.title));
 
-    const hchild = document.createElement('h1');
+    const hchild = document.createElement('p');
     hchild.classList.add("title");
     hchild.appendChild(ref);
+    middle.appendChild(hchild);
 
-    content.appendChild(hchild);
-
-    content.appendChild(createChild('p', "text", event.details));
+    middle.appendChild(createChild('p', "text", event.details));
 
     const read = document.createElement('a');
     read.href = '/event.html?event=' + event.id;
     read.classList.add("button");
     read.appendChild(document.createTextNode("Read more"));
+    middle.appendChild(read);
 
-    content.appendChild(read);
+    container.appendChild(middle)
 
-    bodyDiv.appendChild(createchildElement(createchildElement(createchildElement(content, 'div', "data"), 'div', "wrapper"), 'div', "card"));
+    bodyDiv.appendChild(createchildElement(createchildElement(container, 'div', "wrapper"), 'div', "card"));
 
     return bodyDiv;
 }
