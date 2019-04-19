@@ -50,19 +50,113 @@
     width: 80%;
     height: 67vh;
     margin: auto;
-    border-style: solid;
-    border-width: 5px;
+    background-color: #4674C0;
+    border-radius: 25px;
     overflow: scroll;
+    align: center;
+}
+
+.organized-title {
+   color: white;
 }
 
 .organized-events {
     font-family: "Noto Sans";
 }
 
+nav {
+   background-color: #4674C0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+}
+
+.title {
+   font-size: 2vw;
+   font-weight: bold;
+}
+
+.text {
+  font-size: 1.25vw;
+}
+
+span {
+  font-size: 1.25vw;
+}
+
+.button {
+   font-size: 1.25vw;
+}
+
+.card {
+  max-width: 100%;
+  float: left;
+  margin: 25px;
+  width: 25%;
+  height: 20vw;
+}
+
+.card .wrapper {
+  min-height: 200px;
+  position: relative;
+  height: 100%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  border-color: #4674C0;
+  border-style: solid;
+  border-width: 2px;
+}
+
+.container {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: white;
+}
+
+.card img {
+   object-fit: contain;
+   height: 100%;
+   width: 100%;
+}
+
+.image {
+  opacity: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: .5s ease;
+  backface-visibility: hidden;
+}
+
+.middle {
+  transition: .5s ease;
+  opacity: 0;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 10%;
+  text-align: center;
+}
+
+.container:hover .image {
+  opacity: 0.2;
+}
+
+.container:hover .middle {
+  opacity: 1;
+}
 
 /* Use this to hide certain elements like forms if the
    user is not logged in or viewing their own page. */
-
 .hidden {
     display: none;
 }
