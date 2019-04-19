@@ -19,15 +19,17 @@ function fetchAboutMe() {
     fetch(url).then((response) => {
         return response.json();
     }).then((user) => {
+        document.getElementById('about-me-form').classList.remove('hidden');
         const aboutMeContainer = document.getElementById('about-me-container');
-        if (user.aboutMe == '') {
+
+        if (!user.aboutMe) {
             user.aboutMe = 'This user has not entered any information yet.';
         }
-      //  aboutMeContainer.innerText = '';
+
         aboutMeContainer.innerText = user.aboutMe;
-        document.getElementById('about-me-form').classList.remove('hidden');
+
     })
-}
+}////fix this dumb shitttttttttttttt
 
 // Get ?user=XYZ parameter value
 // This is the path of the variable of the user that is called in navigation-loader.js
@@ -52,7 +54,7 @@ function showProfileFormIfLoggedIn() {
 
 
 function fetchImageUploadUrlAndShowForm() {
-  const url = '/about?user=' + parameterUsername;
+  const url = '/image-upload-url-profile';
   fetch(url).then((response) => {
         return response.text();
       })
@@ -67,17 +69,20 @@ function fetchImageUploadUrlAndShowForm() {
 
 /** Sets the page title based on the URL parameter username. */
 function setPageTitle() {
+
+  document.title = parameterUsername + ' - User Page';
+  document.getElementById('page-title').innerText = parameterUsername;
+  
   const url = '/about?user=' + parameterUsername;
   fetch(url).then((response) => {
       return response.json();
   }).then((user) => {
+      if (user.name) {
+        document.getElementById('page-title').innerText = user.name;
+        document.title = user.name + ' - User Page';
 
-      if (user.name == '') {
-        document.getElementById('page-title').innerText = parameterUsername;
-        document.title = parameterUsername + ' - User Page';
       }
-      document.getElementById('page-title').innerText = user.name;
-      document.title = user + ' - User Page';
+
   })
 
 }

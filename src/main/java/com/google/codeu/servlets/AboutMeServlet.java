@@ -88,9 +88,13 @@ public class AboutMeServlet extends HttpServlet {
   String userEmail = userService.getCurrentUser().getEmail();
   String aboutMe = request.getParameter("about-me");
   String name = request.getParameter("name");
+  String image = request.getParameter("image");
 
   User user = new User(userEmail, aboutMe, name);
-  //setImageUrl(request, user);
+
+  if(image != null){
+  setImageUrl(request, user);
+}
   datastore.storeUser(user);
 
 
