@@ -29,7 +29,7 @@ function fetchAboutMe() {
         aboutMeContainer.innerText = user.aboutMe;
 
     })
-}////fix this dumb shitttttttttttttt
+}
 
 // Get ?user=XYZ parameter value
 // This is the path of the variable of the user that is called in navigation-loader.js
@@ -47,7 +47,12 @@ function showProfileFormIfLoggedIn() {
         })
         .then((loginStatus) => {
             if (loginStatus.isLoggedIn) {
-                fetchImageUploadUrlAndShowForm();
+                //fetchImageUploadUrlAndShowForm();
+                const profileForm = document.getElementById('profile-form');
+                profileForm.action = "/images/avatar.png";
+                profileForm.classList.remove('hidden');
+                document.getElementById('imageurl').src = "/images/avatar.png";
+
             }
         });
 }
@@ -60,9 +65,9 @@ function fetchImageUploadUrlAndShowForm() {
       })
       .then((imageUploadUrl) => {
         const profileForm = document.getElementById('profile-form');
-        profileForm.action = imageUploadUrl;
+        profileForm.action = "/images/avatar.png";
         profileForm.classList.remove('hidden');
-        document.getElementById('imageurl').src = imageUploadUrl;
+        document.getElementById('imageurl').src = "/images/avatar.png";
         //document.getElementById('imageurl').src = user.profilePic;
       });
 }
@@ -72,7 +77,7 @@ function setPageTitle() {
 
   document.title = parameterUsername + ' - User Page';
   document.getElementById('page-title').innerText = parameterUsername;
-  
+
   const url = '/about?user=' + parameterUsername;
   fetch(url).then((response) => {
       return response.json();
