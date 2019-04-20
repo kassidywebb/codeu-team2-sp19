@@ -1,6 +1,7 @@
 package com.google.codeu.servlets;
 
 import java.io.IOException;
+
 import java.util.List;
 import java.util.Map;
 
@@ -23,14 +24,12 @@ import com.google.codeu.data.Datastore;
 import com.google.codeu.data.Event;
 import com.google.codeu.data.Datastore;
 import com.google.codeu.data.User;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 /**
  * Handles fetching and saving user data.
  */
-@WebServlet("/about")
-public class AboutMeServlet extends HttpServlet {
+@WebServlet("/profile-pic")
+public class ProfilePicServlet extends HttpServlet {
 
   private Datastore datastore;
 
@@ -46,32 +45,22 @@ public class AboutMeServlet extends HttpServlet {
  public void doGet(HttpServletRequest request, HttpServletResponse response)
    throws IOException {
 
-  response.setContentType("application/json");
+  response.setContentType("text/html");
 
   String user = request.getParameter("user");
 
   if(user == null || user.equals("")) {
    // Request is invalid, return empty response
-   response.getWriter().println("[]");
    return;
   }
 
   User userData = datastore.getUser(user);
 
   if(userData == null || userData.getAboutMe() == null){
-    response.getWriter().println("[]");
     return;
   }
 
-  JsonObject jsonObject = new JsonObject();
-  jsonObject.addProperty("userEmail", user);
-  jsonObject.addProperty("aboutMe", userData.getAboutMe());
-  jsonObject.addProperty("name", userData.getName());
-  jsonObject.addProperty("profilePic", userData.getprofilePic());
-
-  response.getOutputStream().println(jsonObject.toString());
-
-//  response.getOutputStream().println(userData.getAboutMe());
+  response.getOutputStream().println(userData.getAboutMe());
   //some code to get profile pic
  }
 
@@ -86,22 +75,21 @@ public class AboutMeServlet extends HttpServlet {
   }
 
   String userEmail = userService.getCurrentUser().getEmail();
-  String aboutMe = request.getParameter("about-me");
-  String name = request.getParameter("name");
-  String image = request.getParameter("image");
+  String user = request.getParameter("user");
+//  String aboutMe = request.getParameter("about-me");
+  //String name = request.getParameter("name");
 
-  User user = new User(userEmail, aboutMe, name);
+  //User user = new User(userEmail, aboutMe, name);
+  User userData = datastore.getUser(user);
 
-  if(image != null){
-  setImageUrl(request, user);
-}
-  datastore.storeUser(user);
+  setProfilePicture(request, userData);
+  //datastore.storeUser(userData);
 
 
   response.sendRedirect("/user-page.html?user=" + userEmail);
  }
 
- private void setImageUrl(HttpServletRequest request, User user) {
+ private void setProfilePicture(HttpServletRequest request, User user) {
 
      /* This creates a Blobstore instance, then gets the image url(s) which are stored
       in a map of string. Then converts the urls to a list. */
@@ -127,3 +115,4 @@ public class AboutMeServlet extends HttpServlet {
     }
   }
 }
+//

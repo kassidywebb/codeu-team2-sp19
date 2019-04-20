@@ -9,7 +9,11 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+This is the path of html wich Navigation-loader.js has.(Dependency)
+
 -->
+
 
 <!DOCTYPE html>
 <html>
@@ -36,9 +40,7 @@ limitations under the License.
     </nav>
     <div class="content">
       <div class="header">
-        <div class="image-header"><img class="image-profile" src="/images/avatar.png"></div>
-
-
+        <div class="image-header"><img id="imageurl" class="image-profile" src="/images/avatar.png"></div>
 
             <div class="info-header">
         <h1 id="page-title">User Page</h1>
@@ -46,9 +48,11 @@ limitations under the License.
 
         <div id="about-me-container">Loading...</div>
         <div id="about-me-form" class="hidden">
-            <form action="/about" method="POST">
-                <textarea name="about-me" placeholder="Edit about me" rows=4 required></textarea>
+            <form action= "/about" method="POST">
+              <br/>
+                <textarea name="about-me" placeholder="Edit about me" rows=3 required></textarea>
                 <br/>
+                 <input type="text" name = "name" placeholder="Enter Name Here">
                 <input type="submit" value="Submit">
             </form>
 
