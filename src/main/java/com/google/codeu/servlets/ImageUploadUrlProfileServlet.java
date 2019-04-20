@@ -19,7 +19,7 @@ public class ImageUploadUrlProfileServlet extends HttpServlet {
     String user = request.getParameter("user");
 
     BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
-    String uploadUrl = blobstoreService.createUploadUrl("/about");
+    String uploadUrl = blobstoreService.createUploadUrl("/about?user=" + user);
 
     response.setContentType("text/html");
     response.getOutputStream().println(uploadUrl);

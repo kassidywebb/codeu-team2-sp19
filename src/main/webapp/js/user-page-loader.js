@@ -29,7 +29,7 @@ function fetchAboutMe() {
         aboutMeContainer.innerText = user.aboutMe;
 
     })
-}////fix this dumb shitttttttttttttt
+}////f
 
 // Get ?user=XYZ parameter value
 // This is the path of the variable of the user that is called in navigation-loader.js
@@ -55,14 +55,18 @@ function showProfileFormIfLoggedIn() {
 
 function fetchImageUploadUrlAndShowForm() {
   const url = '/about?user=' + parameterUsername;
+  const aboutForm = document.getElementById('about-me-form');
   fetch(url).then((response) => {
-        return response.json();
+        return response.text();
       })
       .then((user) => {
-        //if(!imageUploadUrl.profilePic)
-      //  const profileForm = document.getElementById('profile-form');
-        profileForm.action = user.img;
-        document.getElementById('imageurl').src = user.img;
+        if(!user){
+          aboutForm.action = "/images/avatar.png";
+          document.getElementById('imageurl').src = "/images/avatar.png";
+
+        }
+        aboutForm.action = user;
+        document.getElementById('imageurl').src = user;
         //document.getElementById('imageurl').src = user.profilePic;
       });
 }

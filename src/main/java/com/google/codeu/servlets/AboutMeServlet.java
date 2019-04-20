@@ -65,10 +65,12 @@ public class AboutMeServlet extends HttpServlet {
     JsonObject jsonObject = new JsonObject();
   BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
   String uploadUrl = blobstoreService.createUploadUrl("/about?user=" + user);
+  //if(uploadUrl)
 
-  if(uploadUrl != null){
+  /*if(uploadUrl != null){
+
     userData.setProfilePic(uploadUrl);
-  }
+  }*/
 
 
   jsonObject.addProperty("userEmail", user);
@@ -96,7 +98,7 @@ public class AboutMeServlet extends HttpServlet {
   String userEmail = userService.getCurrentUser().getEmail();
   String aboutMe = request.getParameter("about-me");
   String name = request.getParameter("name");
-  String image = request.getParameter("image");
+
 
   User user = new User(userEmail, aboutMe, name);
 
